@@ -1,12 +1,16 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
 class WebViewStack extends StatefulWidget {
+  const WebViewStack({super.key});
 
   @override
   State<WebViewStack> createState() => _WebViewStackState();
 }
+
 class _WebViewStackState extends State<WebViewStack> {
   var loadingPercentage = 0;
   late WebViewController controller;
@@ -14,83 +18,60 @@ class _WebViewStackState extends State<WebViewStack> {
   @override
   void initState() {
     super.initState();
+
     final jsonString = CacheHelper.getString("USG");
-    var gCache;
-    if (jsonString != null && jsonString != "") {
+    Map<String, dynamic>? gCache;
+    if (jsonString != null && jsonString.isNotEmpty) {
       gCache = json.decode(jsonString) as Map<String, dynamic>;
     }
-    controller = WebViewController()
-      ..loadRequest(Uri.parse(gCache['company_structure_url'] != null?
-      '${gCache['company_structure_url']}' : "https://www.google.com/"))
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onPageStarted: (url) {
-            print("onPageStarted is -> ${url}");
-            if (mounted) {
-              setState(() {
-                loadingPercentage = 0;
-              });
-            }
+
+    final url = gCache?['company_structure_url'] ?? "https://www.google.com/";
+
+    controller = WebViewController();
+
+    if (!kIsWeb) {
+      controller
+        ..setJavaScriptMode(JavaScriptMode.unrestricted) // ✅ شغالة على موبايل بس
+        ..setNavigationDelegate(
+          NavigationDelegate(
+            onPageStarted: (_) => setState(() => loadingPercentage = 0),
+            onProgress: (progress) => setState(() => loadingPercentage = progress),
+            onPageFinished: (_) => setState(() => loadingPercentage = 100),
+          ),
+        )
+        ..addJavaScriptChannel(
+          'SnackBar',
+          onMessageReceived: (message) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(message.message)),
+            );
           },
-          onProgress: (progress) {
-            if (mounted) {
-              setState(() {
-                loadingPercentage = progress;
-              });
-            }
-          },
-          onPageFinished: (url) {
-            print("onPageFinished is -> ${url}");
-            if (mounted) {
-              setState(() {
-                loadingPercentage = 100;
-              });
-            }
-          },
-          onHttpError: (error) {
-            print("onHttpError is --- > ${error.response!.statusCode}");
-            print("onHttpError is --- > ${error.response!.headers}");
-            print("onHttpError is --- > ${error.response!.uri}");
-            print("onHttpError is --- > ${error.request!.uri}");
-          },
-          onWebResourceError: (error) {
-            print("onWebResourceError is --- > $error");
-          },
-          onNavigationRequest: (navigation) {
-            print("NAV is -> ${navigation.url}");
-            final host = Uri.parse(navigation.url).host;
-            if (host.contains('youtube.com')) {
-              if (mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Blocking navigation to $host')),
-                );
-              }
-              return NavigationDecision.prevent;
-            }
-            return NavigationDecision.navigate;
-          },
-        ),
-      )
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..addJavaScriptChannel(
-        'SnackBar',
-        onMessageReceived: (message) {
-          if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message.message)));
-          }
-        },
-      );
+        );
+    }
+
+    controller.loadRequest(Uri.parse(url));
   }
 
   @override
   Widget build(BuildContext context) {
+    if (kIsWeb) {
+      // ✅ WebView supported via webview_flutter_web
+      return Scaffold(
+        body: Stack(
+          children: [
+            WebViewWidget(controller: controller),
+            if (loadingPercentage < 100)
+              LinearProgressIndicator(value: loadingPercentage / 100.0),
+          ],
+        ),
+      );
+    }
+
+    // ✅ Mobile (Android/iOS)
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 0.0,
-      ),
+      appBar: AppBar(toolbarHeight: 0.0),
       body: Stack(
         children: [
-          SizedBox(height: 30,),
           WebViewWidget(controller: controller),
           if (loadingPercentage < 100)
             LinearProgressIndicator(value: loadingPercentage / 100.0),

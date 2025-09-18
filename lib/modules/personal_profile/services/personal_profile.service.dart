@@ -8,6 +8,8 @@ import 'package:cpanal/general_services/backend_services/get_endpoint.service.da
 import 'package:cpanal/models/endpoint.model.dart';
 import 'package:cpanal/models/operation_result.model.dart';
 
+import '../../../constants/string_convert.dart';
+
 abstract class PersonalProfileService {
   // update password
   static Future<OperationResult<Map<String, dynamic>>> updatePassword({
@@ -28,10 +30,10 @@ abstract class PersonalProfileService {
 
   // Activate 2fa
   static Future<OperationResult<Map<String, dynamic>>> activateTfa(
-      {required BuildContext context}) async {
+      {required BuildContext context, type, code}) async {
     final url = EndpointServices.getApiEndpoint(EndpointsNames.activateTfa).url;
     return await DioApiService().post<Map<String, dynamic>>(
-        url, {"type": "activate", "tfa": "1"},
+        url, type == null ? {"type": "activate", "tfa": "1" } : {"type": type, "tfa": "1", "code" : code },
         context: context, dataKey: 'data', allData: true);
   }
 
@@ -64,7 +66,7 @@ abstract class PersonalProfileService {
             if (countryKey != null) 'country_key' : countryKey,
             if (phoneCode != null) 'phone_code' : phoneCode,
             if (phone != null) 'phone' : phone,
-            if (birthDay != null) 'birth_day' : birthDay,
+            if (birthDay != null) 'birth_day' : StringConvert.sanitizeDateString(birthDay),
           }
       );
       var res = await DioHelper.postFormData(

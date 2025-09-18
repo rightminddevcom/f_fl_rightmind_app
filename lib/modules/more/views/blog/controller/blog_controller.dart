@@ -23,14 +23,14 @@ class BlogProviderModel extends ChangeNotifier {
       return true;
     }
   }
-  Future<void> getOneBlog(BuildContext context, {page, id}) async {
+  Future<void> getOneBlog(BuildContext context, {page, id, type}) async {
     if(page != null){currentPage = page;}
     print("currentPage is --> $currentPage}");
     isGetBlogLoading = true;
     notifyListeners();
     try {
       final response = await DioHelper.getData(
-        url: "/blogs/entities-operations/$id?with=tags,category_id",
+        url: "/$type/entities-operations/$id?with=tags,category_id",
         context: context,
         query: {
           "itemsCount": itemsCount,
@@ -54,14 +54,14 @@ class BlogProviderModel extends ChangeNotifier {
       notifyListeners();
     }
   }
-  Future<void> getBlog(BuildContext context, {page}) async {
+  Future<void> getBlog(BuildContext context,slug, {page}) async {
     if(page != null){currentPage = page;}
     print("currentPage is --> $currentPage}");
     isGetBlogLoading = true;
     notifyListeners();
     try {
       final response = await DioHelper.getData(
-        url: "/blogs/entities-operations?with=tags,category_id",
+        url: "/$slug/entities-operations?with=tags,category_id",
         context: context,
         query: {
           "itemsCount": itemsCount,

@@ -280,9 +280,10 @@ class DioApiService implements BackEndServicesInterface {
         final appConfigService =
         Provider.of<AppConfigService>(context, listen: false);
         appConfigService.logout().then((v) {
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => SplashScreen()));
+          context.goNamed(
+            AppRoutes.splash.name,
+            pathParameters: {'lang': context.locale.languageCode,},
+          );
         });
         return OperationResult<T>(success: false, message: 'Unauthorized');
       }

@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -72,7 +73,102 @@ class _HistoryItemState extends State<HistoryItem> {
                   children: [
                     Container(
                       height: MediaQuery.sizeOf(context).height * 0.5,
-                      child: ListView.builder(
+                      child: kIsWeb?GridView.builder(
+                        controller: _scrollController,
+                        padding: EdgeInsets.zero,
+                        physics: const ClampingScrollPhysics(),
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2, // عدد الأعمدة في الويب
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                          childAspectRatio: 3.5, // تتحكم في شكل الكارد (عرض/طول)
+                        ),
+                        itemCount: value.history.length,
+                        itemBuilder: (context, index) {
+                          var e = value.history[index];
+                          String apiDate = e['created_at'];
+                          DateTime parsedDate = DateTime.parse(apiDate);
+                          String formattedDate = DateFormat(
+                            'MMM d, yyyy',
+                            LocalizationService.isArabic(context: context) ? "ar" : "en",
+                          ).format(parsedDate);
+
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: const BorderRadius.all(Radius.circular(15)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.05),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 1),
+                                ),
+                              ],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  const Image(
+                                    image: AssetImage('assets/images/png/gift.png'),
+                                    height: 40,
+                                    width: 40,
+                                    color: Color(AppColors.primary),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  const SizedBox(width: 7),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          e['title'],
+                                          maxLines: 2,
+                                          style: const TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xff464646),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          e['operation'] == "deposit"
+                                              ? "+${e['points']} ${AppStrings.points.tr()}"
+                                              : "-${e['points']} ${AppStrings.points.tr()}",
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: e['operation'] == "deposit"
+                                                ? Colors.green
+                                                : const Color(0xffFF0004),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(width: 15),
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(bottom: 5),
+                                      child: Text(
+                                        formattedDate,
+                                        style: const TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      )
+
+                      :ListView.builder(
                         controller: _scrollController,
                           padding: EdgeInsets.zero,
                           physics:  ClampingScrollPhysics(),

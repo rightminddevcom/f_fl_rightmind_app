@@ -27,7 +27,7 @@ class _SearchAccountBottomSheetState extends State<SearchAccountBottomSheet> {
     return Padding(
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Container(
-        height: MediaQuery.sizeOf(context).height * 0.4,
+        height: MediaQuery.sizeOf(context).height * 0.45,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
         decoration: const BoxDecoration(
           color: Colors.white,

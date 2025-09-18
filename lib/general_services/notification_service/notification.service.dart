@@ -125,10 +125,7 @@ abstract class PushNotificationService {
 
   /// Sends the FCM token to the server.
   /// Ensures the token is sent only once during the session.
-  static Future<void> _sendToken(
-      {required String apiUrlThatReciveUserToken,
-      required BuildContext context,
-      Map<String, dynamic>? requestBody}) async {
+  static Future<void> _sendToken({required String apiUrlThatReciveUserToken, required BuildContext context, Map<String, dynamic>? requestBody}) async {
     if (_isTokenInit) return;
    var cacheToken = CacheHelper.getString("fcmToken");
     var userToken = await fcm?.getToken();

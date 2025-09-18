@@ -10,6 +10,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../general_services/validation_service.dart';
+
 class CreateEmailFowardBottomSheet extends StatefulWidget {
   var email;
   var dominId;
@@ -89,17 +91,18 @@ class _CreateEmailFowardBottomSheetState extends State<CreateEmailFowardBottomSh
                       ),
                     ),
                     const SizedBox(height: 25),
-                    if(widget.email == null) TextFormField(
-                      controller: bodyController,
+                    if(widget.actionType == "emails") TextFormField(
+                      controller: emailController,
                       decoration: InputDecoration(
-                        hintText: AppStrings.forwardEmail.tr().toUpperCase(),
+                        hintText: "From User Name",
                       ),
                     ),
                     if(widget.email == null) SizedBox(height: 15,),
-                   if(widget.actionType == "emails") TextFormField(
-                      controller: emailController,
+                    if(widget.email == null) TextFormField(
+                      controller: bodyController,
+                      validator: (val) => widget.email == null? ValidationService.validateEmail(val):ValidationService.validateEmail(val),
                       decoration: InputDecoration(
-                        hintText: AppStrings.userName.tr().toUpperCase(),
+                        hintText: "to : forward Email/ Domain",
                       ),
                     ),
                     if(widget.actionType == "emails")  const SizedBox(height: 30),

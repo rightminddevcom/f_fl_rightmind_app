@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart' as locale;
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart' as intl_phone_field;
+import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
+
 import '../../../../constants/app_sizes.dart';
 import '../../../../constants/app_strings.dart';
 import '../../../../general_services/localization.service.dart';
@@ -10,13 +12,15 @@ class PhoneNumberField extends StatefulWidget {
   final TextEditingController controller;
   final TextEditingController countryCodeController;
   final String? initialCountry;
+  final String? phoneError;
   final void Function()? triggerFunction;
 
   const PhoneNumberField({
     super.key,
     required this.controller,
     this.triggerFunction,
-    this.initialCountry = 'EG',
+    this.phoneError,
+    this.initialCountry ,
     required this.countryCodeController,
   });
 
@@ -25,11 +29,20 @@ class PhoneNumberField extends StatefulWidget {
 }
 
 class _PhoneNumberFieldState extends State<PhoneNumberField> {
-  int maxLength = 9;
-  int minLength = 9;
+  int maxLength = 14;
+  int minLength = 7;
+  String? detectedCountryCode = CacheHelper.getString("flag");
+
+  @override
+  void initState() {
+    super.initState();
+    widget.countryCodeController.text = CacheHelper.getString("flagCode");
+  }
 
   @override
   Widget build(BuildContext context) {
+    print("detectedCountryCode is --> ${CacheHelper.getString("flag")}");
+    print("detectedCountryCode is --> ${CacheHelper.getString("flagCode")}");
     return Directionality(
       textDirection: LocalizationService.isArabic(context: context)
           ? TextDirection.rtl
@@ -39,12 +52,13 @@ class _PhoneNumberFieldState extends State<PhoneNumberField> {
         invalidNumberMessage: AppStrings.pleaseEnterValidPhoneNumber.tr(),
         languageCode: context.locale.languageCode,
         decoration: InputDecoration(
-            hintText: AppStrings.yourPhone.tr(),
-            counter: const SizedBox.shrink()),
-        initialCountryCode: widget.initialCountry,
+          errorText: widget.phoneError,
+          hintText: AppStrings.yourPhone.tr(),
+          counter: const SizedBox.shrink(),
+        ),
+        initialCountryCode: detectedCountryCode ?? widget.initialCountry ?? "US",
         onChanged: (value) {
-          if (value.number.length == minLength &&
-              value.number.length == maxLength) {
+          if (value.number.length >= minLength && value.number.length <= maxLength) {
             widget.triggerFunction?.call();
           }
         },
@@ -75,16 +89,16 @@ class _PhoneNumberFieldState extends State<PhoneNumberField> {
           Icons.arrow_drop_down,
         ),
         dropdownTextStyle:
-            const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+        const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
         dropdownIconPosition: intl_phone_field.IconPosition.trailing,
         showCursor: true,
         dropdownDecoration: BoxDecoration(
           border: LocalizationService.isArabic(context: context)
               ? const Border(
-                  left: BorderSide(color: Color(0xffDFDFDF), width: 1.4))
+              left: BorderSide(color: Color(0xffDFDFDF), width: 1.4))
               : const Border(
-                  right: BorderSide(color: Color(0xffDFDFDF), width: 1.4),
-                ),
+            right: BorderSide(color: Color(0xffDFDFDF), width: 1.4),
+          ),
         ),
         pickerDialogStyle: PickerDialogStyle(
           backgroundColor: Colors.white,

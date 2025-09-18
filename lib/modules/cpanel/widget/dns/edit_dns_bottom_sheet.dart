@@ -50,6 +50,7 @@ class _EditEmailBottomSheetState extends State<EditEmailBottomSheet> {
       ipAddressController.clear();
     }
     if (widget.object['ttl'] != null) {
+      if(widget.object['ttl'].toString() == "1"){widget.object['ttl'] = null;}
       ttlController.text = widget.object['ttl'].toString();
     } else {
       ttlController.clear();

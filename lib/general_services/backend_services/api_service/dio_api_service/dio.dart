@@ -11,12 +11,14 @@ import 'package:cpanal/routing/app_router.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../constants/app_constants.dart';
+
 class DioHelper{
   static Dio? dio;
   static initail(BuildContext context){
     dio = Dio(
         BaseOptions(
-            baseUrl: "https://lab.r-m.dev/api",
+            baseUrl: AppConstants.baseUrl,
             receiveDataWhenStatusError: true,
             headers: {
               'Accept':'application/json',
@@ -47,9 +49,10 @@ class DioHelper{
             final appConfigService =
             Provider.of<AppConfigService>(context, listen: false);
             appConfigService.logout().then((v){
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => SplashScreen()));
+              context.goNamed(
+                AppRoutes.splash.name,
+                pathParameters: {'lang': context.locale.languageCode,},
+              );
             });
           }
           return handler.next(error);

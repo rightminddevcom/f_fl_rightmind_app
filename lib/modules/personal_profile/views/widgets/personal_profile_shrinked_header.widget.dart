@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:cpanal/constants/app_strings.dart';
 import '../../../../constants/app_images.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../general_services/layout.service.dart';
@@ -43,8 +45,8 @@ class PersonalProfileShrinkedHeaderWidget extends StatelessWidget {
                           ),
                         ),
                       )),
-                  const Text(
-                    'Account & Settings',
+                   Text(
+                    AppStrings.accountAndSettings.tr(),
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: AppSizes.s14,

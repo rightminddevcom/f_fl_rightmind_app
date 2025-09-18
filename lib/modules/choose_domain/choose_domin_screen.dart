@@ -10,11 +10,16 @@ import 'package:cpanal/modules/choose_domain/logic/domain_provider.dart';
 import 'package:cpanal/modules/dashboard/dashboard_screen.dart';
 import 'package:cpanal/utils/custom_shimmer_loading/shimmer_animated_loading.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../common_modules_widgets/template_page.widget.dart';
 import '../../../constants/app_sizes.dart';
+import '../../constants/web_image.dart';
+import '../../routing/app_router.dart';
+import '../cpanel/email_account/email_account_screen.dart';
 
 class ChooseDomainScreen extends StatefulWidget {
 
@@ -94,7 +99,7 @@ class _ChooseDomainScreenState extends State<ChooseDomainScreen> {
                                 children: [
                                   if(value.domains[index]['logo'].isNotEmpty)SizedBox(
                                     width:double.infinity,
-                                    child: CachedNetworkImage(
+                                    child:CachedNetworkImage(
                                       width: double.infinity,
                                       height: MediaQuery.of(context).size.height * 0.225,
                                       fit: BoxFit.contain,
@@ -115,17 +120,24 @@ class _ChooseDomainScreenState extends State<ChooseDomainScreen> {
                                   CustomElevatedButton(
                                     title: AppStrings.select.tr().toUpperCase(),
                                     onPressed: () async {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardScreen(
-                                        dominId: value.domains[index]['id'],
-                                        name: value.domains[index]['domain'],
-                                        userPermissions: value.domains[index]['user_permissions'],
-                                      ),));
+                                      context.pushNamed(
+                                        AppRoutes.DominDashboard.name,
+                                        pathParameters: {
+                                          'lang': context.locale.languageCode,
+                                          'id': value.domains[index]['id'].toString(),
+                                          'name': value.domains[index]['domain'],
+                                        },
+                                        extra: EmailAccountExtra(
+                                          begin: const Offset(1.0, 0.0),
+                                          permissions: value.domains[index]['user_permissions'],
+                                        ),
+                                      );
                                     },
                                     isPrimaryBackground: false,
                                   ),
                                 ]
                             ),
-                            separatorBuilder: (context, index) => const SizedBox(height: 20,),
+                            separatorBuilder: (context, index) => const SizedBox(height: 40,),
                             itemCount: (value.isLoading)? 5 : value.domains.length),
                       ],
                     )

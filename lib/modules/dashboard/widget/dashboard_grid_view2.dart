@@ -14,7 +14,9 @@ import 'package:cpanal/modules/home/widget/grid_view_model.dart';
 import 'package:cpanal/modules/home/widget/home_grid_view_item.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../routing/app_router.dart';
 import '../../cpanel/ssl/ssl_controller_screen.dart';
 
 class DashboardGridView2 extends StatelessWidget {
@@ -32,10 +34,14 @@ class DashboardGridView2 extends StatelessWidget {
           title: AppStrings.ftpAccounts.tr(),
           description: "",
           onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => FTPAccountsScreen(
-              dominId: dominId.toString(),
-              name: name,
-            ),));
+            context.pushNamed(
+              AppRoutes.FTPAccounts.name,
+              pathParameters: {
+                'lang': context.locale.languageCode,
+                'id': dominId.toString(),
+                'name': name,
+              },
+            );
           },
           backgroundColor:  Color(AppColors.dark)),
       if(userPermissions!.contains("mysql_controls")) GrideViewItemModel(
@@ -43,25 +49,37 @@ class DashboardGridView2 extends StatelessWidget {
           title: AppStrings.sql.tr(),
           description: "",
           onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => SqlAccountsScreen(
-              dominId: dominId.toString(),
-              name: name,
-            ),));
+            context.pushNamed(
+              AppRoutes.SqlAccounts.name,
+              pathParameters: {
+                'lang': context.locale.languageCode,
+                'id': dominId.toString(),
+                'name': name,
+              },
+            );
           },
           backgroundColor:  Color(AppColors.dark)),
     ];
     return Padding(
       padding: const EdgeInsets.only(top: AppSizes.s20),
-      child: GridView.count(
-        crossAxisCount: 2,
-        mainAxisSpacing: 5,
-        crossAxisSpacing: 12,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(), // Important if inside ScrollView
-        childAspectRatio: 0.8,
-        children: grideItems.map((item) => HomeGridViewItem(itemModel: item)).toList(),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          double aspectRatio = constraints.maxWidth > 800 ? 1.5 : 0.8;
+          return GridView.count(
+            crossAxisCount: constraints.maxWidth > 800 ? 4 : 2, // على الويب 4 أعمدة
+            mainAxisSpacing: 5,
+            crossAxisSpacing: 12,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            childAspectRatio: aspectRatio,
+            children: grideItems
+                .map((item) => HomeGridViewItem(itemModel: item))
+                .toList(),
+          );
+        },
       ),
     );
+
   }
 
 }

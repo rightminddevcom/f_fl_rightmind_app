@@ -5,13 +5,13 @@ abstract class ValidationService {
   // Validate email format
   static String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter an email address';
+      return AppStrings.pleaseEnterAnEmailAddress.tr();
     }
     // Regex pattern for email validation
     String pattern = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
-      return 'Please enter a valid email address';
+      return AppStrings.pleaseEnterAValidEmailAddress.tr();
     }
     return null;
   }
@@ -19,13 +19,13 @@ abstract class ValidationService {
   // Validate phone number format
   static String? validatePhoneNumber(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter a phone number';
+      return AppStrings.phoneNumberIsRequired.tr();
     }
     // Regex pattern for phone number validation
     String pattern = r'^[0-9]{10}$'; // Change pattern as per your requirement
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
-      return 'Please enter a valid phone number';
+      return  AppStrings.pleaseEnterValidPhoneNumber.tr();
     }
     return null;
   }
@@ -35,40 +35,44 @@ abstract class ValidationService {
     if (value == null || value.isEmpty) {
       return AppStrings.pleaseEnterAPassword.tr();
     }
-
     if (!login) {
       String upperCasePattern = r'(?=.*?[A-Z])'; // At least one uppercase letter
       String lowerCasePattern = r'(?=.*?[a-z])'; // At least one lowercase letter
       String numberPattern = r'(?=.*?[0-9])';    // At least one number
       String specialCharPattern = r'(?=.*?[!@#\$&*~])'; // At least one special character
       String minLengthPattern = r'.{8,}';        // At least 8 characters
-
       // Check each requirement
       if (!RegExp(upperCasePattern).hasMatch(value)) {
-        return "${AppStrings.mustInclude.tr()}: ${AppStrings.atLeastOneUppercaseLetter.tr()}.";
+        return "${AppStrings.mustInclude.tr()}: ${AppStrings.atLeastOneUppercaseLetter.tr()}. \n";
       }
       if (!RegExp(lowerCasePattern).hasMatch(value)) {
-        return "${AppStrings.mustInclude.tr()}: ${AppStrings.atLeastOneLowercaseLetter.tr()}.";
+        return "${AppStrings.mustInclude.tr()}: ${AppStrings.atLeastOneLowercaseLetter.tr()}. \n";
       }
       if (!RegExp(numberPattern).hasMatch(value)) {
-        return "${AppStrings.mustInclude.tr()}: ${AppStrings.atLeastOneNumber.tr()}.";
+        return "${AppStrings.mustInclude.tr()}: ${AppStrings.atLeastOneNumber.tr()}. \n";
       }
       if (!RegExp(specialCharPattern).hasMatch(value)) {
-        return "${AppStrings.mustInclude.tr()}: ${AppStrings.atLeastOneSpecialCharacter.tr()}.";
+        return "${AppStrings.mustInclude.tr()}: ${AppStrings.atLeastOneSpecialCharacter.tr()}. \n";
       }
       if (!RegExp(minLengthPattern).hasMatch(value)) {
-        return "${AppStrings.mustInclude.tr()}: ${AppStrings.aMinimumOfEightCharacters.tr()}.";
+        return "${AppStrings.mustInclude.tr()}: ${AppStrings.aMinimumOfEightCharacters.tr()}. \n";
+      }
+    }else{
+      String minLengthPattern = r'.{6,}';
+      if (!RegExp(minLengthPattern).hasMatch(value)) {
+        return "${AppStrings.mustInclude.tr()}: ${AppStrings.aMinimumOfSixCharacters.tr()}. \n";
       }
     }
-
-
     return null;
   }
 
   // Validate required field
-  static String? validateRequired(String? value) {
+  static String? validateRequired(String? value,field) {
     if (value == null || value.isEmpty) {
-      return 'This field is required';
+      return '$field ${AppStrings.isRequired.tr()}';
+    }
+    if (value.length < 6) {
+      return '$field ${AppStrings.mustBeAtLeastSixCharactersLong.tr()}';
     }
     return null;
   }
@@ -81,7 +85,7 @@ abstract class ValidationService {
     String pattern = r'^[0-9]+$';
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
-      return 'Please enter only numeric characters';
+      return AppStrings.pleaseEnterOnlyNumericCharacters.tr();
     }
     return null;
   }

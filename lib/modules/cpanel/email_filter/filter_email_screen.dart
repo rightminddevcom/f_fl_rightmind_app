@@ -188,7 +188,7 @@ class _FilterEmailScreenState extends State<FilterEmailScreen> {
                 padding: const EdgeInsets.all(AppSizes.s12),
                 children: [
                    Text(
-                    AppStrings.filterEmailMessage.tr(),
+                    AppStrings.email_filters_description.tr(),
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
                   ),
@@ -275,25 +275,39 @@ class _FilterEmailScreenState extends State<FilterEmailScreen> {
                                 ),
                               ],
                             ),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: const [BoxShadow(color: Color(0x0C000000), blurRadius: 10, offset: Offset(0, 1))],
-                              ),
-                              child: Row(
-                                children: [
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        value.emailFilter[index]['filtername'],
-                                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
-                                      ),
-                                    ],
+                            child: GestureDetector(
+                              onTap: ()async{
+                                await showModalBottomSheet(
+                                  context: safeContext,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (_) => Padding(
+                                    padding: EdgeInsets.only(bottom: MediaQuery.of(safeContext).viewInsets.bottom),
+                                    child: EditEmailBottomSheet(dominId: widget.dominId.toString(), object: value.emailFilter[index],dominName: widget.name.toString(), email: widget.email,),
                                   ),
-                                ],
+                                );
+                                await emailcickle();
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: const [BoxShadow(color: Color(0x0C000000), blurRadius: 10, offset: Offset(0, 1))],
+                                ),
+                                child: Row(
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          value.emailFilter[index]['filtername'],
+                                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),

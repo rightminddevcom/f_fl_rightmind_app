@@ -184,7 +184,7 @@ class _FTPAccountsScreenState extends State<FTPAccountsScreen> {
                 padding: const EdgeInsets.all(AppSizes.s12),
                 children: [
                    Text(
-                     AppStrings.ftpMessage.tr(),
+                     AppStrings.ftp_accounts_description.tr(),
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
                   ),
@@ -274,33 +274,50 @@ class _FTPAccountsScreenState extends State<FTPAccountsScreen> {
                                 ),
                               ],
                             ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        value.ftps[index]['login'],
-                                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
-                                      ),
-                                      const SizedBox(height: 5),
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset("assets/images/svg/message.svg"),
-                                          const SizedBox(width: 5),
-                                          Text(
-                                            value.ftps[index]['dir'],
-                                            style: const TextStyle(color: Color(AppColors.c4), fontWeight: FontWeight.bold, fontSize: 12),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                            child: GestureDetector(
+                              onTap: ()async{
+                                await showModalBottomSheet(
+                                  context: safeContext,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (_) => Padding(
+                                    padding: EdgeInsets.only(bottom: MediaQuery.of(safeContext).viewInsets.bottom),
+                                    child: EditEmailBottomSheet(
+                                      dominId: widget.dominId,
+                                      email: value.ftps[index]['login'],
+                                    ),
                                   ),
-                                ),
-                                if (selectedEmails.any((e) => e.address == value.ftps[index]['email']))
-                                  const Icon(Icons.check_circle, color: Colors.green),
-                              ],
+                                );
+                                await emailcickle();
+                              },
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          value.ftps[index]['login'],
+                                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          children: [
+                                            SvgPicture.asset("assets/images/svg/message.svg"),
+                                            const SizedBox(width: 5),
+                                            Text(
+                                              value.ftps[index]['dir'],
+                                              style: const TextStyle(color: Color(AppColors.c4), fontWeight: FontWeight.bold, fontSize: 12),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  if (selectedEmails.any((e) => e.address == value.ftps[index]['email']))
+                                    const Icon(Icons.check_circle, color: Colors.green),
+                                ],
+                              ),
                             ),
                           ),
                         ),

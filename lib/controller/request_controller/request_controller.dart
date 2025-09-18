@@ -1,15 +1,22 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/dio.dart';
 import 'package:cpanal/models/get_one_request_model.dart';
 import 'package:cpanal/models/get_request_comment_model.dart';
-import 'package:cpanal/modules/requests_screen/widget/successful_send_request_bottomsheet.dart';
+import 'dart:io' show File;         // هيتجاهلها في Web
+import 'dart:typed_data';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import '../../constants/app_strings.dart';
+import '../../modules/complain_screen/widget/success_send_complain.dart';
 
 class RequestController extends ChangeNotifier {
   bool isGetRequestLoading = false;
+  bool empty = false;
   bool isAddCommentLoading = false;
   bool isAddRequestLoading = false;
   bool isGetRequestCommentLoading = false;
@@ -19,7 +26,6 @@ class RequestController extends ChangeNotifier {
   bool isAddRequestSuccess = false;
   bool isGetRequestCommentSuccess = false;
   bool isGetRequestTypeSuccess = false;
-  GetRequestCommentModel? getRequestCommentModel;
   TextEditingController contentController = TextEditingController();
   TextEditingController subjectController = TextEditingController();
   TextEditingController detailsController = TextEditingController();
@@ -30,19 +36,23 @@ class RequestController extends ChangeNotifier {
   String? getRequestTypeErrorMessage;
   String? errorAddCommentMessage;
   String? errorAddRequestMessage;
-  GetOneRequestModel? getOneRequestModel;
   final picker = ImagePicker();
   bool hasMore = true;
+  bool loading = true;
   final ScrollController controller = ScrollController();
   final int expectedPageSize = 9;
   int pageNumber = 1;
   int count = 0;
-  Set<int> commentIds = {};
+  Set<int> requestsIds = {};
   XFile? XImageFileAttachmentPersonal;
   File? attachmentPersonalImage;
   List listAttachmentPersonalImage = [];
   List<XFile> listXAttachmentPersonalImage = [];
+  GetRequestCommentModel? getRequestCommentModel;
+  GetOneRequestModel? getOneRequestModel;
   List requests = [];
+  List requestsTeam = [];
+  List newRequestsTeam = [];
   List requestTypes = [];
   List newComments = [];
   List comments = [];
@@ -57,113 +67,10 @@ class RequestController extends ChangeNotifier {
       return true;
     }
   }
+
   Future<void> refreshPaints(context) async{
     currentPage = 1;
     hasMore = true;
-    await getRequest(page : 1,context);
-  }
-  Future<void> getRequest(BuildContext context, {int? page}) async {
-    if(page != null){currentPage = page;}
-    print("currentPage is --> $currentPage}");
-    isGetRequestLoading = true;
-    notifyListeners();
-    try {
-      final response = await DioHelper.getData(
-        url: "/csrequests/entities-operations",
-        context: context, // Pass this explicitly only if necessary
-        query: {
-          "itemsCount": itemsCount,
-          "page": page ?? currentPage,
-        },
-      );
-      if(response.data['status'] == false){
-        Fluttertoast.showToast(
-            msg: response.data['message'],
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 5,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
-      }else{
-        newRequests = response.data['data'] ?? [];
-        if (page == 1) {
-          requests.clear(); // Clear only when loading the first page
-        }
-        if (newRequests.isNotEmpty) {
-          requests.addAll(newRequests);
-          print("LENGTH IS --> ${newRequests.length}");
-          if (hasMore) currentPage++;
-        } else {
-          hasMoreRequests = false; // No more data to fetch
-        }
-
-        isGetRequestSuccess = true;
-      }
-      isGetRequestLoading = false;
-      notifyListeners();
-    } catch (error) {
-      getRequestErrorMessage = error is DioError
-          ? error.response?.data['message'] ?? 'Something went wrong'
-          : error.toString();
-      Fluttertoast.showToast(
-          msg: getRequestErrorMessage!,
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 5,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-    } finally {
-      isGetRequestLoading = false;
-      notifyListeners();
-    }
-  }
-  Future<void> getOneRequest(BuildContext context, id) async {
-    isGetRequestLoading = true;
-    notifyListeners();
-    try {
-      final response = await DioHelper.getData(
-        url: "/csrequests/entities-operations/$id",
-        query: {
-          "with" : "ptype_id"
-        },
-        context: context,
-      );
-      if(response.data['status'] == false){
-        Fluttertoast.showToast(
-            msg: response.data['message'],
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 5,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
-      }else{
-        getOneRequestModel = GetOneRequestModel.fromJson(response.data);
-      }
-      isGetRequestLoading = false;
-      notifyListeners();
-    } catch (error) {
-      getRequestErrorMessage = error is DioError
-          ? error.response?.data['message'] ?? 'Something went wrong'
-          : error.toString();
-      Fluttertoast.showToast(
-          msg: getRequestErrorMessage!,
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 5,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-    } finally {
-      isGetRequestLoading = false;
-      notifyListeners();
-    }
   }
   Future<void> getRequestType(BuildContext context) async {
     isGetRequestTypeLoading = true;
@@ -207,83 +114,11 @@ class RequestController extends ChangeNotifier {
       notifyListeners();
     }
   }
-  Future<void> getRequestComment(BuildContext context, id, {pages, bool? isNewPage,}) async {
-    if(pages == null){
-      pages = pageNumber;
+  Future<void> addComment(BuildContext context, {required String id, List<XFile>? images, String? voicePath, slug}) async {
+    if(images == null  && voicePath == null && contentController.text.isEmpty){
+      print("NULL COMMENT");
+      return;
     }
-    if(pageNumber == null){
-      pageNumber = pages;
-    }
-    isGetRequestCommentLoading = true;
-    notifyListeners();
-    try {
-      final response = await DioHelper.getData(
-        url: "/csrequests/entities-operations/$id/comments",
-        context: context,
-        query: {
-          "page": pages ?? pageNumber,
-          "order_dir" : "desc"
-        }
-      );
-      if(response.data['status'] == false){
-        Fluttertoast.showToast(
-            msg: response.data['message'],
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 5,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
-      }else{
-        isGetRequestCommentSuccess = true;
-        comments = response.data['comments'];
-        if (response.data['products'] != null && response.data['products'].isNotEmpty) {
-          List newComments = response.data['products'];
-
-          // Remove duplicates based on ID
-          List uniqueComments = newComments.where((p) => !commentIds.contains(p['id'])).toList();
-
-          if (isNewPage == true) {
-            comments.addAll(uniqueComments);
-          } else {
-            comments = uniqueComments;
-            print("PRODUCTS SUCCESS");
-          }
-
-          // Update product ID tracker
-          commentIds.addAll(uniqueComments.map((p) => p['id']));
-
-          if (hasMore) pageNumber++;
-        }
-        getRequestCommentModel = GetRequestCommentModel.fromJson(response.data);
-        print("COMMENTS --> ${comments.length}");
-      }
-      isGetRequestCommentLoading = false;
-      notifyListeners();
-    } catch (error) {
-      getRequestCommentErrorMessage = error is DioError
-          ? error.response?.data['message'] ?? 'Something went wrong'
-          : error.toString();
-      Fluttertoast.showToast(
-          msg: getRequestCommentErrorMessage!,
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 5,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-    } finally {
-      isGetRequestCommentLoading = false;
-      notifyListeners();
-    }
-  }
-  Future<void> addComment(BuildContext context, {required String id, List<XFile>? images, String? voicePath}) async {
-      if(images == null  && voicePath == null && contentController.text.isEmpty){
-        print("NULL COMMENT");
-        return;
-      }
     isAddCommentLoading = true;
     notifyListeners();
 
@@ -306,13 +141,13 @@ class RequestController extends ChangeNotifier {
         });
 
         response = await DioHelper.postFormData(
-          url: "/csrequests/entities-operations/$id/comments",
+          url: "/$slug/entities-operations/$id/comments",
           context: context,
           formdata: formData,
         );
       } else {
         response = await DioHelper.postData(
-          url: "/csrequests/entities-operations/$id/comments",
+          url: "/$slug/entities-operations/$id/comments",
           context: context,
           data: {
             if (contentController.text.isNotEmpty) "content": contentController.text,
@@ -344,7 +179,7 @@ class RequestController extends ChangeNotifier {
         contentController.clear();
         // Refresh comments after successful upload
         getRequestCommentModel = null;
-       // getRequestComment(context, id);
+        // getRequestComment(context, id);
       }
     } catch (error) {
       errorAddCommentMessage = error is DioError
@@ -362,6 +197,178 @@ class RequestController extends ChangeNotifier {
       );
     } finally {
       isAddCommentLoading = false;
+      notifyListeners();
+    }
+  }
+  Future<void> getRequest(BuildContext context, {int? page}) async {
+    if(page != null){currentPage = page;}
+    print("currentPage is --> $currentPage}");
+    isGetRequestLoading = true;
+    notifyListeners();
+    try {
+      final response = await DioHelper.getData(
+        url: "/csrequests/entities-operations",
+        context: context, // Pass this explicitly only if necessary
+        query: {
+          "itemsCount": itemsCount,
+          "page": page ?? currentPage,
+        },
+      );
+      if(response.data['status'] == false){
+        Fluttertoast.showToast(
+            msg: response.data['message'],
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 5,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }else{
+        isGetRequestSuccess = true;
+        if(response.data['data'] == null || response.data['data'].isEmpty){
+          empty = true;
+        }
+        if (response.data['data'] != null && response.data['data'].isNotEmpty) {
+          List newRequest = response.data['data'];
+
+          // Remove duplicates based on ID
+          List uniqueRequests = newRequest.where((p) => !requestsIds.contains(p['id'])).toList();
+
+          if (hasMoreRequests == true) {
+            requests.addAll(uniqueRequests);
+          } else {
+            requests = uniqueRequests;
+            print("PRODUCTS SUCCESS");
+          }
+
+          // Update product ID tracker
+          requestsIds.addAll(uniqueRequests.map((p) => p['id']));
+
+          if (hasMoreRequests) currentPage++;
+        }
+      }
+      isGetRequestLoading = false;
+      notifyListeners();
+
+    } catch (error) {
+      getRequestErrorMessage = error is DioError
+          ? error.response?.data['message'] ?? 'Something went wrong'
+          : error.toString();
+      Fluttertoast.showToast(
+          msg: getRequestErrorMessage!,
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 5,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    } finally {
+      isGetRequestLoading = false;
+      notifyListeners();
+    }
+  }
+  // Future<void> getRequestMine(BuildContext context, {int? page}) async {
+  //   if(page != null){currentPage = page;}
+  //   print("currentPage is --> $currentPage}");
+  //   isGetRequestLoading = true;
+  //   notifyListeners();
+  //   try {
+  //     final response = await DioHelper.getData(
+  //       url: "/emp_requests/v1/complain?type=mine",
+  //       context: context, // Pass this explicitly only if necessary
+  //       query: {
+  //         "itemsCount": itemsCount,
+  //         "page": page ?? currentPage,
+  //       },
+  //     );
+  //     if(response.data['status'] == false){
+  //       Fluttertoast.showToast(
+  //           msg: response.data['message'],
+  //           toastLength: Toast.LENGTH_LONG,
+  //           gravity: ToastGravity.BOTTOM,
+  //           timeInSecForIosWeb: 5,
+  //           backgroundColor: Colors.red,
+  //           textColor: Colors.white,
+  //           fontSize: 16.0
+  //       );
+  //     }else{
+  //       newRequests = response.data['complains'] ?? [];
+  //       if (page == 1) {
+  //         requests.clear(); // Clear only when loading the first page
+  //       }
+  //       if (newRequests.isNotEmpty) {
+  //         requests.addAll(newRequests);
+  //         print("LENGTH IS --> ${newRequests.length}");
+  //         if (hasMore) currentPage++;
+  //       } else {
+  //         hasMoreRequests = false; // No more data to fetch
+  //       }
+  //
+  //       isGetRequestSuccess = true;
+  //     }
+  //     isGetRequestLoading = false;
+  //     notifyListeners();
+  //   } catch (error) {
+  //     getRequestErrorMessage = error is DioError
+  //         ? error.response?.data['message'] ?? 'Something went wrong'
+  //         : error.toString();
+  //     Fluttertoast.showToast(
+  //         msg: getRequestErrorMessage!,
+  //         toastLength: Toast.LENGTH_LONG,
+  //         gravity: ToastGravity.BOTTOM,
+  //         timeInSecForIosWeb: 5,
+  //         backgroundColor: Colors.red,
+  //         textColor: Colors.white,
+  //         fontSize: 16.0
+  //     );
+  //   } finally {
+  //     isGetRequestLoading = false;
+  //     notifyListeners();
+  //   }
+  // }
+  Future<void> getOneRequest(BuildContext context, id) async {
+    isGetRequestLoading = true;
+    notifyListeners();
+    try {
+      final response = await DioHelper.getData(
+        url: "/csrequests/entities-operations/$id",
+        // query: {
+        //   "with" : "ptype_id"
+        // },
+        context: context,
+      );
+      if(response.data['status'] == false){
+        Fluttertoast.showToast(
+            msg: response.data['message'],
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 5,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }else{
+        getOneRequestModel = GetOneRequestModel.fromJson(response.data);
+      }
+      isGetRequestLoading = false;
+      notifyListeners();
+    } catch (error) {
+      getRequestErrorMessage = error is DioError
+          ? error.response?.data['message'] ?? 'Something went wrong'
+          : error.toString();
+      Fluttertoast.showToast(
+          msg: getRequestErrorMessage!,
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 5,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    } finally {
+      isGetRequestLoading = false;
       notifyListeners();
     }
   }
@@ -409,7 +416,6 @@ class RequestController extends ChangeNotifier {
         );
       }else{
         isAddRequestSuccess = true;
-        await getRequest(context, page: 1);
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
@@ -440,31 +446,74 @@ class RequestController extends ChangeNotifier {
 
     }
   }
-  Future<void> getProfileImageByCam(
-      {image1, image2, list, list2, one}) async {
-    XFile? imageFileProfile =
-    await picker.pickImage(source: ImageSource.camera);
+  Future<File?> _compressImage(File file) async {
+    final targetPath =
+        "${file.parent.path}/compressed_${DateTime.now().millisecondsSinceEpoch}.jpg";
+
+    final XFile? result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      targetPath,
+      quality: 75,
+      minWidth: 1600,
+      minHeight: 1600,
+    );
+    return result != null ? File(result.path) : null;
+  }
+  Future<void> getProfileImageByGallery() async {
+    final XFile? imageFileProfile = await picker.pickImage(source: ImageSource.gallery);
     if (imageFileProfile == null) return;
-    image1 = File(imageFileProfile.path);
-    image2 = imageFileProfile;
-    if(one == false)list.add({"image": image2, "view": image1});
-    if(one == false)list2.add(image2);
+
+    if (kIsWeb) {
+      Uint8List bytes = await imageFileProfile.readAsBytes();
+
+      listAttachmentPersonalImage.add({
+        "preview": bytes,     // 🖥️ للعرض
+        "upload": bytes,      // 🖥️ للرفع برضه
+      });
+    } else {
+      File originalFile = File(imageFileProfile.path);
+      File? compressedFile = await _compressImage(originalFile);
+
+      if (compressedFile != null) {
+        listAttachmentPersonalImage.add({
+          "preview": compressedFile,   // 📱 للعرض
+          "upload": compressedFile,    // 📱 للرفع
+        });
+      }
+    }
+
+
     notifyListeners();
-    print(image1);
   }
-  Future<void> getProfileImageByGallery(
-      {image1, image2, list, list2, one}) async {
-    XFile? imageFileProfile =
-    await picker.pickImage(source: ImageSource.gallery);
-    if (imageFileProfile == null) return null;
-    image1 = File(imageFileProfile.path);
-    image2 = imageFileProfile;
-    if(one == false) list.add({"image": image2, "view": image1});
-    if(one == false)list2.add(image2);
-    print("LISTS IS --> ${list}");
+
+  Future<void> getProfileImageByCam() async {
+    final XFile? imageFileProfile = await picker.pickImage(source: ImageSource.camera);
+    if (imageFileProfile == null) return;
+
+    if (kIsWeb) {
+      Uint8List bytes = await imageFileProfile.readAsBytes();
+
+      listAttachmentPersonalImage.add({
+        "preview": bytes,     // 🖥️ للعرض
+        "upload": bytes,      // 🖥️ للرفع برضه
+      });
+    } else {
+      File originalFile = File(imageFileProfile.path);
+      File? compressedFile = await _compressImage(originalFile);
+
+      if (compressedFile != null) {
+        listAttachmentPersonalImage.add({
+          "preview": compressedFile,   // 📱 للعرض
+          "upload": compressedFile,    // 📱 للرفع
+        });
+      }
+    }
+
+
     notifyListeners();
   }
-  Future<void> getImage( context, {image1, image2, list, bool one = true, list2}) =>
+
+  Future<void> getImage(context,{image1, image2, list, bool one = true, list2}) =>
       showModalBottomSheet<void>(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -482,9 +531,10 @@ class RequestController extends ChangeNotifier {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Text("Select Photo",
+                    Text(
+                      AppStrings.selectPhoto.tr(),
                       style: TextStyle(
-                          fontSize: 20, color: Color(0xFF011A51)),
+                          fontSize: 20, color: Colors.black),
                     ),
                     SizedBox(
                       height: 10,
@@ -497,17 +547,10 @@ class RequestController extends ChangeNotifier {
                           children: [
                             InkWell(
                               onTap: () async {
-                                await getProfileImageByGallery(
-                                    image1: image1,
-                                    image2: image2,
-                                    list: list,
-                                    list2: list2,
-                                    one: one
-                                );
+                                await getProfileImageByGallery();
                                 await image2 == null
                                     ? null
-                                    : Image.asset(
-                                    "assets/images/profileImage.png");
+                                    : Image.asset("assets/images/profileImage.png");
                                 Navigator.pop(context);
                               },
                               child: CircleAvatar(
@@ -515,13 +558,14 @@ class RequestController extends ChangeNotifier {
                                 backgroundColor: Colors.white,
                                 child: Icon(
                                   Icons.image,
-                                  color: Color(0xFF011A51),
+                                  color: Colors.black,
                                 ),
                               ),
                             ),
-                            Text("Gallery",
+                            Text(
+                              AppStrings.gallery.tr(),
                               style: TextStyle(
-                                  fontSize: 18, color: Color(0xFF011A51)),
+                                  fontSize: 18, color: Colors.black),
                             ),
                           ],
                         ),
@@ -529,13 +573,7 @@ class RequestController extends ChangeNotifier {
                           children: [
                             InkWell(
                               onTap: () async {
-                                await getProfileImageByCam(
-                                    image1: image1,
-                                    image2: image2,
-                                    list: list,
-                                    list2: list2,
-                                    one: one
-                                );
+                                await getProfileImageByCam();
                                 print(image1);
                                 print(image2);
                                 await image2 == null
@@ -549,13 +587,13 @@ class RequestController extends ChangeNotifier {
                                 backgroundColor: Colors.white,
                                 child: Icon(
                                   Icons.camera,
-                                  color: Color(0xFF011A51),
+                                  color: Colors.black,
                                 ),
                               ),
                             ),
                             Text(
-                              "Camera",
-                              style: TextStyle(fontSize: 18, color: Color(0xFF011A51)),
+                              AppStrings.camera.tr(),
+                              style: TextStyle(fontSize: 18, color: Colors.black),
                             ),
                           ],
                           mainAxisAlignment: MainAxisAlignment.spaceAround,

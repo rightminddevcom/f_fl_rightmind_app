@@ -1,19 +1,11 @@
 import 'package:cpanal/constants/app_colors.dart';
-import 'package:cpanal/constants/app_images.dart';
 import 'package:cpanal/constants/app_sizes.dart';
 import 'package:cpanal/constants/app_strings.dart';
-import 'package:cpanal/modules/choose_domain/choose_domin_screen.dart';
 import 'package:cpanal/modules/home/widget/grid_view_model.dart';
 import 'package:cpanal/modules/home/widget/home_grid_view_item.dart';
-import 'package:cpanal/modules/more/views/contactus/controller/controller.dart';
-import 'package:cpanal/modules/more/views/contactus/view/contact_screen.dart';
-import 'package:cpanal/modules/more/views/more_screen.dart';
-import 'package:cpanal/modules/points_screen/points_screen.dart';
-import 'package:cpanal/modules/requests_screen/requests_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../../routing/app_router.dart';
 
 class HomeGridView extends StatelessWidget {
@@ -69,7 +61,7 @@ class HomeGridView extends StatelessWidget {
           description: AppStrings.ticketSystemDescripe.tr(),
           onTap: (){
             context.pushNamed(
-                AppRoutes.requests.name,
+                AppRoutes.ComplainScreen.name,
                 pathParameters: {
                   'lang':
                   context.locale.languageCode
@@ -96,18 +88,19 @@ class HomeGridView extends StatelessWidget {
     return SliverPadding(
       padding: const EdgeInsetsDirectional.only(
           top: AppSizes.s90),
-      sliver: SliverGrid.count(
-          crossAxisCount: 2,
+      sliver: SliverGrid(
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 300,
           mainAxisSpacing: 5,
           crossAxisSpacing: 12,
-          childAspectRatio: 0.8,
-          children: [
-            ...grideItems.map((item) {
-              return HomeGridViewItem(
-                itemModel: item,
-              );
-            })
-          ]),
+          childAspectRatio: 0.9,
+        ),
+        delegate: SliverChildBuilderDelegate(
+              (context, index) => HomeGridViewItem(itemModel: grideItems[index]),
+          childCount: grideItems.length,
+        ),
+      ),
+
     );
   }
 

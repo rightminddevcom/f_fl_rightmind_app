@@ -11,10 +11,12 @@ import 'package:cpanal/modules/cpanel/widget/email_account/search_account_bottom
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../common_modules_widgets/template_page.widget.dart';
 import '../../../../constants/app_sizes.dart';
+import '../../../routing/app_router.dart';
 import '../../choose_domain/choose_domin_screen.dart';
 import '../../more/views/more_screen.dart';
 
@@ -190,7 +192,8 @@ class _EmailFilterScreenState extends State<EmailFilterScreen> {
                   GestureDetector(
                       onTap: (){
                         Navigator.pop(context);
-                        Navigator.pop(context);                      },
+                        Navigator.pop(context);
+                        },
                       child: Text(widget.name!,
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark))),
                   ),
@@ -240,11 +243,15 @@ class _EmailFilterScreenState extends State<EmailFilterScreen> {
                       return GestureDetector(
                         // onLongPress: () => onLongPress(index),
                          onTap: () {
-                           Navigator.push(context, MaterialPageRoute(builder: (context) => FilterEmailScreen(
-                             email : AppConstants.accountsEmailsFilter![index]['email'],
-                             name: widget.name,
-                             dominId: widget.dominId,
-                           ),));
+                           context.pushNamed(
+                             AppRoutes.FilterEmail.name,
+                             pathParameters: {
+                               'lang': context.locale.languageCode,
+                               'id': widget.dominId.toString(),
+                               'name': widget.name!,
+                               'email': AppConstants.accountsEmailsFilter![index]['email'],
+                             },
+                           );
                          },
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

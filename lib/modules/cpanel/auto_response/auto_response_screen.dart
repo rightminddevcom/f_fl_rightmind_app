@@ -185,7 +185,7 @@ class _AutoResponseScreenState extends State<AutoResponseScreen> {
                 padding: const EdgeInsets.all(AppSizes.s12),
                 children: [
                    Text(
-                    AppStrings.autoResponseMessage.tr(),
+                    AppStrings.email_auto_responders_description.tr(),
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
                   ),

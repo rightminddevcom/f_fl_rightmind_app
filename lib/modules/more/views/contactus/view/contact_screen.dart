@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +41,6 @@ class _ContactScreenState extends State<ContactScreen> {
           if (jsonString != null) {
             gCache = json.decode(jsonString)
                 as Map<String, dynamic>; // Convert String back to JSON
-            print("S2 IS --> $gCache");
           }
           return Stack(
             children: [
@@ -80,6 +80,7 @@ class _ContactScreenState extends State<ContactScreen> {
                     child: Center(
                       child: SizedBox(
                         height: MediaQuery.sizeOf(context).height * 1,
+                        width: kIsWeb? MediaQuery.sizeOf(context).width * 0.6: double.infinity,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 30, vertical: 30),
@@ -133,7 +134,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                       SizedBox(
                                         width:
                                             MediaQuery.sizeOf(context).width *
-                                                0.6,
+                                                0.5,
                                         child: ListView.separated(
                                             shrinkWrap: true,
                                             physics:
@@ -188,7 +189,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                   ),
                                   SizedBox(
                                     width:
-                                        MediaQuery.sizeOf(context).width * 0.6,
+                                        MediaQuery.sizeOf(context).width * 0.5,
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -238,7 +239,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                                             MediaQuery.sizeOf(
                                                                         context)
                                                                     .width *
-                                                                0.6,
+                                                                0.5,
                                                         child: Text(
                                                           LocalizationService.isArabic(context: context)
                                                               ? "${gCache['company_contacts']['branches'][index]['co_info_address']['ar']}"
@@ -317,7 +318,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                     width: 10,
                                   ),
                                   SizedBox(
-                                    width:  MediaQuery.sizeOf(context).width * 0.6,
+                                    width:  MediaQuery.sizeOf(context).width * 0.5,
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -349,7 +350,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                               child: SizedBox(
                                                   width: MediaQuery.sizeOf(context)
                                                       .width *
-                                                      0.6,
+                                                      0.5,
                                                   child: Text(
                                                     gCache['company_contacts']['otheremails'][index],
                                                     style: const TextStyle(

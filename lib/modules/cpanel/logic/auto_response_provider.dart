@@ -1,7 +1,6 @@
 import 'package:cpanal/common_modules_widgets/success_send_complain.dart';
 import 'package:cpanal/constants/app_strings.dart';
 import 'package:cpanal/general_services/alert_service/alerts.service.dart';
-import 'package:cpanal/modules/requests_screen/widget/successful_send_request_bottomsheet.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';

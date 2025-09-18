@@ -49,6 +49,7 @@ class _CreateAccountModalState extends State<CreateAccountModal> {
                           gapH20,
                           PhoneNumberField(
                             controller: viewModel.phoneController,
+                            phoneError: viewModel.phoneError,
                             countryCodeController: viewModel.countryCodeController,
                           ),
                           // gapH4,
@@ -63,6 +64,7 @@ class _CreateAccountModalState extends State<CreateAccountModal> {
                             controller: viewModel.emailController,
                             decoration: InputDecoration(
                               hintText: AppStrings.yourEmail.tr(),
+                              errorText: viewModel.emailError,
                             ),
                             validator: (val) => ValidationService.validateEmail(val),
                           ),
@@ -71,6 +73,7 @@ class _CreateAccountModalState extends State<CreateAccountModal> {
                             controller: viewModel.passwordController,
                             decoration: InputDecoration(
                               hintText: AppStrings.password.tr().toUpperCase(),
+                              errorText: viewModel.passwordError,
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   _obscureText ? Icons.visibility : Icons.visibility_off,
@@ -90,9 +93,10 @@ class _CreateAccountModalState extends State<CreateAccountModal> {
                           TextFormField(
                             controller: viewModel.nameController,
                             decoration: InputDecoration(
+                              errorText: viewModel.nameError,
                               hintText: AppStrings.yourName.tr(),
                             ),
-                            validator: (val) => ValidationService.validateRequired(val),
+                            validator: (val) => ValidationService.validateRequired(val, AppStrings.yourName.tr()),
                           ),
                           // const SizedBox(height: 10,),
                           // Container(

@@ -128,7 +128,7 @@ class ForgotPasswordViewModel extends ChangeNotifier {
 
   // Finally send new password and forgot password verification code to reset forgotten password with the new password
   Future<void> resetNewPasswordWithCodeAndNewPassword(
-      {required BuildContext context}) async {
+      {required BuildContext context, mak}) async {
     final appConfigServiceProvider =
         Provider.of<AppConfigService>(context, listen: false);
     if (codeFormKey.currentState?.validate() == true) {
@@ -147,7 +147,8 @@ class ForgotPasswordViewModel extends ChangeNotifier {
               appConfigServiceProvider.deviceInformation.deviceUniqueId);
       if (result.success && result.data != null) {
         Navigator.pop(context, result);
-
+        if(mak == null) Navigator.pop(context, result);
+        if(mak != null){mak();}
         return;
       } else {
         AlertsService.error(

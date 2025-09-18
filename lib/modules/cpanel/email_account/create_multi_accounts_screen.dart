@@ -107,7 +107,7 @@ class _CreateMultiAccountsScreenState extends State<CreateMultiAccountsScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  AppStrings.createEmailMessage.tr(),
+                  AppStrings.email_accounts_description.tr(),
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
                 ),

@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +33,9 @@ class PersonalProfileViewModel extends ChangeNotifier {
   bool isSuccessUpdate = false;
   bool isSuccessUpdateImage = false;
   String? errorMessage;
+  String? uuid;
   TextEditingController emailController = TextEditingController();
+  TextEditingController faController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController birthDateController = TextEditingController();
@@ -81,20 +84,21 @@ class PersonalProfileViewModel extends ChangeNotifier {
         AlertsService.error(
             context: context,
             message: value.data['errors']['password'][0] !,
-            title: 'FAILED');
+            title: AppStrings.failed.tr());
       }else{
         isSuccess = true;
         AlertsService.success(
             context: context,
             message: AppStrings.updatedSuccessfully.tr(),
             title: AppStrings.success.tr());}
-    }).catchError((error){ isLoading = false;
+    }).catchError((error){
+      isLoading = false;
     AlertsService.error(
         context: context,
         message: AppStrings.errorPleaseTryAgain.tr(),
         title: AppStrings.failed.tr().toUpperCase());
     if (error is DioError) {
-      errorMessage = error.response?.data['message'] ?? 'Something went wrong';
+      errorMessage = error.response?.data['message'] ?? AppStrings.failed.tr();
     } else {
       errorMessage = error.toString();
     }
@@ -108,9 +112,17 @@ class PersonalProfileViewModel extends ChangeNotifier {
       {required BuildContext context}) async {
     updateLoading(true);
     // First get current user Data
-    UserSettingConst.userSettings = AppSettingsService.getSettings(
-        settingsType: SettingsType.userSettings,
-        context: context) as UserSettingsModel?;
+    var jsonString;
+    UserSettingsModel userSettingsModel;
+    var gCache;
+    jsonString = CacheHelper.getString("US1");
+    if (jsonString != null && jsonString.isNotEmpty && jsonString != "") {
+      gCache = json.decode(jsonString) as Map<String, dynamic>; // Convert String back to JSON
+      UserSettingConst.userSettings = UserSettingsModel.fromJson(gCache);
+    }
+    userSettingsModel = UserSettingsModel.fromJson(gCache);
+    UserSettingConst.userSettings = userSettingsModel;
+
     //set initial values for fields
     setInititalValues();
     updateLoading(false);
@@ -136,35 +148,62 @@ class PersonalProfileViewModel extends ChangeNotifier {
     isLoading = newVal;
     notifyListeners();
   }
-  List listProfileImage = [];
+  List<Map<String, dynamic>> listProfileImage = [];
   List<XFile> listXProfileImage = [];
   XFile? XImageFileProfile;
   File? profileImage;
   final picker = ImagePicker();
-  Future<void> getProfileImageByCam(
-      {image1, image2, list, list2}) async {
-    XFile? imageFileProfile =
-    await picker.pickImage(source: ImageSource.camera);
-    if (imageFileProfile == null) return;
-    image1 = File(imageFileProfile.path);
-    image2 = imageFileProfile;
-    list.add({"image": image2, "view": image1});
-    list2.add(image2);
-    notifyListeners();
-    print(image1);
+  Future<File?> _compressImage(File file) async {
+    final targetPath =
+        "${file.parent.path}/compressed_${DateTime.now().millisecondsSinceEpoch}.jpg";
+
+    final XFile? result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      targetPath,
+      quality: 75,
+      minWidth: 600,
+      minHeight: 600,
+    );
+    return result != null ? File(result.path) : null;
   }
 
-  Future<void> getProfileImageByGallery(
-      {image1, image2, list, list2}) async {
-    XFile? imageFileProfile =
-    await picker.pickImage(source: ImageSource.gallery);
-    if (imageFileProfile == null) return null;
-    image1 = File(imageFileProfile.path);
-    image2 = imageFileProfile;
-    list.add({"image": image2, "view": image1});
-    list2.add(image2);
-    notifyListeners();
+  Future<void> getProfileImageByCam() async {
+    final XFile? imageFileProfile = await picker.pickImage(source: ImageSource.camera);
+    if (imageFileProfile == null) return;
+
+    File originalFile = File(imageFileProfile.path);
+    File? compressedFile = await _compressImage(originalFile);
+
+    if (compressedFile != null) {
+      // احفظ اللي اتنين
+      listXProfileImage.add(imageFileProfile); // XFile
+      listProfileImage.add({
+        "original": imageFileProfile,  // XFile
+        "compressed": compressedFile   // File
+      });
+      notifyListeners();
+    }
   }
+
+  Future<void> getProfileImageByGallery() async {
+    final XFile? imageFileProfile = await picker.pickImage(source: ImageSource.gallery);
+    if (imageFileProfile == null) return;
+
+    File originalFile = File(imageFileProfile.path);
+    File? compressedFile = await _compressImage(originalFile);
+
+    if (compressedFile != null) {
+      // احفظ اللي اتنين
+      listXProfileImage.add(imageFileProfile); // XFile
+      listProfileImage.add({
+        "original": imageFileProfile,  // XFile
+        "compressed": compressedFile   // File
+      });
+      notifyListeners();
+    }
+  }
+
+
   Future<void> getImage(context,{image1, image2, list, bool one = true, list2}) =>
       showModalBottomSheet<void>(
           shape: RoundedRectangleBorder(
@@ -199,17 +238,10 @@ class PersonalProfileViewModel extends ChangeNotifier {
                           children: [
                             InkWell(
                               onTap: () async {
-                                await getProfileImageByGallery(
-
-                                    image1: image1,
-                                    image2: image2,
-                                    list: list,
-                                    list2: list2
-                                );
+                                await getProfileImageByGallery();
                                 await image2 == null
                                     ? null
-                                    : Image.asset(
-                                    "assets/images/profileImage.png");
+                                    : Image.asset("assets/images/profileImage.png");
                                 Navigator.pop(context);
                               },
                               child: CircleAvatar(
@@ -232,12 +264,7 @@ class PersonalProfileViewModel extends ChangeNotifier {
                           children: [
                             InkWell(
                               onTap: () async {
-                                await getProfileImageByCam(
-                                    image1: image1,
-                                    image2: image2,
-                                    list: list,
-                                    list2: list2
-                                );
+                                await getProfileImageByCam();
                                 print(image1);
                                 print(image2);
                                 await image2 == null
@@ -275,7 +302,7 @@ class PersonalProfileViewModel extends ChangeNotifier {
       initialDate: UserSettingConst.userSettings?.birthDate,
       firstDate: DateTime(1900),
       lastDate: DateTime(2101),
-      locale:  const Locale('en', ''),
+      locale:  context.locale.languageCode == "en" ? const Locale('en', '') : const Locale('ar', ''),
     );
     if (picked != null && picked != birthDate) {
       birthDate = picked;
@@ -304,20 +331,19 @@ class PersonalProfileViewModel extends ChangeNotifier {
   Future<void> activate2FA({required BuildContext context}) async {
     try {
       bool isActivate2FA = await AlertsService.confirmMessage(
-          context, 'Activate 2FA',
-          message: 'Are you sure you want to activate 2FA?');
-      // if (UserSettingConst.userSettings?.emailVerifiedAt == null) {
-      //   AlertsService.info(
-      //       context: context,
-      //       message: 'Email Verification is Required Before Activate 2FA',
-      //       title: 'Info');
-      //   return;
-      // }
+          context, AppStrings.activate_2fa.tr(),
+          message: AppStrings.activate_2fa_confirmation.tr());
+      if (UserSettingConst.userSettings?.emailVerifiedAt == null) {
+        AlertsService.info(
+            context: context,
+            message: AppStrings.email_verification_required.tr(),
+            title: AppStrings.information.tr());
+        return;
+      }
       if (isActivate2FA == false) return;
       final result = await PersonalProfileService.activateTfa(context: context);
       if (result.success) {
-        // show dialog that contains qrcode of the serial and serial to connect to authenticaor app manualy
-        String serial = result.data?['serial_qr'];
+        String serial = result.data?['serial'];
         await _showQRCodeDialog(context, serial);
         return;
       } else {
@@ -339,64 +365,104 @@ class PersonalProfileViewModel extends ChangeNotifier {
   }
 
   Future<void> _showQRCodeDialog(BuildContext context, String serial) async {
+    faController.clear();
     await showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
           title: Text(
-            '2FA Activated Successfully',
+            AppStrings.fa_activated.tr(),
             style: TextStyle(color: Theme.of(context).colorScheme.primary),
           ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                width: AppSizes.s200,
-                height: AppSizes.s200,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(AppSizes.s10),
-                  child: QrImageView(
-                    data: serial,
-                    version: QrVersions.auto,
-                    backgroundColor: Colors.transparent,
-                    dataModuleStyle:
-                    const QrDataModuleStyle(color: Colors.black),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: AppSizes.s200,
+                  height: AppSizes.s200,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(AppSizes.s10),
+                    child: QrImageView(
+                      data: serial,
+                      version: QrVersions.auto,
+                      backgroundColor: Colors.transparent,
+                      dataModuleStyle:
+                      const QrDataModuleStyle(color: Colors.black),
+                    ),
                   ),
                 ),
-              ),
-              gapH16,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SelectableText(serial),
-                  IconButton(
-                    icon: const Icon(Icons.copy),
-                    onPressed: () {
-                      FlutterClipboard.copy(serial).then((value) => {
-                        AlertsService.success(
-                            title: 'Serial copied !',
-                            context: context,
-                            message: 'Serial copied to clipboard')
-                      });
-                    },
+                gapH16,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                        width: MediaQuery.sizeOf(context).width * 0.3,
+                        child: SelectableText(serial)),
+                    IconButton(
+                      icon: const Icon(Icons.copy),
+                      onPressed: () {
+                        FlutterClipboard.copy(serial).then((value) => {
+                          AlertsService.success(
+                              title: AppStrings.success.tr(),
+                              context: context,
+                              message: AppStrings.serial_copied.tr())
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                gapH16,
+                TextFormField(
+                  controller: faController,
+                  decoration: InputDecoration(
+                    hintText:
+                    AppStrings.fa_code.tr().toUpperCase(),
                   ),
-                ],
-              ),
-            ],
+                )
+              ],
+            ),
           ),
           actions: [
-            TextButton(
-              child: Text(
-                'Close',
-                style: Theme.of(context)
-                    .textTheme
-                    .displaySmall
-                    ?.copyWith(color: Theme.of(context).colorScheme.primary),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                TextButton(
+                  child: Text(
+                    AppStrings.cancel.tr(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .displaySmall
+                        ?.copyWith(color: Theme.of(context).colorScheme.primary),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                CustomElevatedButton(
+                  title: AppStrings.activeNow.tr(),
+                  onPressed: () async {
+                    final result = await PersonalProfileService.activateTfa(context: context, type: "verify", code: faController.text);
+                    if (result.success) {
+                      Navigator.pop(context);
+                      AlertsService.success(
+                          context: context,
+                          message: result.data!['message'],
+                          title: AppStrings.success.tr());
+                    }else{
+                      AlertsService.error(
+                          context: context,
+                          message: result.data!['message'],
+                          title: AppStrings.failed.tr());
+                      return;
+                    }
+                  },
+                  isPrimaryBackground: false,
+                ),
+              ],
             ),
+
           ],
         );
       },
@@ -441,7 +507,6 @@ class PersonalProfileViewModel extends ChangeNotifier {
         bool isUpdate = await AlertsService.confirmMessage(
             context, AppStrings.updateProfile.tr(),
             message: AppStrings.areYouSureYouWantToUpdateYourProfile.tr());
-        print("UPDATE IS---> $isUpdate");
         if (isUpdate == false) return;
         var result = PersonalProfileService.updateProfile(
           context: context,
@@ -452,7 +517,7 @@ class PersonalProfileViewModel extends ChangeNotifier {
         result.then((value)async{
           print("Update2");
           Fluttertoast.showToast(
-              msg: AppStrings.profileUpdatedSuccessfully.tr(),
+              msg: value.data['message'],
               toastLength: Toast.LENGTH_LONG,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 5,
@@ -470,7 +535,7 @@ class PersonalProfileViewModel extends ChangeNotifier {
       debugPrint(
           '${AppStrings.failedToUpdateProfilePleaseTryLater.tr()} ,${ex.toString()} at $t');
       Fluttertoast.showToast(
-          msg: AppStrings.failedToUpdateProfilePleaseTryLater.tr(),
+          msg: "${ex.toString()} ${AppStrings.at.tr()} $t",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 5,
@@ -492,12 +557,15 @@ class PersonalProfileViewModel extends ChangeNotifier {
       //   if (isUpdate == false) return;
       var result = PersonalProfileService.updateProfile(
         context: context,
-        avatar: listXProfileImage,
+        avatar: listProfileImage
+            .map((e) => XFile(e["compressed"].path)) // تحويل File → XFile
+            .toList(),
+
       );
       result.then((value)async{
         print("Update2");
         Fluttertoast.showToast(
-            msg:AppStrings.profileUpdatedSuccessfully.tr(),
+            msg: value.data['message'],
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 5,
@@ -513,7 +581,7 @@ class PersonalProfileViewModel extends ChangeNotifier {
       debugPrint(
           '${AppStrings.failedToUpdateProfilePleaseTryLater.tr()} ,${ex.toString()} at $t');
       Fluttertoast.showToast(
-          msg:AppStrings.failedToUpdateProfilePleaseTryLater.tr(),
+          msg:"${ex.toString()} ${AppStrings.at.tr()} $t",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 5,
@@ -551,7 +619,7 @@ class PersonalProfileViewModel extends ChangeNotifier {
           result.data?['email_code'] == true &&
               result.data?['email_code_uuid'] != null &&
               result.data?['email_code_uuid'] != '') {
-            return await _showEmailVerificationPopup(
+            return await showEmailVerificationPopup(
                 context: context,
                 newEmail: emailController.text,
                 emailUuid: result.data?['email_code_uuid']);
@@ -562,7 +630,7 @@ class PersonalProfileViewModel extends ChangeNotifier {
       debugPrint(
           '${AppStrings.failedToUpdateEmailPleaseTryLater.tr()} ,${ex.toString()} at $t');
       Fluttertoast.showToast(
-          msg:AppStrings.failedToUpdateEmailPleaseTryLater.tr(),
+          msg:"${ex.toString()} ${AppStrings.at.tr()} $t",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 5,
@@ -588,7 +656,7 @@ class PersonalProfileViewModel extends ChangeNotifier {
       // Vaidation
       if (phoneNumberController.text.isEmpty) {
         Fluttertoast.showToast(
-            msg: AppStrings.pleaseProvideValidPhoneNumber.tr(),
+            msg: AppStrings.pleaseEnterAPhoneNumber.tr(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 5,
@@ -606,13 +674,15 @@ class PersonalProfileViewModel extends ChangeNotifier {
       final result = await PersonalProfileService.updateProfile(
           context: context,
           phone: phoneNumberController.text,
-          countryKey: '+20');
+          countryKey: countryCodeController.text.trim().isEmpty
+              ? '+20'
+              : countryCodeController.text.trim());
       if(result != null){
         if (
         result.data?['phone_code'] == true &&
             result.data?['phone_code_uuid'] != null &&
             result.data?['phone_code_uuid'] != '') {
-          return await _showPhoneVerificationPopup(
+          return await showPhoneVerificationPopup(
               context: context,
               newPhoneNumber: phoneNumberController.text,
               phoneUuid: result.data?['phone_code_uuid']);
@@ -622,7 +692,7 @@ class PersonalProfileViewModel extends ChangeNotifier {
       debugPrint(
           '${AppStrings.failedToUpdatePhonePleaseTryLater.tr()} ,${ex.toString()} at $t');
       Fluttertoast.showToast(
-          msg: AppStrings.failedToUpdatePhonePleaseTryLater.tr(),
+          msg: "${ex.toString()} ${AppStrings.at.tr()} $t",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 5,
@@ -639,6 +709,9 @@ class PersonalProfileViewModel extends ChangeNotifier {
     try {
       bool isLogout = await AlertsService.confirmMessage(context, AppStrings.logout.tr(),
           message: AppStrings.areYouSureYouWantToLog.tr());
+      final appConfigService =
+      Provider.of<AppConfigService>(context, listen: false);
+      await appConfigService.logout();
       if (isLogout == false) return;
       final result = await PersonalProfileService.logout(context: context);
       if (result.success) {
@@ -651,7 +724,7 @@ class PersonalProfileViewModel extends ChangeNotifier {
         return;
       } else {
         Fluttertoast.showToast(
-            msg: AppStrings.noProductsFounded.tr(),
+            msg: result.message!,
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 5,
@@ -664,7 +737,7 @@ class PersonalProfileViewModel extends ChangeNotifier {
     } catch (ex, t) {
       debugPrint('${AppStrings.failedToLogoutPleaseTryLater.tr()} ,${ex.toString()} at $t');
       Fluttertoast.showToast(
-          msg: AppStrings.failedToLogoutPleaseTryLater.tr(),
+          msg: "${ex.toString()} ${AppStrings.at.tr()} $t",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 5,
@@ -723,7 +796,7 @@ class PersonalProfileViewModel extends ChangeNotifier {
       debugPrint(
           '${AppStrings.failedToDeleteAccountPleaseTryLater.tr()} ,${ex.toString()} at $t');
       Fluttertoast.showToast(
-          msg: AppStrings.failedToDeleteAccountPleaseTryLater.tr(),
+          msg: "${ex.toString()} ${AppStrings.at.tr()} $t",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 5,
@@ -734,10 +807,40 @@ class PersonalProfileViewModel extends ChangeNotifier {
     }
   }
 
-  // Phone Number Update Verification
-  Future<void> _showPhoneVerificationPopup(
+  getUUID(context, sendBy)async{
+    notifyListeners();
+    await DioHelper.postData(
+        url: "/rm_users/v1/account_verification/create",
+        context: context,
+        data: {
+          "send_by" : sendBy
+        }
+    ).then((v)async{
+      if(v.data['status'] == true){
+        uuid = v.data['uuid'];
+        CacheHelper.setString(key: "uuid", value: uuid);
+      }
+      notifyListeners();
+    }).catchError((e){
+      print(e);
+    });
+  }
+  verfiy(context, {sendBy, code})async{
+    var res = await DioHelper.postData(
+        url: "/rm_users/v1/account_verification/$uuid/validate-account-code",
+        context: context,
+        data: {
+          "send_by" : sendBy,
+          "code"  : code
+        }
+    );
+    return res;
+  }
+  Future<void> showPhoneVerificationPopup(
       {required BuildContext context,
         required String newPhoneNumber,
+        bool validate = false,
+        sendBy,
         required String phoneUuid}) async {
     TextEditingController codeController = TextEditingController();
     final GlobalKey<FormState> codeFormKey = GlobalKey<FormState>();
@@ -818,18 +921,16 @@ class PersonalProfileViewModel extends ChangeNotifier {
                         if (codeFormKey.currentState?.validate() == false) {
                           return;
                         }
-                        final result =
-                        await PersonalProfileService.updateProfile(
+                        final result = validate == false ?  await PersonalProfileService.updateProfile(
                             context: context,
                             phone: newPhoneNumber,
                             phoneCode: codeController.text,
                             phoneUuid: phoneUuid,
-                            countryKey:
-                            countryCodeController.text.trim().isEmpty
+                            countryKey: countryCodeController.text.trim().isEmpty
                                 ? '+20'
-                                : countryCodeController.text.trim());
+                                : countryCodeController.text.trim()) : verfiy(context, code:codeController.text, sendBy:  sendBy);
                         if(result != null){
-                          if (result.data?['status'] == true) {
+                          if (result.data['status'] == true) {
                             await updateUserSettingsData(context: context);
                             Navigator.of(context).pop(context);
                             Fluttertoast.showToast(
@@ -870,9 +971,11 @@ class PersonalProfileViewModel extends ChangeNotifier {
   }
 
   // Email Update Verification
-  Future<void> _showEmailVerificationPopup(
+  Future<void> showEmailVerificationPopup(
       {required BuildContext context,
         required String newEmail,
+        bool validate = false,
+        sendBy,
         required String emailUuid}) async {
     TextEditingController codeController = TextEditingController();
     final GlobalKey<FormState> codeFormKey = GlobalKey<FormState>();
@@ -954,11 +1057,11 @@ class PersonalProfileViewModel extends ChangeNotifier {
                           return;
                         }
                         final result =
-                        await PersonalProfileService.updateProfile(
+                            validate== false?  await PersonalProfileService.updateProfile(
                             context: context,
                             email: emailController.text,
                             emailCode: codeController.text,
-                            emailUuid: emailUuid);
+                            emailUuid: emailUuid) : await verfiy(context, code: codeController.text, sendBy:sendBy );
                         if(result != null){
                           if (result.data?['status'] == true ) {
                             await updateUserSettingsData(context: context);

@@ -225,7 +225,7 @@ class _DNSScreenState extends State<DNSScreen> {
                 padding: const EdgeInsets.all(AppSizes.s12),
                 children: [
                    Text(
-                     AppStrings.dnsMessage.tr(),
+                     AppStrings.dns_control_description.tr(),
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
                   ),
@@ -318,54 +318,81 @@ class _DNSScreenState extends State<DNSScreen> {
                                 ),
                               ],
                             ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          SizedBox(
-                                            width: MediaQuery.sizeOf(context).width * 0.65,
-                                            child: Text(
-                                              AppConstants.accountsEmailsDNSFilter![index]['name'],
-                                              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
-                                            ),
-                                          ),
-                                          const Spacer(),
-                                          SvgPicture.asset("assets/images/svg/check.svg"),
-                                          const SizedBox(width: 5,),
-                                          Text(AppStrings.auto.tr(), style: const TextStyle(fontSize: 12, color: Color(0xff34A853), fontWeight: FontWeight.w500),)
-                                        ],
-                                      ),
-                                      const SizedBox(height: 5),
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset("assets/images/svg/personal.svg", color: Color(0xffE93F81)),
-                                          const SizedBox(width: 5),
-                                          Text(
-                                            AppConstants.accountsEmailsDNSFilter![index]['type'],
-                                            style: const TextStyle(color: Color(0xffE93F81), fontWeight: FontWeight.bold, fontSize: 12),
-                                          ),
-                                          Spacer(),
-                                          SvgPicture.asset("assets/images/svg/ip.svg"),
-                                          const SizedBox(width: 5),
-                                          SizedBox(
-                                            width: MediaQuery.sizeOf(context).width * 0.6,
-                                            child: Text(
-                                              AppConstants.accountsEmailsDNSFilter![index]['content'],
-                                              style: const TextStyle(color: Color(0xff122730), fontWeight: FontWeight.bold, fontSize: 12),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                            child: GestureDetector(
+                              onTap: ()async{
+                                await showModalBottomSheet(
+                                  context: safeContext,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (_) => Padding(
+                                    padding: EdgeInsets.only(bottom: MediaQuery.of(safeContext).viewInsets.bottom),
+                                    child: EditEmailBottomSheet(multi: false,
+                                      dominName:  widget.name.toString(),
+                                      dominId: widget.dominId.toString(),
+                                      object: AppConstants.accountsEmailsDNSFilter![index],
+                                    ),
                                   ),
-                                ),
-                                if (selectedEmails.any((e) => e.address == AppConstants.accountsEmailsDNSFilter![index]['name']))
-                                  const Icon(Icons.check_circle, color: Colors.green),
-                              ],
+                                );
+                                await emailcickle();
+                              },
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            SizedBox(
+                                              width: MediaQuery.sizeOf(context).width * 0.65,
+                                              child: Text(
+                                                AppConstants.accountsEmailsDNSFilter![index]['name'],
+                                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            if(AppConstants.accountsEmailsDNSFilter![index]['proxied'] == true)SvgPicture.asset("assets/images/svg/check.svg"),
+                                            const SizedBox(width: 5,),
+                                            Text(AppConstants.accountsEmailsDNSFilter![index]['ttl'].toString() == "1"?
+                                            AppStrings.auto.tr() : AppConstants.accountsEmailsDNSFilter![index]['ttl'].toString(), style: const TextStyle(fontSize: 12, color: Color(0xff34A853), fontWeight: FontWeight.w500),)
+                                          ],
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          children: [
+                                            SvgPicture.asset("assets/images/svg/personal.svg", color: Color(0xffE93F81)),
+                                            const SizedBox(width: 5),
+                                            Text(
+                                              AppConstants.accountsEmailsDNSFilter![index]['type'],
+                                              style: const TextStyle(color: Color(0xffE93F81), fontWeight: FontWeight.bold, fontSize: 12),
+                                            ),
+                                            Spacer(),
+                                            SizedBox(
+                                              width: MediaQuery.sizeOf(context).width * 0.55,
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: [
+                                                  SvgPicture.asset("assets/images/svg/ip.svg"),
+                                                  const SizedBox(width: 5),
+                                                  SizedBox(
+                                                    width: MediaQuery.sizeOf(context).width * 0.49,
+                                                    child: Text(
+                                                      AppConstants.accountsEmailsDNSFilter![index]['content'],
+                                                      style: const TextStyle(color: Color(0xff122730), fontWeight: FontWeight.bold, fontSize: 12),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  if (selectedEmails.any((e) => e.address == AppConstants.accountsEmailsDNSFilter![index]['name']))
+                                    const Icon(Icons.check_circle, color: Colors.green),
+                                ],
+                              ),
                             ),
                           ),
                         ),

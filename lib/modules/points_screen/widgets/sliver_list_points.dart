@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cpanal/constants/app_strings.dart';
@@ -30,7 +31,7 @@ class _SliverListPointsState extends State<SliverListPoints> {
                   topLeft: Radius.circular(20)),
             ),
             child: SingleChildScrollView(
-              child: Column(
+              child: !kIsWeb?Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 22,),
@@ -53,6 +54,34 @@ class _SliverListPointsState extends State<SliverListPoints> {
                   selectIndex == 1?ConditionSection()
                       :HistoryItem()
                 ],
+              ):Padding(
+                padding: const EdgeInsets.only(top: 22),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: !kIsWeb? double.infinity : 300,
+                      alignment: Alignment.center,
+                      child: defaultTapBarItem(items:
+                      [AppStrings.recommend.tr(), AppStrings.conditions.tr(), AppStrings.history.tr()],
+                      selectIndex: selectIndex,
+                        onTapItem: (index){
+                        setState(() {
+                          selectIndex = index;
+                        });
+                        }
+                      ),
+                    ),
+                    const SizedBox(width: 30,),
+                    Container(
+                      width: 800,
+                      child: selectIndex == 0 ?
+                      CopounSection() :
+                      selectIndex == 1?ConditionSection()
+                          :HistoryItem(),
+                    )
+                  ],
+                ),
               ),
             ),
           );

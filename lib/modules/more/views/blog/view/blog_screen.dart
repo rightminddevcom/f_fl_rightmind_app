@@ -18,7 +18,7 @@ class _BlogScreenState extends State<BlogScreen> {
   void initState() {
     super.initState();
     final notificationProvider = Provider.of<BlogProviderModel>(context, listen: false);
-    notificationProvider.getBlog(context, page: 1); // Load initial notifications
+    // notificationProvider.getBlog(context, page: 1); // Load initial notifications
     _scrollController.addListener(() {
       print("Current scroll position: ${_scrollController.position.pixels}");
       print("Max scroll extent: ${_scrollController.position.maxScrollExtent}");
@@ -27,7 +27,7 @@ class _BlogScreenState extends State<BlogScreen> {
           !notificationProvider.isGetBlogLoading &&
           notificationProvider.hasMoreBlogs) {
         print("BOTTOM BOTTOM");
-        notificationProvider.getBlog(context, page: notificationProvider.currentPage);
+        // notificationProvider.getBlog(context, page: notificationProvider.currentPage);
       }
     });
   }

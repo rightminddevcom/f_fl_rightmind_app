@@ -9,68 +9,131 @@ import 'package:cpanal/general_services/backend_services/api_service/dio_api_ser
 import 'package:cpanal/general_services/localization.service.dart';
 import 'package:cpanal/utils/custom_shimmer_loading/shimmer_animated_loading.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
-  Widget defaultTapBarItem(
-      {required List<String>? items,
-      final Function? onTapItem,
-        bool? sectInt = false,
-        int? selectIndex = 0,
-        String? selectName,
-        bool enableScroll = false,
-      double? tapBarItemsWidth}) {
+Widget defaultTapBarItem({
+  required List<String>? items,
+  final Function? onTapItem,
+  bool? sectInt = false,
+  int? selectIndex = 0,
+  String? selectName,
+  bool enableScroll = false,
+  double? tapBarItemsWidth,
+}) {
+  return StatefulBuilder(
+    builder: (BuildContext context, StateSetter setState) {
+      final isWeb = kIsWeb; // نحدد لو ويب أو موبايل
+      double itemWidth = (tapBarItemsWidth ?? MediaQuery.sizeOf(context).width * 0.95) / items!.length;
 
-    return StatefulBuilder(
-      builder: (BuildContext context, StateSetter setState) {
-        double itemWidth =
-            (tapBarItemsWidth ?? MediaQuery.sizeOf(context).width * 0.95) /
-                items!.length;
+      if (isWeb) {
+        // 👈 سايد بار للويب
         return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 7.5),
-            height: 45.0,
-            alignment: Alignment.center,
-            width: tapBarItemsWidth ?? MediaQuery.sizeOf(context).width * 0.95,
-            decoration: BoxDecoration(
-                color: Color(AppColors.dark),
-                borderRadius: BorderRadius.circular(25)),
-            child: ListView.builder(
-              shrinkWrap: true,
-              reverse: false,
-              scrollDirection: Axis.horizontal,
-              physics: enableScroll == false? const NeverScrollableScrollPhysics() : ClampingScrollPhysics(),
-              itemBuilder: (context, index) => GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectIndex = index;
-                      selectName = items[index];
-                      if (onTapItem != null) {
-                        onTapItem!(index);
-                      }
-                    });
-                  },
-                  child: Container(
-                    height: 32,
-                    width: itemWidth - 8,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: (selectIndex == index || selectName == items[index])
-                          ? const Color(AppColors.primary)
-                          : Colors.transparent,
-                    ),
-                    child: Text(
-                      items![index].toUpperCase(),
-                      style: TextStyle(
-                          fontSize: 10,
-                          color: Color(0xffFFFFFF),
-                          fontWeight: FontWeight.w900,
+          width: 220, // عرض السايد بار
+          decoration: BoxDecoration(
+            color: Color(AppColors.dark),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: ListView.builder(
+            itemCount: items.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              final isSelected = (selectIndex == index || selectName == items[index]);
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectIndex = index;
+                    selectName = items[index];
+                    if (onTapItem != null) {
+                      onTapItem!(index);
+                    }
+                  });
+                },
+                child: Container(
+                  margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: isSelected ? const Color(AppColors.primary) : Colors.transparent,
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.circle,
+                          size: 10,
+                          color: isSelected ? Colors.white : Colors.grey),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          items[index],
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                           ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      } else {
+        // 👈 تاب بار أفقي للموبايل
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 7.5),
+          height: 45.0,
+          alignment: Alignment.center,
+          width: tapBarItemsWidth ?? MediaQuery.sizeOf(context).width * 0.95,
+          decoration: BoxDecoration(
+            color: Color(AppColors.dark),
+            borderRadius: BorderRadius.circular(25),
+          ),
+          child: ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            physics: enableScroll == false
+                ? const NeverScrollableScrollPhysics()
+                : const ClampingScrollPhysics(),
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              final isSelected = (selectIndex == index || selectName == items[index]);
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectIndex = index;
+                    selectName = items[index];
+                    if (onTapItem != null) {
+                      onTapItem!(index);
+                    }
+                  });
+                },
+                child: Container(
+                  height: 32,
+                  width: itemWidth - 8,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: isSelected ? const Color(AppColors.primary) : Colors.transparent,
+                  ),
+                  child: Text(
+                    items[index].toUpperCase(),
+                    style: const TextStyle(
+                      fontSize: 10,
+                      color: Color(0xffFFFFFF),
+                      fontWeight: FontWeight.w900,
                     ),
-                  )),
-              itemCount: items!.length,
-            ));
-      },
-    );
-  }
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      }
+    },
+  );
+}
+
 Widget defaultBottomNavigationBar(
     {required List<String>? items,
       final Function? onTapItem,

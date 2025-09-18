@@ -9,6 +9,7 @@ import 'package:cpanal/modules/dashboard/widget/dashboard_grid_view.dart';
 import 'package:cpanal/modules/dashboard/widget/dashboard_grid_view2.dart';
 import 'package:cpanal/modules/dashboard/widget/dashboard_grid_view3.dart';
 import 'package:cpanal/modules/more/views/more_screen.dart';
+import 'package:cpanal/utils/componentes/general_components/gradient_bg_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -38,48 +39,52 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
     return TemplatePage(
         pageContext: context,
+        backgroundColor: Colors.white,
         title: AppStrings.dashboard.tr().toUpperCase(),
         onRefresh: () async {},
-        body: Padding(
-          padding: EdgeInsets.symmetric(vertical: AppSizes.s12, horizontal: AppSizes.s25),
-          child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(AppStrings.emails.tr().toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Color(AppColors.primary)),
-                  ),
-                  const SizedBox(height: 20,),
-                  DashboardGridView(
-                    name: widget.name,
-                    dominId: widget.dominId,
-                    userPermissions: widget.userPermissions,
-                  ),
-                  const SizedBox(height: 30,),
-                  Text(AppStrings.website.tr().toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Color(AppColors.primary)),
-                  ),
-                  const SizedBox(height: 20,),
-                  DashboardGridView2(
-                    name: widget.name,
-                    dominId: widget.dominId,
-                    userPermissions: widget.userPermissions,
-                  ),
-                  const SizedBox(height: 30,),
-                  Text(AppStrings.more.tr().toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Color(AppColors.primary)),
-                  ),
-                  const SizedBox(height: 20,),
-                  DashboardGridView3(
-                    name: widget.name,
-                    dominId: widget.dominId,
-                    userPermissions: widget.userPermissions,
-                  ),
-                ],
-              )
+        body: GradientBgImage(
+          padding: EdgeInsets.all(0),
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: AppSizes.s12, horizontal: AppSizes.s25),
+            child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(AppStrings.emails.tr().toUpperCase(),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Color(AppColors.primary)),
+                    ),
+                    const SizedBox(height: 20,),
+                    DashboardGridView(
+                      name: widget.name,
+                      dominId: widget.dominId,
+                      userPermissions: widget.userPermissions,
+                    ),
+                    const SizedBox(height: 30,),
+                    Text(AppStrings.website.tr().toUpperCase(),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Color(AppColors.primary)),
+                    ),
+                    const SizedBox(height: 20,),
+                    DashboardGridView2(
+                      name: widget.name,
+                      dominId: widget.dominId,
+                      userPermissions: widget.userPermissions,
+                    ),
+                    const SizedBox(height: 30,),
+                    Text(AppStrings.more.tr().toUpperCase(),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Color(AppColors.primary)),
+                    ),
+                    const SizedBox(height: 20,),
+                    DashboardGridView3(
+                      name: widget.name,
+                      dominId: widget.dominId,
+                      userPermissions: widget.userPermissions,
+                    ),
+                  ],
+                )
+            ),
           ),
         ),
       bottomNavigationBar: Container(

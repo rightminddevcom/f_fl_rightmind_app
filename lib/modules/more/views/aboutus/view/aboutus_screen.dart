@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:provider/provider.dart';
@@ -60,172 +61,371 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                       ),
                     ),
                   ),
-                  body: Column(
-                    children: [
-                      const MainLogoAndTitleWidget(),
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      if (value.aboutUsModel != null)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: (selectIndex == 0)
-                              ? SizedBox(
-                            height: MediaQuery.sizeOf(context)
-                                .height *
-                                0.45,
-                                child: SingleChildScrollView(
-                                    child: Html(
-                                        shrinkWrap: true,
-                                        data: value.aboutUsModel!.page!.content,
-                                        style: TextsStyles.htmlStyles),
-                                  ),
-                              )
-                              : (selectIndex == 1)
-                                  ? SingleChildScrollView(
-                                    child:Html(
-                                        data: value.aboutUsModel!.page!.history!,
-                                        style: TextsStyles.htmlStyles),
-                                  )
-                                  // : (selectIndex == 2)
-                                  //     ? Container(
-                                  //         height: MediaQuery.sizeOf(context)
-                                  //                 .height *
-                                  //             0.45,
-                                  //         child: GridView.builder(
-                                  //           gridDelegate:
-                                  //               const SliverGridDelegateWithFixedCrossAxisCount(
-                                  //             crossAxisCount:
-                                  //                 3, // 3 items per row
-                                  //             mainAxisSpacing: 16.0,
-                                  //             crossAxisSpacing: 16.0,
-                                  //             childAspectRatio:
-                                  //                 1, // Square aspect ratio
-                                  //           ),
-                                  //           itemCount: value.aboutUsModel!
-                                  //               .page!.certificates!.length,
-                                  //           itemBuilder: (context, index) {
-                                  //             return Container(
-                                  //               decoration: BoxDecoration(
-                                  //                 color: Colors.white,
-                                  //                 borderRadius:
-                                  //                     BorderRadius.circular(
-                                  //                         12),
-                                  //                 boxShadow: [
-                                  //                   BoxShadow(
-                                  //                     color: Colors.black
-                                  //                         .withOpacity(0.1),
-                                  //                     blurRadius: 8,
-                                  //                     offset:
-                                  //                         const Offset(0, 4),
-                                  //                   ),
-                                  //                 ],
-                                  //               ),
-                                  //               child: Padding(
-                                  //                   padding:
-                                  //                       const EdgeInsets.all(
-                                  //                           12.0),
-                                  //                   child: CachedNetworkImage(
-                                  //                     imageUrl: value
-                                  //                             .aboutUsModel!
-                                  //                             .page!
-                                  //                             .certificates![
-                                  //                                 index]
-                                  //                             .file ??
-                                  //                         "",
-                                  //                     fit: BoxFit.cover,
-                                  //                     placeholder: (context,
-                                  //                             url) =>
-                                  //                         const ShimmerAnimatedLoading(),
-                                  //                     errorWidget: (context,
-                                  //                             url, error) =>
-                                  //                         const Icon(
-                                  //                       Icons
-                                  //                           .image_not_supported_outlined,
-                                  //                       size: AppSizes.s32,
-                                  //                       color: Colors.white,
-                                  //                     ),
-                                  //                   )),
-                                  //             );
-                                  //           },
-                                  //         ),
-                                  //       )
-                                      : (selectIndex == 2)
-                                          ? Container(
-                                              height:
-                                                  MediaQuery.sizeOf(context)
-                                                          .height *
-                                                      0.45,
-                                              child: GridView.builder(
-                                                gridDelegate:
-                                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                                  crossAxisCount:
-                                                      3, // 3 items per row
-                                                  mainAxisSpacing: 16.0,
-                                                  crossAxisSpacing: 16.0,
-                                                  childAspectRatio:
-                                                      1, // Square aspect ratio
-                                                ),
-                                                itemCount: value.aboutUsModel!
-                                                    .page!.partners!.length,
-                                                itemBuilder:
-                                                    (context, index) {
-                                                  return Container(
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      borderRadius: BorderRadius.circular(12),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.black
-                                                              .withOpacity(
-                                                                  0.1),
-                                                          blurRadius: 8,
-                                                          offset:
-                                                              const Offset(
-                                                                  0, 4),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(12.0),
-                                                        child:
-                                                            CachedNetworkImage(
-                                                          imageUrl: value
-                                                                  .aboutUsModel!
-                                                                  .page!
-                                                                  .partners![
-                                                                      index]
-                                                                  .file ??
-                                                              "",
-                                                          fit: BoxFit.cover,
-                                                          placeholder: (context,
-                                                                  url) =>
-                                                              const ShimmerAnimatedLoading(),
-                                                          errorWidget:
-                                                              (context, url,
-                                                                      error) =>
-                                                                  const Icon(
-                                                            Icons
-                                                                .image_not_supported_outlined,
-                                                            size:
-                                                                AppSizes.s32,
-                                                            color:
-                                                                Colors.white,
-                                                          ),
-                                                        )),
-                                                  );
-                                                },
-                                              ),
-                                            )
-                                          : Container(
-                                              height: 0,
+                  body: Container(
+                    alignment: Alignment.center,
+                    child: SizedBox(
+                      width: kIsWeb ? 1300 : double.infinity,
+                      child: kIsWeb? Row(
+                        children: [
+                         Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: defaultTapBarItem(
+                              items: taps,
+                              tapBarItemsWidth: MediaQuery.sizeOf(context).width * 0.95,
+                              selectIndex: selectIndex,
+                              onTapItem: (index) {
+                                setState(() {
+                                  selectIndex = index;
+                                });
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 20,),
+                          SizedBox(
+                            width: 800,
+                            child: Column(
+                              children: [
+                                const MainLogoAndTitleWidget(),
+                                const SizedBox(
+                                  height: 40,
+                                ),
+                                if (value.aboutUsModel != null)
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                                    child: (selectIndex == 0)
+                                        ? SizedBox(
+                                      height: MediaQuery.sizeOf(context)
+                                          .height *
+                                          0.45,
+                                          child: SingleChildScrollView(
+                                              child: Html(
+                                                  shrinkWrap: true,
+                                                  data: value.aboutUsModel!.page!.content,
+                                                  style: TextsStyles.htmlStyles),
                                             ),
-                        )
-                    ],
+                                        )
+                                        : (selectIndex == 1)
+                                            ? SingleChildScrollView(
+                                              child:Html(
+                                                  data: value.aboutUsModel!.page!.history!,
+                                                  style: TextsStyles.htmlStyles),
+                                            )
+                                            // : (selectIndex == 2)
+                                            //     ? Container(
+                                            //         height: MediaQuery.sizeOf(context)
+                                            //                 .height *
+                                            //             0.45,
+                                            //         child: GridView.builder(
+                                            //           gridDelegate:
+                                            //               const SliverGridDelegateWithFixedCrossAxisCount(
+                                            //             crossAxisCount:
+                                            //                 3, // 3 items per row
+                                            //             mainAxisSpacing: 16.0,
+                                            //             crossAxisSpacing: 16.0,
+                                            //             childAspectRatio:
+                                            //                 1, // Square aspect ratio
+                                            //           ),
+                                            //           itemCount: value.aboutUsModel!
+                                            //               .page!.certificates!.length,
+                                            //           itemBuilder: (context, index) {
+                                            //             return Container(
+                                            //               decoration: BoxDecoration(
+                                            //                 color: Colors.white,
+                                            //                 borderRadius:
+                                            //                     BorderRadius.circular(
+                                            //                         12),
+                                            //                 boxShadow: [
+                                            //                   BoxShadow(
+                                            //                     color: Colors.black
+                                            //                         .withOpacity(0.1),
+                                            //                     blurRadius: 8,
+                                            //                     offset:
+                                            //                         const Offset(0, 4),
+                                            //                   ),
+                                            //                 ],
+                                            //               ),
+                                            //               child: Padding(
+                                            //                   padding:
+                                            //                       const EdgeInsets.all(
+                                            //                           12.0),
+                                            //                   child: CachedNetworkImage(
+                                            //                     imageUrl: value
+                                            //                             .aboutUsModel!
+                                            //                             .page!
+                                            //                             .certificates![
+                                            //                                 index]
+                                            //                             .file ??
+                                            //                         "",
+                                            //                     fit: BoxFit.cover,
+                                            //                     placeholder: (context,
+                                            //                             url) =>
+                                            //                         const ShimmerAnimatedLoading(),
+                                            //                     errorWidget: (context,
+                                            //                             url, error) =>
+                                            //                         const Icon(
+                                            //                       Icons
+                                            //                           .image_not_supported_outlined,
+                                            //                       size: AppSizes.s32,
+                                            //                       color: Colors.white,
+                                            //                     ),
+                                            //                   )),
+                                            //             );
+                                            //           },
+                                            //         ),
+                                            //       )
+                                                : (selectIndex == 2)
+                                                    ? Container(
+                                                        height:
+                                                            MediaQuery.sizeOf(context)
+                                                                    .height *
+                                                                0.45,
+                                                        child: GridView.builder(
+                                                          gridDelegate:
+                                                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                                            crossAxisCount:
+                                                                3, // 3 items per row
+                                                            mainAxisSpacing: 16.0,
+                                                            crossAxisSpacing: 16.0,
+                                                            childAspectRatio:
+                                                                1, // Square aspect ratio
+                                                          ),
+                                                          itemCount: value.aboutUsModel!
+                                                              .page!.partners!.length,
+                                                          itemBuilder:
+                                                              (context, index) {
+                                                            return Container(
+                                                              decoration: BoxDecoration(
+                                                                color: Colors.white,
+                                                                borderRadius: BorderRadius.circular(12),
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                    color: Colors.black
+                                                                        .withOpacity(
+                                                                            0.1),
+                                                                    blurRadius: 8,
+                                                                    offset:
+                                                                        const Offset(
+                                                                            0, 4),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(12.0),
+                                                                  child:
+                                                                      CachedNetworkImage(
+                                                                    imageUrl: value
+                                                                            .aboutUsModel!
+                                                                            .page!
+                                                                            .partners![
+                                                                                index]
+                                                                            .file ??
+                                                                        "",
+                                                                    fit: BoxFit.contain,
+                                                                    placeholder: (context,
+                                                                            url) =>
+                                                                        const ShimmerAnimatedLoading(),
+                                                                    errorWidget:
+                                                                        (context, url,
+                                                                                error) =>
+                                                                            const Icon(
+                                                                      Icons
+                                                                          .image_not_supported_outlined,
+                                                                      size:
+                                                                          AppSizes.s32,
+                                                                      color:
+                                                                          Colors.white,
+                                                                    ),
+                                                                  )),
+                                                            );
+                                                          },
+                                                        ),
+                                                      )
+                                                    : Container(
+                                                        height: 0,
+                                                      ),
+                                  )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ) : Column(
+                        children: [
+                          const SizedBox(width: 20,),
+                          SizedBox(
+                            width: double.infinity,
+                            child: Column(
+                              children: [
+                                const MainLogoAndTitleWidget(),
+                                const SizedBox(
+                                  height: 40,
+                                ),
+                                if (value.aboutUsModel != null)
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                                    child: (selectIndex == 0)
+                                        ? SizedBox(
+                                      height: MediaQuery.sizeOf(context)
+                                          .height *
+                                          0.45,
+                                      child: SingleChildScrollView(
+                                        child: Html(
+                                            shrinkWrap: true,
+                                            data: value.aboutUsModel!.page!.content,
+                                            style: TextsStyles.htmlStyles),
+                                      ),
+                                    )
+                                        : (selectIndex == 1)
+                                        ? SingleChildScrollView(
+                                      child:Html(
+                                          data: value.aboutUsModel!.page!.history!,
+                                          style: TextsStyles.htmlStyles),
+                                    )
+                                    // : (selectIndex == 2)
+                                    //     ? Container(
+                                    //         height: MediaQuery.sizeOf(context)
+                                    //                 .height *
+                                    //             0.45,
+                                    //         child: GridView.builder(
+                                    //           gridDelegate:
+                                    //               const SliverGridDelegateWithFixedCrossAxisCount(
+                                    //             crossAxisCount:
+                                    //                 3, // 3 items per row
+                                    //             mainAxisSpacing: 16.0,
+                                    //             crossAxisSpacing: 16.0,
+                                    //             childAspectRatio:
+                                    //                 1, // Square aspect ratio
+                                    //           ),
+                                    //           itemCount: value.aboutUsModel!
+                                    //               .page!.certificates!.length,
+                                    //           itemBuilder: (context, index) {
+                                    //             return Container(
+                                    //               decoration: BoxDecoration(
+                                    //                 color: Colors.white,
+                                    //                 borderRadius:
+                                    //                     BorderRadius.circular(
+                                    //                         12),
+                                    //                 boxShadow: [
+                                    //                   BoxShadow(
+                                    //                     color: Colors.black
+                                    //                         .withOpacity(0.1),
+                                    //                     blurRadius: 8,
+                                    //                     offset:
+                                    //                         const Offset(0, 4),
+                                    //                   ),
+                                    //                 ],
+                                    //               ),
+                                    //               child: Padding(
+                                    //                   padding:
+                                    //                       const EdgeInsets.all(
+                                    //                           12.0),
+                                    //                   child: CachedNetworkImage(
+                                    //                     imageUrl: value
+                                    //                             .aboutUsModel!
+                                    //                             .page!
+                                    //                             .certificates![
+                                    //                                 index]
+                                    //                             .file ??
+                                    //                         "",
+                                    //                     fit: BoxFit.cover,
+                                    //                     placeholder: (context,
+                                    //                             url) =>
+                                    //                         const ShimmerAnimatedLoading(),
+                                    //                     errorWidget: (context,
+                                    //                             url, error) =>
+                                    //                         const Icon(
+                                    //                       Icons
+                                    //                           .image_not_supported_outlined,
+                                    //                       size: AppSizes.s32,
+                                    //                       color: Colors.white,
+                                    //                     ),
+                                    //                   )),
+                                    //             );
+                                    //           },
+                                    //         ),
+                                    //       )
+                                        : (selectIndex == 2)
+                                        ? Container(
+                                      height:
+                                      MediaQuery.sizeOf(context)
+                                          .height *
+                                          0.45,
+                                      child: GridView.builder(
+                                        gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount:
+                                          3, // 3 items per row
+                                          mainAxisSpacing: 16.0,
+                                          crossAxisSpacing: 16.0,
+                                          childAspectRatio:
+                                          1, // Square aspect ratio
+                                        ),
+                                        itemCount: value.aboutUsModel!
+                                            .page!.partners!.length,
+                                        itemBuilder:
+                                            (context, index) {
+                                          return Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(12),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black
+                                                      .withOpacity(
+                                                      0.1),
+                                                  blurRadius: 8,
+                                                  offset:
+                                                  const Offset(
+                                                      0, 4),
+                                                ),
+                                              ],
+                                            ),
+                                            child: Padding(
+                                                padding:
+                                                const EdgeInsets
+                                                    .all(12.0),
+                                                child:
+                                                CachedNetworkImage(
+                                                  imageUrl: value
+                                                      .aboutUsModel!
+                                                      .page!
+                                                      .partners![
+                                                  index]
+                                                      .file ??
+                                                      "",
+                                                  fit: BoxFit.contain,
+                                                  placeholder: (context,
+                                                      url) =>
+                                                  const ShimmerAnimatedLoading(),
+                                                  errorWidget:
+                                                      (context, url,
+                                                      error) =>
+                                                  const Icon(
+                                                    Icons
+                                                        .image_not_supported_outlined,
+                                                    size:
+                                                    AppSizes.s32,
+                                                    color:
+                                                    Colors.white,
+                                                  ),
+                                                )),
+                                          );
+                                        },
+                                      ),
+                                    )
+                                        : Container(
+                                      height: 0,
+                                    ),
+                                  )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ) ,
+                    ),
                   ),
-                  bottomNavigationBar: Padding(
+                  bottomNavigationBar:Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: defaultTapBarItem(
                       items: taps,

@@ -35,7 +35,11 @@ class _CreateEmailBottomSheetState extends State<CreateEmailBottomSheet> {
     final rand = Random.secure();
     return List.generate(length, (index) => chars[rand.nextInt(chars.length)]).join();
   }
-
+  @override
+  void initState() {
+    priorityController.text = "0";
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Consumer<DNSProvider>(
@@ -105,7 +109,7 @@ class _CreateEmailBottomSheetState extends State<CreateEmailBottomSheet> {
                       controller: ipAddressController,
                       decoration: InputDecoration(
                         hintText: selectType == "A"? AppStrings.ipAddress.tr().toUpperCase():
-                        selectType == "AAA"? AppStrings.ip6Address.tr().toUpperCase():
+                        selectType == "AAAA"? AppStrings.ip6Address.tr().toUpperCase():
                         selectType == "TXT"? AppStrings.freeText.tr().toUpperCase():
                         selectType == "CNAME" || selectType == "MX"? AppStrings.domainOrSubdomain.tr().toUpperCase():
                         "",
@@ -123,7 +127,7 @@ class _CreateEmailBottomSheetState extends State<CreateEmailBottomSheet> {
                     TextFormField(
                       controller: ttlController,
                       decoration: InputDecoration(
-                        hintText: AppStrings.ttl.tr().toUpperCase(),
+                        hintText: "${AppStrings.ttl.tr().toUpperCase()} optional",
                       ),
                     ),
                     if(selectType != null && selectType != "TXT" && selectType != "MX")  const SizedBox(height: 15),

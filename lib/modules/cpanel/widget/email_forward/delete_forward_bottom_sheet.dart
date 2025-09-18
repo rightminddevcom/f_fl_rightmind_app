@@ -39,7 +39,6 @@ class _DeleteAccountBottomSheetState extends State<DeleteAccountBottomSheet> {
   Widget build(BuildContext context) {
     return Consumer<EmailForwardProvider>(
       builder: (context, value, child) {
-        bodyController.text = widget.forward;
         return DraggableScrollableSheet(
           initialChildSize: 0.65,
           maxChildSize: 0.9,
@@ -103,10 +102,29 @@ class _DeleteAccountBottomSheetState extends State<DeleteAccountBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 25),
-                  TextFormField(
-                    controller: bodyController,
-                    decoration: InputDecoration(
-                      hintText: AppStrings.enterDomain.tr().toUpperCase(),
+                  SizedBox(width: double.infinity,
+                    child: Center(
+                      child: Text(
+                        "To",
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: Color(AppColors.dark),
+                        ),
+                      ),
+                    ),
+                  ),
+                   SizedBox(height: 25),
+                  SizedBox(width: double.infinity,
+                    child: Center(
+                      child: Text(
+                        widget.forward,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: Color(AppColors.dark),
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 30),

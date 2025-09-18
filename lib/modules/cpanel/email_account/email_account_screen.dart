@@ -26,17 +26,17 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../choose_domain/choose_domin_screen.dart';
 import '../../more/views/more_screen.dart';
 
-class CpanelScreen extends StatefulWidget {
+class EmailAccountScreen extends StatefulWidget {
   List? permissions = [];
   final String? name;
   final String? dominId;
-  CpanelScreen({this.name, this.dominId, this.permissions});
+  EmailAccountScreen({this.name, this.dominId, this.permissions});
 
   @override
-  State<CpanelScreen> createState() => _CpanelScreenState();
+  State<EmailAccountScreen> createState() => _EmailAccountScreenState();
 }
 
-class _CpanelScreenState extends State<CpanelScreen> {
+class _EmailAccountScreenState extends State<EmailAccountScreen> {
   List<Email> emails = [];
   bool isSearch = false;
   List<Email> selectedEmails = [];
@@ -243,7 +243,7 @@ class _CpanelScreenState extends State<CpanelScreen> {
                 padding: const EdgeInsets.all(AppSizes.s12),
                 children: [
                    Text(
-                    AppStrings.createEmailMessage.tr(),
+                    AppStrings.email_accounts_description.tr(),
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
                   ),
@@ -334,7 +334,6 @@ class _CpanelScreenState extends State<CpanelScreen> {
                       final email = emails[index];
                       return GestureDetector(
                         onLongPress: () => onLongPress(index),
-                        onTap: () => onTap(index),
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                           decoration: BoxDecoration(
@@ -521,40 +520,59 @@ class _CpanelScreenState extends State<CpanelScreen> {
                                 ),
                               ],
                             ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        AppConstants.accountsEmailsFilter![index]['email'],
-                                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
-                                      ),
-                                      const SizedBox(height: 5),
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset("assets/images/svg/lock.svg", color: AppConstants.accountsEmailsFilter![index]['suspended_login'] == 0 || AppConstants.accountsEmailsFilter![index]['suspended_login'] == null? Colors.green : Color(0xffEB4335)),
-                                          const SizedBox(width: 5),
-                                          Text(
-                                            AppConstants.accountsEmailsFilter![index]['suspended_login'] == 0 || AppConstants.accountsEmailsFilter![index]['suspended_login'] == null ? AppStrings.unrestricted.tr() : AppStrings.restricted.tr(),
-                                            style: TextStyle(color: AppConstants.accountsEmailsFilter![index]['suspended_login'] == 0 || AppConstants.accountsEmailsFilter![index]['suspended_login'] == null? Colors.green : Color(0xffEB4335), fontWeight: FontWeight.bold),
-                                          ),
-                                          const Spacer(),
-                                          SvgPicture.asset("assets/images/svg/speed.svg"),
-                                          const SizedBox(width: 5),
-                                          Text(
-                                            "${AppConstants.accountsEmailsFilter![index]['humandiskused']} / ${AppConstants.accountsEmailsFilter![index]['humandiskquota']}",
-                                            style: const TextStyle(color: Color(AppColors.primary), fontSize: 12, fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                            child: GestureDetector(
+                              onTap: ()async{
+                                selectedEmails.clear();
+                                await showModalBottomSheet(
+                                  context: safeContext,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (_) => Padding(
+                                    padding: EdgeInsets.only(bottom: MediaQuery.of(safeContext).viewInsets.bottom),
+                                    child: EditEmailBottomSheet(
+                                      domainId: widget.dominId,
+                                      multi: false,
+                                      email: AppConstants.accountsEmailsFilter![index]['email'],
+                                    ),
                                   ),
-                                ),
-                                if (selectedEmails.any((e) => e.address == AppConstants.accountsEmailsFilter![index]['email']))
-                                  const Icon(Icons.check_circle, color: Colors.green),
-                              ],
+                                );
+                                await emailcickle();
+                              },
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          AppConstants.accountsEmailsFilter![index]['email'],
+                                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          children: [
+                                            SvgPicture.asset("assets/images/svg/lock.svg", color: AppConstants.accountsEmailsFilter![index]['suspended_login'] == 0 || AppConstants.accountsEmailsFilter![index]['suspended_login'] == null? Colors.green : Color(0xffEB4335)),
+                                            const SizedBox(width: 5),
+                                            Text(
+                                              AppConstants.accountsEmailsFilter![index]['suspended_login'] == 0 || AppConstants.accountsEmailsFilter![index]['suspended_login'] == null ? AppStrings.unrestricted.tr() : AppStrings.restricted.tr(),
+                                              style: TextStyle(color: AppConstants.accountsEmailsFilter![index]['suspended_login'] == 0 || AppConstants.accountsEmailsFilter![index]['suspended_login'] == null? Colors.green : Color(0xffEB4335), fontWeight: FontWeight.bold),
+                                            ),
+                                            const Spacer(),
+                                            SvgPicture.asset("assets/images/svg/speed.svg"),
+                                            const SizedBox(width: 5),
+                                            Text(
+                                              "${AppConstants.accountsEmailsFilter![index]['humandiskused']} / ${AppConstants.accountsEmailsFilter![index]['humandiskquota']}",
+                                              style: const TextStyle(color: Color(AppColors.primary), fontSize: 12, fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  if (selectedEmails.any((e) => e.address == AppConstants.accountsEmailsFilter![index]['email']))
+                                    const Icon(Icons.check_circle, color: Colors.green),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -570,9 +588,7 @@ class _CpanelScreenState extends State<CpanelScreen> {
                 ],
               ),
             ),
-            floatingActionButton: isSelectionMode
-                ? null
-                : Column(
+            floatingActionButton: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 FloatingActionButton(
@@ -635,4 +651,10 @@ class Email {
   final String usage;
   bool isSelected;
   Email(this.address, this.status, this.usage, {this.isSelected = false});
+}
+class EmailAccountExtra {
+  final Offset? begin;
+  final List? permissions;
+
+  EmailAccountExtra({this.begin, this.permissions});
 }

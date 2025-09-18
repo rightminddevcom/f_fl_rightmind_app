@@ -1,21 +1,17 @@
 import 'dart:convert';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:provider/provider.dart';
 import 'package:cpanal/constants/user_consts.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
 import 'package:cpanal/models/settings/user_settings.model.dart';
 import 'package:cpanal/models/settings/user_settings_2.model.dart';
 import 'package:cpanal/modules/home/view_models/home.viewmodel.dart';
-import 'package:cpanal/routing/app_router.dart';
 import '../../../constants/app_images.dart';
 import '../../../constants/app_sizes.dart';
 import '../../../constants/app_strings.dart';
+import '../../../general_services/device_info.service.dart';
 import '../../../general_services/localization.service.dart';
-import '../../../utils/overlay_gradient_widget.dart';
 import '../view_models/splash_onboarding.viewmodel.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -43,70 +39,62 @@ class _SplashScreenState extends State<SplashScreen> {
     initializeHomeAndSplash();
     //playTest();
   }
-  playTest()async{
-    print("PLAY IS IN PROCESS");
-    const url = "store?category=electronics";
-    final result = await viewModel.analyzeRoute(url);
-    if (result != null) {
-      print("Route Key: ${result['key']}");
-      print("Parameters: ${result['values']}");
-    } else {
-      print("No matching route found.");
-    }
-  }
   Future<void> initializeHomeAndSplash() async {
     print("INITIAL11");
-    final bool isConnected = await InternetConnectionChecker.createInstance().hasConnection;
-    print("isConnected --> ${isConnected}");
-    if(isConnected == false){
-      context.goNamed(
-        AppRoutes.offlineScreen.name,
-        pathParameters: {'lang': context.locale.languageCode,
-        },
-      );
+    // final bool isConnected = await InternetConnectionChecker.createInstance().hasConnection;
+    // print("isConnected --> ${isConnected}");
+    // if(isConnected == false){
+    //   context.goNamed(
+    //     AppRoutes.offlineScreen.name,
+    //     pathParameters: {'lang': context.locale.languageCode,
+    //     },
+    //   );
+    // }
+    // else{
+    // }
+    await DeviceInformationService.initializeAndSetDeviceInfo(context: context);
+    await homeViewModel.initializeHomeScreen(context, null);
+    // await UpdateApp.checkForForceUpdate(context);
+    final jsonString = CacheHelper.getString("US1");
+    final json2String = CacheHelper.getString("US2");
+    var us1Cache;
+    var us2Cache;
+    if (jsonString != null && jsonString != "") {
+      us1Cache = json.decode(jsonString) as Map<String, dynamic>;// Convert String back to JSON
     }
-   else{
-      await homeViewModel.initializeHomeScreen(context);
-      final jsonString = CacheHelper.getString("US1");
-      final json2String = CacheHelper.getString("US2");
-      var us1Cache;
-      var us2Cache;
-      if (jsonString != null && jsonString != "") {
-        us1Cache = json.decode(jsonString) as Map<String, dynamic>;// Convert String back to JSON
-      }
-      if (json2String != null && json2String != "") {
-        us2Cache = json.decode(json2String) as Map<String, dynamic>;// Convert String back to JSON
-      }
-      if (us1Cache != null && us1Cache.isNotEmpty && us1Cache != "") {
-        try {
-          // Decode JSON string into a Map
-          // Convert the Map to the appropriate type (e.g., UserSettingsModel)
-          UserSettingConst.userSettings = UserSettingsModel.fromJson(us1Cache);
-        } catch (e) {
-          print("Error decoding user settings: $e");
-        }
-      }
-      else {
-        print("us1Cache is null or empty.");
-      }
-      if (us2Cache != null && us2Cache.isNotEmpty && us2Cache != "") {
-        try {
-          // Decode JSON string into a Map
-          // Convert the Map to the appropriate type (e.g., UserSettingsModel)
-          UserSettingConst.userSettings2 = UserSettings2Model.fromJson(us2Cache);
-        } catch (e) {
-          print("Error decoding user settings: $e");
-        }
-      }
-      else {
-        print("us2Cache is null or empty.");
-      }
-      viewModel.initializeSplashScreen(
-          context: context,
-          role: (UserSettingConst.userSettings != null)? UserSettingConst.userSettings!.role : CacheHelper.getString("roles")
-      );
+    if (json2String != null && json2String != "") {
+      us2Cache = json.decode(json2String) as Map<String, dynamic>;// Convert String back to JSON
     }
+    if (us1Cache != null && us1Cache.isNotEmpty && us1Cache != "") {
+      try {
+        // Decode JSON string into a Map
+        // Convert the Map to the appropriate type (e.g., UserSettingsModel)
+        UserSettingConst.userSettings = UserSettingsModel.fromJson(us1Cache);
+      } catch (e) {
+        print("Error decoding user settings: $e");
+      }
+    }
+    else {
+      print("us1Cache is null or empty.");
+    }
+    if (us2Cache != null && us2Cache.isNotEmpty && us2Cache != "") {
+      try {
+        // Decode JSON string into a Map
+        // Convert the Map to the appropriate type (e.g., UserSettingsModel)
+        UserSettingConst.userSettings2 = UserSettings2Model.fromJson(us2Cache);
+      } catch (e) {
+        print("Error decoding user settings: $e");
+      }
+    }
+    else {
+      print("us2Cache is null or empty.");
+    }
+    viewModel.initializeSplashScreen(
+        context: context,
+        role: (UserSettingConst.userSettings != null)? UserSettingConst.userSettings!.role : CacheHelper.getString("roles")
+    );
   }
+
 
   @override
   Widget build(BuildContext context) {

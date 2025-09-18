@@ -17,6 +17,11 @@ class CreateAccountViewModel extends ChangeNotifier {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool isEmailRegister = false;
   bool isRegisterSuccess = false;
+  List? errors ;
+  String? phoneError;
+  String? emailError;
+  String? nameError;
+  String? passwordError;
 
   @override
   void dispose() {
@@ -102,6 +107,10 @@ class CreateAccountViewModel extends ChangeNotifier {
         departmentId: departmentId,
         deviceInformation: appConfigServiceProvider.deviceInformation.toMap());
     if (result.success) {
+      emailError = null;
+      nameError = null;
+      passwordError = null;
+      phoneError = null;
       Fluttertoast.showToast(
           msg: result.message!,
           toastLength: Toast.LENGTH_LONG,
@@ -115,13 +124,33 @@ class CreateAccountViewModel extends ChangeNotifier {
       if(mak != null){mak();}
       isRegisterSuccess = true;
     } else {
-      AlertsService.error(
-          title: AppStrings.failed.tr(),
-          context: context,
-          message: result.message ??
-              AppStrings.failedRegisterationPleaseTryAgain.tr());
+      errors = result.errors ?? [];
+      if(errors != [] && errors!.isNotEmpty){
+        emailError = null;
+        nameError = null;
+        passwordError = null;
+        phoneError = null;
+        for (var e in errors!) {
+          if (e.contains("email") || e.contains("ايميل") || e.contains("البريد")) {
+            emailError = e;
+          }else if (e.contains("phone") || e.contains("الهاتف") || e.contains("رقم")) {
+            phoneError = e;
+          }else if (e.contains("الاسم") || e.contains("الأسم") || e.contains("name")) {
+            nameError = e;
+          }else if (e.contains("password") || e.contains("السر")) {
+            passwordError = e;
+          }
+          notifyListeners();
+        }
+      }else {
+        AlertsService.error(
+            title: AppStrings.failed.tr(),
+            context: context,
+            message: result.message ??
+                AppStrings.failedRegisterationPleaseTryAgain.tr());
 
-      return;
+        return;
+      }
     }
   }
 }

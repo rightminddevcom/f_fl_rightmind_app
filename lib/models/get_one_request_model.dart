@@ -33,7 +33,7 @@ class Item {
   List<PforValue>? pforValue;
   List<MainThum>? mainThum;
   Pfor? pstatus;
-  PType? pType;
+  String? pType;
   String? content;
   String? createdAt;
   Pfor? status;
@@ -82,8 +82,7 @@ class Item {
     ticketPriority = json['ticket_priority'] != null ? new TicketPriority.fromJson(json['ticket_priority']) : null;
     pstatus =
     json['pstatus'] != null ? new Pfor.fromJson(json['pstatus']) : null;
-    pType =
-    json['ptype'] != null ? new PType.fromJson(json['ptype']) : null;
+    pType =json['ptype'];
     content = json['content'];
     createdAt = json['created_at'];
     status = json['status'] != null ? new Pfor.fromJson(json['status']) : null;

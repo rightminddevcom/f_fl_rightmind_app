@@ -184,7 +184,7 @@ class _SqlAccountsScreenState extends State<SqlAccountsScreen> {
                 padding: const EdgeInsets.all(AppSizes.s12),
                 children: [
                    Text(
-                     AppStrings.sqlMessage.tr(),
+                     AppStrings.mysql_databases_description.tr(),
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
                   ),
@@ -282,33 +282,54 @@ class _SqlAccountsScreenState extends State<SqlAccountsScreen> {
                                 ),
                               ],
                             ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        value.sqls[index]['db_name'],
-                                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
-                                      ),
-                                      const SizedBox(height: 5),
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset("assets/images/svg/speed.svg"),
-                                          const SizedBox(width: 5),
-                                          Text(
-                                            value.sqls[index]['db_username'],
-                                            style: const TextStyle(color: Color(AppColors.c4), fontWeight: FontWeight.bold, fontSize: 12),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                            child: GestureDetector(
+                              onTap: ()async{
+                                await showModalBottomSheet(
+                                  context: safeContext,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (_) => Padding(
+                                    padding: EdgeInsets.only(bottom: MediaQuery.of(safeContext).viewInsets.bottom),
+                                    child: EditEmailBottomSheet(
+                                      dominId: widget.dominId,
+                                      email: value.sqls[index]['db_username'],
+                                      db_name: value.sqls[index]['db_name'],
+                                    ),
                                   ),
-                                ),
-                                if (selectedEmails.any((e) => e.address == value.sqls[index]['email']))
-                                  const Icon(Icons.check_circle, color: Colors.green),
-                              ],
+                                );
+                                emailProvider.pageNumber = 1;
+                                emailProvider.sqls.clear();
+                                await emailProvider.getSQLEmails(context,  domainId: widget.dominId);
+                                await emailcickle();
+                              },
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          value.sqls[index]['db_name'],
+                                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          children: [
+                                            SvgPicture.asset("assets/images/svg/speed.svg"),
+                                            const SizedBox(width: 5),
+                                            Text(
+                                              value.sqls[index]['db_username'],
+                                              style: const TextStyle(color: Color(AppColors.c4), fontWeight: FontWeight.bold, fontSize: 12),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  if (selectedEmails.any((e) => e.address == value.sqls[index]['email']))
+                                    const Icon(Icons.check_circle, color: Colors.green),
+                                ],
+                              ),
                             ),
                           ),
                         ),

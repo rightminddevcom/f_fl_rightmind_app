@@ -34,6 +34,15 @@ class _CopounSectionState extends State<CopounSection> {
   TextEditingController phoneController = TextEditingController();
   void copyToClipboard(BuildContext context, {text}) {
     Clipboard.setData(ClipboardData(text: text));
+    Fluttertoast.showToast(
+        msg: AppStrings.textCopiedToClipboard.tr(),
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 5,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
   }
   @override
   Widget build(BuildContext context) {
@@ -98,10 +107,9 @@ class _CopounSectionState extends State<CopounSection> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(
-                        width: MediaQuery.sizeOf(context).width * 0.7,
-                        child: Text(us2Cache['referral_form'].toString(), style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 12, color: Color(0xff5E5E5E)),)),
-                  GestureDetector(
+                    Expanded(flex: 5,child: Text(us2Cache['referral_form'].toString(), style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 12, color: Color(0xff5E5E5E)),)),
+
+                    GestureDetector(
                       onTap: (){
                         copyToClipboard(context, text: us2Cache['referral_form']);
                       },
@@ -133,8 +141,8 @@ class _CopounSectionState extends State<CopounSection> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(
-                        width: MediaQuery.sizeOf(context).width * 0.7,
+                    Expanded(
+                        flex: 5,
                         child: Text(us1Cache['referral_code'].toString(), style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 12, color: Color(0xff5E5E5E)),)),
                   GestureDetector(
                       onTap: (){

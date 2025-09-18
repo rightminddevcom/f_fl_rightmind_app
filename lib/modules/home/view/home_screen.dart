@@ -6,13 +6,36 @@ import 'package:cpanal/models/settings/user_settings.model.dart';
 import 'package:cpanal/modules/home/widget/appbar_profile_container.dart';
 import 'package:cpanal/modules/home/widget/home_grid_view.dart';
 import 'package:cpanal/modules/personal_profile/views/personal_profile_screen.dart';
-import 'package:cpanal/routing/app_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
+import '../../../general_services/general_listener.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final generalListener = GeneralListener();
+  @override
+  void initState() {
+    var jsonString;
+    var gCache;
+    jsonString = CacheHelper.getString("USG");
+    if (jsonString != null && jsonString.isNotEmpty && jsonString != "") {
+      gCache = json.decode(jsonString) as Map<String, dynamic>; // Convert String back to JSON
+    }
+    final popups = gCache?['popups'];
+    if (popups != null && popups.isNotEmpty) {
+      // WidgetsBinding.instance.addPostFrameCallback((_) {
+      //   if (context.mounted) {
+      //     generalListener.startAll(context, "home", popups);
+      //   }
+      // });
+    }
+
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -53,7 +76,6 @@ class HomeScreen extends StatelessWidget {
                         alignment: Alignment.bottomCenter,
                         children: [
                           FlexibleSpaceBar(
-
                             background: Container(
                               padding: const EdgeInsets.only(
                                 right: AppSizes.s24,

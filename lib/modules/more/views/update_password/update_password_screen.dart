@@ -56,56 +56,64 @@ class UpdatePasswordScreen extends StatelessWidget {
                   body: Form(
                     key: formKey,
                     child: SingleChildScrollView(
-                      child: SizedBox(
-                        height: MediaQuery.sizeOf(context).height * 1,
-                        child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15 ,vertical: 30),
-                            child: Column(
-                              children: [
-                                defaultTextFormField(
-                                  context: context,
-                                  hintText: AppStrings.newPassword.tr(),
-                                  controller: passwordController,
-                                  validator: (value) =>
-                                      ValidationService.validatePassword(value),
-                                ),
-                                const SizedBox(height: 30,),
-                                if(value.isLoading) const Center(child: CircularProgressIndicator(),),
-                                if(!value.isLoading) GestureDetector(
-                                  onTap: (){
-                                    if(formKey.currentState!.validate()){
-                                      value.updatePassword(context: context, password: passwordController.text);
-                                    }
-                                  },
-                                  child: Container(
-                                    width: MediaQuery.sizeOf(context).width * 0.6,
-                                    height: 50,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: const Color(AppColors.primary),
-                                      borderRadius: BorderRadius.circular(50),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(horizontal: 40),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        SvgPicture.asset("assets/images/svg/apply_filter.svg"),
-                                        const SizedBox(width: 15,),
-                                        Text(
-                                          AppStrings.saveChanges.tr().toUpperCase(),
-                                          style:const TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500,
-                                              color: Color(0xffFFFFFF)
+                      child: Container(
+                        width: double.infinity,
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          height: MediaQuery.sizeOf(context).height * 1,
+                          width: MediaQuery.of(context).size.width < 600
+                              ? double.infinity
+                              : 400,
+                          child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 15 ,vertical: 30),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  defaultTextFormField(
+                                    context: context,
+                                    hintText: AppStrings.newPassword.tr(),
+                                    controller: passwordController,
+                                    validator: (value) =>
+                                        ValidationService.validatePassword(value),
+                                  ),
+                                  const SizedBox(height: 30,),
+                                  if(value.isLoading) const Center(child: CircularProgressIndicator(),),
+                                  if(!value.isLoading) GestureDetector(
+                                    onTap: (){
+                                      if(formKey.currentState!.validate()){
+                                        value.updatePassword(context: context, password: passwordController.text);
+                                      }
+                                    },
+                                    child: Container(
+                                      width: MediaQuery.sizeOf(context).width * 0.6,
+                                      height: 50,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: const Color(AppColors.primary),
+                                        borderRadius: BorderRadius.circular(50),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(horizontal: 40),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          SvgPicture.asset("assets/images/svg/apply_filter.svg"),
+                                          const SizedBox(width: 15,),
+                                          Text(
+                                            AppStrings.saveChanges.tr().toUpperCase(),
+                                            style:const TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                                color: Color(0xffFFFFFF)
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            )
+                                ],
+                              )
+                          ),
                         ),
                       ),
                     ),

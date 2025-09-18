@@ -37,7 +37,7 @@ class HomeViewModel extends ChangeNotifier {
     // }
     // initialize [userSettings] and [userSettings2] after chackings about token
     await AppSettingsService.getUserSettingsAndUpdateTheStoredSettings(
-        allData: true, context: context, closeDate: closeDate );
+        allData: true, context: context );
     if (!context.mounted) return;
     UserSettingConst.userSettings = AppSettingsService.getSettings(
         settingsType: SettingsType.userSettings,

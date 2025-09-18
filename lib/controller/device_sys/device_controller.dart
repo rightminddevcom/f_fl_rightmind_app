@@ -1,18 +1,25 @@
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/dio.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
+import '../../constants/app_strings.dart';
+import '../../general_services/alert_service/alerts.service.dart';
+
 
 class DeviceControllerProvider extends ChangeNotifier {
   bool isLoading = false;
+  bool isDeleteLoading = false;
   bool isLoading2 = false;
   bool isSuccess = false;
+  bool isDeleteSuccess = false;
   bool notificationStatus = CacheHelper.getBool("status") ?? false;
   String? errorMessage;
   String? errorMessage2;
   var status;
+  List devices = [];
   changeStatus(newStatus){
     status = newStatus;
     notifyListeners();
@@ -20,6 +27,63 @@ class DeviceControllerProvider extends ChangeNotifier {
   void setNotificationStatus(bool status) {
     notificationStatus = status;
     notifyListeners();
+  }
+  getDevices({context}) async {
+    isLoading = true;
+    notifyListeners();
+    try {
+      final response = await DioHelper.getData(
+        url: "/rm_users/v1/devices/get",
+        context: context,
+      );
+      isLoading = false;
+      devices = response.data['devices'];
+      notifyListeners();
+    } catch (error) {
+      isLoading = false;
+      notifyListeners();
+      if (error is DioError) {
+        errorMessage = error.response?.data['message'] ?? 'Something went wrong';
+      } else {
+        errorMessage = error.toString();
+      }
+    }
+  }
+  deleteDevices({context, deviceId}) async {
+    isDeleteLoading = true;
+    notifyListeners();
+    try {
+      await DioHelper.postData(
+        url: "/rm_users/v1/devices/stop",
+        data:(deviceId != null)? {
+         if(deviceId != null) "device_id" : deviceId
+        } : null,
+        context: context,
+      ).then((v){
+        if(v.data['status'] == true){
+          AlertsService.success(
+            title: AppStrings.success.tr(),
+            context: context,
+            message: v.data['message'] ?? AppStrings.success.tr(),);
+          isDeleteSuccess = true;
+        }else{
+          AlertsService.error(
+            title: AppStrings.failed.tr(),
+            context: context,
+            message: v.data['message'] ?? AppStrings.failed.tr(),);
+        }
+        isDeleteLoading = false;
+        notifyListeners();
+      });
+    } catch (error) {
+      isDeleteLoading = false;
+      notifyListeners();
+      if (error is DioError) {
+        errorMessage = error.response?.data['message'] ?? 'Something went wrong';
+      } else {
+        errorMessage = error.toString();
+      }
+    }
   }
 
   getDeviceSysGet({context}) async {

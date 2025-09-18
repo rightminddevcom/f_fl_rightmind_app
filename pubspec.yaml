@@ -8,6 +8,9 @@ environment:
 
 dependencies:
   webview_flutter:
+#  webview_flutter_web:
+  country_code_picker:
+  flutter_image_compress:
   flutter_widget_from_html:
   flutter_contacts:
   excel: ^4.0.3
@@ -107,6 +110,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
+    - assets/json/
     - assets/json/lang/
     - pubspec.yaml
     - assets/images/alerts_images/

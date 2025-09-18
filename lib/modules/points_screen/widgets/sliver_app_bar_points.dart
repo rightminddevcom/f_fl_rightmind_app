@@ -71,7 +71,7 @@ class _SliverAppBarPointsState extends State<SliverAppBarPoints> {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    Image.asset("assets/images/png/points_back.png", height: 400, fit: BoxFit.cover,),
+                    Image.asset("assets/images/png/points_back.png", height: 400, fit: BoxFit.cover,width: double.infinity,),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [

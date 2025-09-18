@@ -279,9 +279,9 @@ class EmailAccountProvider extends ChangeNotifier {
           "domain_id" : domainId,
           "action_type" : "email_account",
           "username" : account,
-          "password" : password,
-          "quota" : quota,
-          "suspend" : suspend == true ? "suspend_login" : "unsuspend_login",
+          if(password != null && password.toString().isNotEmpty)"password" : password,
+          if(quota != null && quota.toString().isNotEmpty)"quota" : quota,
+          "suspend" : suspend == AppStrings.blockAccount.tr() ? "suspend_login" : "unsuspend_login",
           "send_welcome_email" : 1
         },
         context: context,
@@ -333,9 +333,9 @@ class EmailAccountProvider extends ChangeNotifier {
           ...accounts,
           "action" : "update",
           "domain_id" : domainId,
-          "password" : password,
-          "quota" : quota,
-          "suspend" : suspend == true ? "suspend_login" : "unsuspend_login"
+          if(password != null && password.toString().isNotEmpty)"password" : password,
+          if(quota != null && quota.toString().isNotEmpty)"quota" : quota,
+          if(suspend != null)"suspend" : suspend == AppStrings.blockAccount.tr() ?  "suspend_login" : "unsuspend_login"
         },
         context: context,
       );

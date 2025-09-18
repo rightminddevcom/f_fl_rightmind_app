@@ -25,6 +25,9 @@ abstract class ModalSheetHelper {
       ),
       builder: (BuildContext context) => AnimatedContainer(
         duration: const Duration(milliseconds: 150),
+        width: MediaQuery.of(context).size.width < 600
+            ? double.infinity
+            : 400,
         height: height + MediaQuery.of(context).viewInsets.bottom,
         color: Colors.white,
         child: Scaffold(

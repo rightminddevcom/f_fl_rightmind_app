@@ -7,12 +7,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:provider/provider.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
 import 'package:cpanal/utils/helpers/media_query_values.dart';
 import '../../../common_modules_widgets/custom_elevated_button.widget.dart';
 import '../../../common_modules_widgets/language_dropdown_button.widget.dart';
+import '../../../constants/app_constants.dart';
 import '../../../constants/app_icons.dart';
 import '../../../constants/app_images.dart';
 import '../../../constants/app_sizes.dart';
@@ -21,6 +23,7 @@ import '../../../general_services/app_config.service.dart';
 import '../../../general_services/settings.service.dart';
 import '../../../general_services/validation_service.dart';
 import '../../../models/settings/general_settings.model.dart';
+import '../../../routing/app_router.dart';
 import '../../../utils/overlay_gradient_widget.dart';
 import '../../../utils/widgets/text_form_widget.dart';
 import '../view_models/login.viewmodel.dart';
@@ -97,7 +100,6 @@ class LoginScreenState extends State<LoginScreen> with SingleTickerProviderState
     final jsonString = CacheHelper.getString("USG");
     if (jsonString != null && jsonString != "") {
       gCache = json.decode(jsonString) as Map<String, dynamic>;// Convert String back to JSON
-      print("S2 IS --> $gCache");
     }
     return ChangeNotifierProvider<AuthenticationViewModel>(
       create: (context) => viewModel,
@@ -113,214 +115,249 @@ class LoginScreenState extends State<LoginScreen> with SingleTickerProviderState
                 //const OverlayGradientWidget(),
                // Positioned.fill(child: const OverlayGradientWidget()),
 
-                SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: AppSizes.s24),
-                  child: Form(
-                    key: viewModel.formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: 60,),
-                        Image.asset(
-                          AppImages.logo,
-                          height: AppSizes.s75,
-                          width: AppSizes.s75,
-                          fit: BoxFit.contain,
-                        ),
-                        gapH32,
-                        // Login Page Headline
-                        AutoSizeText(
-                          AppStrings.loginTo.tr(),
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.labelLarge,
-                        ),
-                        AutoSizeText(
-                          AppStrings.yourAccount.tr(),
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.labelLarge,
-                        ),
-                        gapH32,
-                        // TOGGLE BUTTON TO TOGGLE BETWEEN (PHONE || EMAIL)
-                        Consumer<AuthenticationViewModel>(
-                          builder: (context, viewModel, child) {
-                            return SwitchRow(
-                              isLoginPageStyle: true,
-                              value: viewModel.isPhoneLogin,
-                              onChanged: (newValue) =>
-                                  viewModel.toggleLoginMethod(),
-                            );
-                          },
-                        ),
-                        gapH20,
-                        // EMAIL OR PHONE FIELD
-                        Consumer<AuthenticationViewModel>(
-                          builder: (context, viewModel, child) {
-                            return viewModel.isPhoneLogin
-                                ? PhoneNumberField(
-                                    controller: viewModel.phoneController,
-                                    countryCodeController:
-                                        viewModel.countryCodeController,
-                                  )
-                                : TextFormField(
-                              controller:
-                              viewModel.emailController,
-                              decoration: InputDecoration(
-                                hintText:
-                                AppStrings.yourEmail.tr().toUpperCase(),
-                              ),
-                              // validator: (value) =>
-                              //     ValidationService.validateEmail(
-                              //         value),
-                            );
-                          },
-                        ),
-                        gapH12,
-                        // PASSWORD FIELD
-                        TextFormField(
-                          controller: viewModel.passwordController,
-                          decoration: InputDecoration(
-                            hintText: AppStrings.password.tr().toUpperCase(),
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                hidePassword ? Icons.visibility : Icons.visibility_off,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  hidePassword = !hidePassword;
-                                });
-                              },
-                            ),
-                          ),
-                          validator: (value) =>
-                              ValidationService.validatePassword(value, login: true),
-                          obscureText: hidePassword,
-                        ),
-                        gapH12,
-                        // FORGET PASSSORD BUTTON
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                Container(
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width < 600
+                      ? double.infinity
+                      : 400,
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(horizontal: AppSizes.s24),
+                      child: Form(
+                        key: viewModel.formKey,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            TextButton(
-                              onPressed: () async {
-                                FocusManager.instance.primaryFocus?.unfocus();
-                                await viewModel.showForgotPasswordModal(
-                                  context: context,
+                            const SizedBox(height: 60,),
+                            Image.asset(
+                              AppImages.logo,
+                              height: AppSizes.s75,
+                              width: AppSizes.s75,
+                              fit: BoxFit.contain,
+                            ),
+                            gapH32,
+                            // Login Page Headline
+                            AutoSizeText(
+                              AppStrings.loginTo.tr(),
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.labelLarge,
+                            ),
+                            AutoSizeText(
+                              AppStrings.yourAccount.tr(),
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.labelLarge,
+                            ),
+                            gapH32,
+                            // TOGGLE BUTTON TO TOGGLE BETWEEN (PHONE || EMAIL)
+                            Consumer<AuthenticationViewModel>(
+                              builder: (context, viewModel, child) {
+                                return SwitchRow(
+                                  isLoginPageStyle: true,
+                                  value: viewModel.isPhoneLogin,
+                                  onChanged: (newValue) =>
+                                      viewModel.toggleLoginMethod(),
                                 );
                               },
-                              child: Text(AppStrings.forgetPassword.tr(),
-                                  style:
-                                      Theme.of(context).textTheme.headlineMedium),
                             ),
-                          ],
-                        ),
-                        gapH16,
-                        // LOGIN BUTTON
-                        CustomElevatedButton(
-                          title: AppStrings.login.tr(),
-                          onPressed: () async {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            await viewModel.login(context: context);
-                          },
-                          isPrimaryBackground: false,
-                        ),
-                        const SizedBox(height: 25),
-                        if(gCache != null && gCache != "") Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            if ((gCache['login_types'] ?? [])
-                                .contains('social_google'))
-                              defaultCircularSocial(
-                                context: context,
-                                src: AppIcons.google,
-                                onTap: () async {
-                                  isLoginBySocial.value = true;
-                                  final deviceUniqueId =
-                                      Provider.of<AppConfigService>(context, listen: false).deviceInformation.deviceUniqueId;
-                                  final url =
-                                      'https://lab.r-m.dev/auth/socialite/google/login?redirect_url=https://lab.r-m.dev/front-end/social_login&device_unique_id=$deviceUniqueId';
-                                  await viewModel.loginWithSocial(context, url);
-                                },
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .primaryContainer,
-                              ),
-                            if ((gCache['login_types'] ?? [])
-                                .contains('social_facebook'))
-                              defaultCircularSocial(
-                                context: context,
-                                src: AppIcons.facebookColored,
-                                onTap: () async {
-                                  isLoginBySocial.value = true;
-                                  final deviceUniqueId =
-                                      Provider.of<AppConfigService>(context, listen: false).deviceInformation.deviceUniqueId;
-                                  final url =
-                                      'https://lab.r-m.dev/auth/socialite/facebook/login?redirect_url=https://lab.r-m.dev/front-end/social_login&device_unique_id=$deviceUniqueId';
-                                  await viewModel.loginWithSocial(context, url);
-                                },
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .primaryContainer,
-                              ),
-                            if ((gCache['login_types'] ?? [])
-                                .contains('social_linkedin-openid'))
-                              defaultCircularSocial(
-                                context: context,
-                                src: AppIcons.linkedInColored,
-                                onTap: () async {
-                                  isLoginBySocial.value = true;
-                                  final deviceUniqueId =
-                                      Provider.of<AppConfigService>(context, listen: false).deviceInformation.deviceUniqueId;
-                                  final url =
-                                      'https://lab.r-m.dev/auth/socialite/linkedin-openid/login?redirect_url=https://lab.r-m.dev/front-end/social_login&device_unique_id=$deviceUniqueId';
-                                  await viewModel.loginWithSocial(context, url);
-                                },
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .primaryContainer,
-                              ),
-                          ],
-                        ),
-                        const SizedBox(height: 25),
-                        if (gCache['can_new_register'] ?? true)
-                          Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CustomElevatedButton(
-                              width: AppSizes.s290,
-                              title: AppStrings.createNewAccount.tr(),
-                              isFuture: false,
-                              onPressed: () => viewModel.showCreateAccountModal(
-                                  context: context),
-                              buttonStyle: ElevatedButton.styleFrom(
-                                shadowColor: Colors.transparent,
-                                backgroundColor: Colors.transparent,
-                                foregroundColor: Colors.white, // Text color
-                                disabledForegroundColor: Colors.transparent,
-                                elevation: 2,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(AppSizes.s28),
-                                  side: const BorderSide(
-                                    color: Colors.white,
+                            gapH20,
+                            // EMAIL OR PHONE FIELD
+                            Consumer<AuthenticationViewModel>(
+                              builder: (context, viewModel, child) {
+                                return viewModel.isPhoneLogin
+                                    ? PhoneNumberField(
+                                        controller: viewModel.phoneController,
+                                        countryCodeController:
+                                            viewModel.countryCodeController,
+                                      )
+                                    : TextFormField(
+                                  controller:
+                                  viewModel.emailController,
+                                  decoration: InputDecoration(
+                                    hintText:
+                                    AppStrings.yourEmail.tr().toUpperCase(),
                                   ),
+                                  // validator: (value) =>
+                                  //     ValidationService.validateEmail(
+                                  //         value),
+                                );
+                              },
+                            ),
+                            gapH12,
+                            // PASSWORD FIELD
+                            TextFormField(
+                              controller: viewModel.passwordController,
+                              decoration: InputDecoration(
+                                hintText: AppStrings.password.tr().toUpperCase(),
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    hidePassword ? Icons.visibility : Icons.visibility_off,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      hidePassword = !hidePassword;
+                                    });
+                                  },
                                 ),
                               ),
-                              titleWidget: Text(
-                                AppStrings.createNewAccount.tr(),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium
-                                    ?.copyWith(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onPrimary,
+                              validator: (value) =>
+                                  ValidationService.validatePassword(value, login: true),
+                              obscureText: hidePassword,
+                            ),
+                            gapH12,
+                            // FORGET PASSSORD BUTTON
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                TextButton(
+                                  onPressed: () async {
+                                    FocusManager.instance.primaryFocus?.unfocus();
+                                    await viewModel.showForgotPasswordModal(
+                                      context: context,
+                                    );
+                                  },
+                                  child: Text(AppStrings.forgetPassword.tr(),
+                                      style:
+                                          Theme.of(context).textTheme.headlineMedium),
                                 ),
-                              ),
-                            )
+                              ],
+                            ),
+                            gapH16,
+                            // LOGIN BUTTON
+                            CustomElevatedButton(
+                              title: AppStrings.login.tr(),
+                              onPressed: () async {
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                await viewModel.login(context: context);
+                              },
+                              isPrimaryBackground: false,
+                            ),
+                            gapH16,
+                            if(gCache != null && gCache['can_visit'] == true) CustomElevatedButton(
+                              title: AppStrings.visitor.tr(),
+                              onPressed: () async {
+                                final appConfigServiceProvider = Provider.of<AppConfigService>(context, listen: false);
+                                await appConfigServiceProvider.setAuthenticationStatusWithToken(isLogin: true,  token:  "nulls");
+                                context.goNamed(
+                                  AppRoutes.splash.name,
+                                  pathParameters: {'lang': context.locale.languageCode,},
+                                );
+                              },
+                              isPrimaryBackground: false,
+                            ),
+                            const SizedBox(height: 25),
+                            if(gCache != null && gCache != "") Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                if ((gCache['login_types'] ?? [])
+                                    .contains('social_google'))
+                                  defaultCircularSocial(
+                                    context: context,
+                                    src: AppIcons.google,
+                                    onTap: () async {
+                                      isLoginBySocial.value = true;
+                                      final deviceUniqueId =
+                                          Provider.of<AppConfigService>(context, listen: false).deviceInformation.deviceUniqueId;
+                                      final url = '${AppConstants.socialLoginGoogle}$deviceUniqueId';
+                                      await viewModel.loginWithSocial(context, url);
+                                    },
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer,
+                                  ),
+                                if ((gCache['login_types'] ?? [])
+                                    .contains('social_facebook'))
+                                  defaultCircularSocial(
+                                    context: context,
+                                    src: AppIcons.facebookColored,
+                                    onTap: () async {
+                                      isLoginBySocial.value = true;
+                                      final deviceUniqueId =
+                                          Provider.of<AppConfigService>(context, listen: false).deviceInformation.deviceUniqueId;
+                                      final url = '${AppConstants.socialLoginFacebook}$deviceUniqueId';
+                                      await viewModel.loginWithSocial(context, url);
+                                    },
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer,
+                                  ),
+                                if ((gCache['login_types'] ?? [])
+                                    .contains('social_linkedin-openid'))
+                                  defaultCircularSocial(
+                                    context: context,
+                                    src: AppIcons.linkedInColored,
+                                    onTap: () async {
+                                      isLoginBySocial.value = true;
+                                      final deviceUniqueId =
+                                          Provider.of<AppConfigService>(context, listen: false).deviceInformation.deviceUniqueId;
+                                      final url = '${AppConstants.socialLoginLinkedIn}$deviceUniqueId';
+                                      await viewModel.loginWithSocial(context, url);
+                                    },
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer,
+                                  ),
+                                if ((gCache['login_types'] ?? [])
+                                    .contains('social_apple'))
+                                  defaultCircularSocial(
+                                    context: context,
+                                    src: AppIcons.apple,
+                                    onTap: () async {
+                                      isLoginBySocial.value = true;
+                                      final deviceUniqueId =
+                                          Provider.of<AppConfigService>(context, listen: false).deviceInformation.deviceUniqueId;
+                                      final url = '${AppConstants.socialLoginAppleStore}$deviceUniqueId';
+                                      await viewModel.loginWithSocial(context, url);
+                                    },
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer,
+                                  ),
+                              ],
+                            ),
+                            const SizedBox(height: 25),
+                            if (gCache != null && gCache['can_new_register'] ?? true)
+                              Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CustomElevatedButton(
+                                  width: AppSizes.s290,
+                                  title: AppStrings.createNewAccount.tr(),
+                                  isFuture: false,
+                                  onPressed: () => viewModel.showCreateAccountModal(
+                                      context: context),
+                                  buttonStyle: ElevatedButton.styleFrom(
+                                    shadowColor: Colors.transparent,
+                                    backgroundColor: Colors.transparent,
+                                    foregroundColor: Colors.white, // Text color
+                                    disabledForegroundColor: Colors.transparent,
+                                    elevation: 2,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.circular(AppSizes.s28),
+                                      side: const BorderSide(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  titleWidget: Text(
+                                    AppStrings.createNewAccount.tr(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium
+                                        ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimary,
+                                    ),
+                                  ),
+                                )
+                              ],
+                                                      )
                           ],
-                                                  )
-                      ],
+                        ),
+                      ),
                     ),
                   ),
                 ),

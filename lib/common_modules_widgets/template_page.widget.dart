@@ -45,7 +45,7 @@ class TemplatePage extends StatelessWidget {
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w700,
-            color: Color(AppColors.c2)
+            color: Color(AppColors.dark)
           ),
         ),
         bottom: bottomAppbarWidget,

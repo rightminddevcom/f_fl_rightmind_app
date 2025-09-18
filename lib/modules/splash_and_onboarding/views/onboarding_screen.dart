@@ -35,7 +35,7 @@ class OnBoardingScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final image = viewModel
                         .getOnboardingDataWithIndex(index, context)
-                        ?.image![0].file;
+                        ?['image']![0]['file'];
                     if (image?.startsWith('http') == true ||
                         image?.startsWith('https') == true) {
                       // Network image
@@ -118,7 +118,7 @@ class OnBoardingScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   AutoSizeText(
-                                    LocalizationService.isArabic(context: context)? viewModel.getOnboardingDataWithIndex(index, context)!.title!.ar!.toUpperCase() :viewModel.getOnboardingDataWithIndex(index, context)!.title!.en!.toUpperCase(),
+                                    LocalizationService.isArabic(context: context)? viewModel.getOnboardingDataWithIndex(index, context)!["title"]!["ar"]!.toUpperCase() :viewModel.getOnboardingDataWithIndex(index, context)!["title"]!["en"]!.toUpperCase(),
                                     style: Theme.of(context)
                                         .textTheme
                                         .displayLarge
@@ -129,7 +129,7 @@ class OnBoardingScreen extends StatelessWidget {
                                   ),
                                   gapH20,
                                   AutoSizeText(
-                                    LocalizationService.isArabic(context: context)? viewModel.getOnboardingDataWithIndex(index, context)!.info!.ar!.toUpperCase() :viewModel.getOnboardingDataWithIndex(index, context)!.info!.en!.toUpperCase(),
+                                    LocalizationService.isArabic(context: context)? viewModel.getOnboardingDataWithIndex(index, context)!["info"]!["ar"]!.toUpperCase() :viewModel.getOnboardingDataWithIndex(index, context)!["info"]!["en"]!.toUpperCase(),
                                     style: Theme.of(context)
                                         .textTheme
                                         .displaySmall

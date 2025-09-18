@@ -130,7 +130,7 @@ class _EmailForwardScreenState extends State<EmailForwardScreen> {
         builder: (context, value, child) {
           return TemplatePage(
             pageContext: context,
-            title: AppStrings.emailForwarders.tr().toUpperCase(),
+            title: AppStrings.email_forwarders_description.tr().toUpperCase(),
             onRefresh: () async {
               emailProvider.pageNumber = 1;
               emailProvider.emailForward.clear();

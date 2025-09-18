@@ -96,7 +96,7 @@ class _CreateAutoBottomSheetState extends State<CreateAutoBottomSheet> {
                   const SizedBox(height: 25),
                   if (widget.email == null)
                     _buildInputWithSuffix(AppStrings.email.tr().toUpperCase(),
-                        "${widget.dominName}", 120.0,
+                        "@${widget.dominName}", 120.0,
                         controller: emailController),
                   if (widget.email == null) const SizedBox(height: 15),
                   TextFormField(

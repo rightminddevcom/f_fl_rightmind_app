@@ -7,6 +7,7 @@ import 'package:universal_html/html.dart' as html;
 import '../models/device_information.model.dart';
 import '../platform/platform_is.dart';
 import 'app_config.service.dart';
+import 'package:uuid/uuid.dart';
 
 abstract class DeviceInformationService {
   static final DeviceInfoPlugin _deviceInfo = DeviceInfoPlugin();
@@ -29,8 +30,17 @@ abstract class DeviceInformationService {
         IosDeviceInfo iosInfo = await _deviceInfo.iosInfo;
         deviceIdentifier = "${iosInfo.model}_${iosInfo.identifierForVendor}";
       } else if (PlatformIs.web) {
-        WebBrowserInfo webInfo = await _deviceInfo.webBrowserInfo;
-        deviceIdentifier = "${webInfo.vendor}_${webInfo.userAgent}_${webInfo.hardwareConcurrency}";
+        // WebBrowserInfo webInfo = await _deviceInfo.webBrowserInfo;
+        // deviceIdentifier = "${webInfo.vendor}_${webInfo.userAgent}_${webInfo.hardwareConcurrency}";
+        const storageKey = "deviceIdentifier";
+        var storedId = html.window.localStorage[storageKey];
+        if (storedId == null) {
+          var uuid = const Uuid().v4();
+          html.window.localStorage[storageKey] = uuid;
+          storedId = uuid;
+        }
+        deviceIdentifier = storedId;
+        print("WEB ID -> $deviceIdentifier");
       } else if (PlatformIs.linux) {
         LinuxDeviceInfo linuxInfo = await _deviceInfo.linuxInfo;
         deviceIdentifier = linuxInfo.machineId;
@@ -40,6 +50,7 @@ abstract class DeviceInformationService {
       //   deviceIdentifier = DateTime.now().microsecondsSinceEpoch.toString();
       //   ConfigService.setValueString("deviceIdentifier", deviceIdentifier);
       // }
+      print("deviceIdentifier -> $deviceIdentifier");
       return deviceIdentifier;
     } catch (ex) {
       return null;
