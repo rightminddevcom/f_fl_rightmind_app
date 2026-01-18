@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:html' as html;
+import '../../../../../platform/web_imports.dart' as web_platform;
 
 class ContactUsController extends ChangeNotifier{
  bool isLoading = false;
@@ -27,7 +27,7 @@ class ContactUsController extends ChangeNotifier{
    final url = params.toString();
 
    if (kIsWeb) {
-     html.window.open(url, '_blank'); // يفتح نافذة البريد في المتصفح
+     web_platform.window.open(url, '_blank'); // يفتح نافذة البريد في المتصفح
    } else {
      if (await canLaunchUrl(Uri.parse(url))) {
        await launchUrl(Uri.parse(url));

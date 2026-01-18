@@ -1,5 +1,4 @@
-import 'dart:ui_web' as ui;
-import 'dart:html';
+import 'platform/web_imports.dart' as web_platform;
 import 'package:cpanal/common_modules_widgets/comments/logic/view_model.dart';
 import 'package:cpanal/controller/device_sys/device_controller.dart';
 import 'package:cpanal/modules/cpanel/logic/auto_response_provider.dart';
@@ -56,15 +55,19 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // ignore: undefined_prefixed_name
-  ui.platformViewRegistry.registerViewFactory(
-    'iframeElement',
-        (int viewId) => IFrameElement()
-      ..src = CacheHelper.getString("webViewUrl") ?? "https://flutter.dev" // لينك افتراضي
-      ..style.border = 'none'
-      ..style.width = '100%'
-      ..style.height = '600px', // حط أي ارتفاع مناسب
-  );
+  // Register iframe view factory for web only
+  try {
+    web_platform.platformViewRegistry.registerViewFactory(
+      'iframeElement',
+          (int viewId) => web_platform.IFrameElement()
+        ..src = CacheHelper.getString("webViewUrl") ?? "https://flutter.dev" // لينك افتراضي
+        ..style.border = 'none'
+        ..style.width = '100%'
+        ..style.height = '600px', // حط أي ارتفاع مناسب
+    );
+  } catch (e) {
+    // Not web platform, skip iframe registration
+  }
 
 
   GoRouter.optionURLReflectsImperativeAPIs = true;

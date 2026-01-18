@@ -10,7 +10,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:cpanal/common_modules_widgets/comments/logic/view_model.dart';
 import 'package:cpanal/constants/app_colors.dart';
 import 'package:cpanal/constants/app_strings.dart';
-import 'dart:html' as html;
+import '../../../platform/web_imports.dart' as web_platform;
 
 class SendCommentWidget extends StatefulWidget {
   final String id;
@@ -30,8 +30,8 @@ class _SendCommentWidgetState extends State<SendCommentWidget> {
 
   Timer? _timer;
   int _elapsedTime = 0;
-  html.MediaRecorder? _webRecorder;
-  final List<html.Blob> _audioChunks = [];
+  web_platform.MediaRecorder? _webRecorder;
+  final List<web_platform.Blob> _audioChunks = [];
   @override
   void initState() {
     recordingService = RecordingService();
@@ -40,7 +40,7 @@ class _SendCommentWidgetState extends State<SendCommentWidget> {
 
 
   Future<void> _startWebRecording() async {
-    final stream = await html.window.navigator.mediaDevices?.getUserMedia({'audio': true});
+    final stream = await web_platform.window.navigator.mediaDevices?.getUserMedia({'audio': true});
     if (stream == null) return;
 
     // 🧹 تأكد من تنظيف القديم قبل بدء تسجيل جديد
@@ -48,9 +48,9 @@ class _SendCommentWidgetState extends State<SendCommentWidget> {
     _webRecorder?.stop();
     _webRecorder = null;
 
-    _webRecorder = html.MediaRecorder(stream);
+    _webRecorder = web_platform.MediaRecorder(stream);
     _webRecorder!.addEventListener('dataavailable', (event) {
-      final e = event as html.BlobEvent;
+      final e = event as web_platform.BlobEvent;
       if (e.data != null) _audioChunks.add(e.data!);
     });
 
@@ -70,9 +70,9 @@ class _SendCommentWidgetState extends State<SendCommentWidget> {
     if (_webRecorder == null) return null;
 
     _webRecorder!.addEventListener('stop', (_) async {
-      final blob = html.Blob(_audioChunks, 'audio/webm');
+      final blob = web_platform.Blob(_audioChunks, 'audio/webm');
       _audioChunks.clear(); // ✅ تنظيف الذاكرة بعد كل تسجيل
-      final reader = html.FileReader();
+      final reader = web_platform.FileReader();
       reader.readAsArrayBuffer(blob);
       reader.onLoadEnd.listen((_) {
         completer.complete(reader.result as Uint8List);

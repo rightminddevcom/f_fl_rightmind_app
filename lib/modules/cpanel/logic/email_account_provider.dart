@@ -10,7 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:spreadsheet_decoder/spreadsheet_decoder.dart';
-import 'dart:html' as html;
+import '../../../platform/web_imports.dart' as web_platform;
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:open_filex/open_filex.dart';
@@ -110,7 +110,7 @@ class EmailAccountProvider extends ChangeNotifier {
         if (await canLaunchUrl(uri)) {
           if (kIsWeb) {
             // افتح في تاب جديدة
-            html.window.open(webViewUrl!, "_blank");
+            web_platform.window.open(webViewUrl!, "_blank");
           } else {
             // افتح جوه WebView عادي للموبايل
             WebViewWidget(
@@ -506,12 +506,12 @@ class EmailAccountProvider extends ChangeNotifier {
     try {
       if (kIsWeb) {
         // 💻 Web: عمل ملف Blob وتنزيله
-        final blob = html.Blob([Uint8List.fromList(fileBytes)]);
-        final url = html.Url.createObjectUrlFromBlob(blob);
-        final anchor = html.AnchorElement(href: url)
+        final blob = web_platform.Blob([Uint8List.fromList(fileBytes)]);
+        final url = web_platform.Url.createObjectUrlFromBlob(blob);
+        final anchor = web_platform.AnchorElement(href: url)
           ..setAttribute("download", "accounts.xlsx")
           ..click();
-        html.Url.revokeObjectUrl(url);
+        web_platform.Url.revokeObjectUrl(url);
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("✅ File downloaded (Web)")),

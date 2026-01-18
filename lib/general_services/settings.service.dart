@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:html' as html;
+import '../../../platform/web_imports.dart' as web_platform;
 
 import 'package:flutter/widgets.dart';
 import 'package:cpanal/constants/app_constants.dart';
@@ -173,8 +173,8 @@ abstract class AppSettingsService {
     try {
       if (kIsWeb) {
         // اطلب الإشعارات من المتصفح
-        if (html.Notification.permission != "granted") {
-          final permission = await html.Notification.requestPermission();
+        if (web_platform.Notification.permission != "granted") {
+          final permission = await web_platform.Notification.requestPermission();
 
           print("🔔 Web notification permission result: $permission");
 

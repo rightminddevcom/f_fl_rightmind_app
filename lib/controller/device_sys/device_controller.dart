@@ -8,7 +8,7 @@ import 'package:cpanal/general_services/backend_services/api_service/dio_api_ser
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
 import '../../constants/app_strings.dart';
 import '../../general_services/alert_service/alerts.service.dart';
-import 'dart:html' as html;
+import '../../platform/web_imports.dart' as web_platform;
 
 
 class DeviceControllerProvider extends ChangeNotifier {
@@ -116,21 +116,21 @@ class DeviceControllerProvider extends ChangeNotifier {
   }
   Future<bool> requestNotificationPermission() async {
     if (kIsWeb) {
-      final permission = html.Notification.permission; // granted - denied - default
+      final permission = web_platform.Notification.permission; // granted - denied - default
 
       if (permission == "granted") return true;
 
       // لو denied → مقدرش أطلب تاني، لازم يفتح الإعدادات
       if (permission == "denied") {
-        html.window.alert(
-            "⚠️ لقد قمت بحظر الإشعارات من المتصفح.\n\n"
+        web_platform.window.alert(
+            "⚠️ لقد قمت بحظر الإشعارات من المتصفح.\\n\\n"
                 "افتح Site Settings وقم بتفعيل Allow للإشعارات."
         );
         return false;
       }
 
       // default → أطلب إذن إشعارات
-      final newPermission = await html.Notification.requestPermission();
+      final newPermission = await web_platform.Notification.requestPermission();
       return newPermission == "granted";
     }
 
