@@ -36,8 +36,18 @@ class NotificationService {
     // Native
     try {
       final settings = await _messaging.requestPermission(alert: true, badge: true, sound: true);
-      if (settings.authorizationStatus != AuthorizationStatus.authorized) {
-        debugPrint("❌ Notifications not granted");
+      switch (settings.authorizationStatus) {
+        case AuthorizationStatus.authorized:
+          debugPrint("✅ Notifications granted");
+          Fluttertoast.showToast(msg: "تم تفعيل الإشعارات", backgroundColor: Colors.green);
+          break;
+        case AuthorizationStatus.provisional:
+          debugPrint("ℹ️ Provisional notifications granted");
+          Fluttertoast.showToast(msg: "تم تفعيل الإشعارات بشكل مؤقت", backgroundColor: Colors.orange);
+          break;
+        default:
+          debugPrint("❌ Notifications not granted");
+          Fluttertoast.showToast(msg: "تم رفض الإشعارات", backgroundColor: Colors.red);
       }
     } catch (e) {
       debugPrint("⚠️ Failed to request native permissions: $e");

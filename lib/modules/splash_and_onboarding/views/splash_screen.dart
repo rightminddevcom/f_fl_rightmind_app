@@ -134,37 +134,39 @@ class _SplashScreenState extends State<SplashScreen> {
     }
     final jsonString = CacheHelper.getString("US1");
     final json2String = CacheHelper.getString("US2");
-    var us1Cache;
-    var us2Cache;
-    if (jsonString != null && jsonString != "") {
-      us1Cache = json.decode(jsonString) as Map<String, dynamic>;// Convert String back to JSON
-    }
-    if (json2String != null && json2String != "") {
-      us2Cache = json.decode(json2String) as Map<String, dynamic>;// Convert String back to JSON
-    }
-    if (us1Cache.isNotEmpty && us1Cache != "") {
+    Map<String, dynamic>? us1Cache;
+    Map<String, dynamic>? us2Cache;
+    if (jsonString != null && jsonString.isNotEmpty) {
       try {
-        // Decode JSON string into a Map
-        // Convert the Map to the appropriate type (e.g., UserSettingsModel)
+        us1Cache = json.decode(jsonString) as Map<String, dynamic>;
+      } catch (e) {
+        debugPrint("❌ Failed to decode US1 cache: $e");
+      }
+    }
+    if (json2String != null && json2String.isNotEmpty) {
+      try {
+        us2Cache = json.decode(json2String) as Map<String, dynamic>;
+      } catch (e) {
+        debugPrint("❌ Failed to decode US2 cache: $e");
+      }
+    }
+    if (us1Cache != null && us1Cache.isNotEmpty) {
+      try {
         UserSettingConst.userSettings = UserSettingsModel.fromJson(us1Cache);
       } catch (e) {
-        print("Error decoding user settings: $e");
+        debugPrint("❌ Error decoding user settings US1: $e");
       }
+    } else {
+      debugPrint("ℹ️ US1 cache missing or empty");
     }
-    else {
-      print("us1Cache is null or empty.");
-    }
-    if (us2Cache.isNotEmpty && us2Cache != "") {
+    if (us2Cache != null && us2Cache.isNotEmpty) {
       try {
-        // Decode JSON string into a Map
-        // Convert the Map to the appropriate type (e.g., UserSettingsModel)
         UserSettingConst.userSettings2 = UserSettings2Model.fromJson(us2Cache);
       } catch (e) {
-        print("Error decoding user settings: $e");
+        debugPrint("❌ Error decoding user settings US2: $e");
       }
-    }
-    else {
-      print("us2Cache is null or empty.");
+    } else {
+      debugPrint("ℹ️ US2 cache missing or empty");
     }
     viewModel.initializeSplashScreen(
         context: context,

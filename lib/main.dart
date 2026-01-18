@@ -23,6 +23,7 @@ import 'controller/request_controller/request_controller.dart';
 import 'firebase_options.dart';
 import 'general_services/app_config.service.dart';
 import 'general_services/sentry_service.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'utils/error_handling/global_error_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +41,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("🔹 Background Notification: ${message.notification?.title}");
 }
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  SentryWidgetsFlutterBinding.ensureInitialized();
   
   // Initialize Sentry before anything else
   await SentryService.init();

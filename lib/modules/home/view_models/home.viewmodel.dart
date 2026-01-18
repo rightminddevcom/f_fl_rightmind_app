@@ -43,24 +43,43 @@ class HomeViewModel extends ChangeNotifier {
     await AppSettingsService.getUserSettingsAndUpdateTheStoredSettings(
         allData: true, context: context, need: need);
     if (!context.mounted) return;
-    var jsonString;
+    String? jsonString;
     UserSettingsModel? userSettingsModel;
-    var gCache;
+    Map<String, dynamic>? gCache;
     jsonString = CacheHelper.getString("US1");
-    if (jsonString != null && jsonString.isNotEmpty && jsonString != "") {
-      gCache = json.decode(jsonString) as Map<String, dynamic>; // Convert String back to JSON
-      UserSettingConst.userSettings = UserSettingsModel.fromJson(gCache);
+    if (jsonString != null && jsonString.isNotEmpty) {
+      try {
+        gCache = json.decode(jsonString) as Map<String, dynamic>;
+        UserSettingConst.userSettings = UserSettingsModel.fromJson(gCache);
+      } catch (e) {
+        debugPrint("❌ Failed to decode US1 cache in HomeViewModel: $e");
+      }
     }
-    var jsonString2;
+    String? jsonString2;
     UserSettings2Model? userSettings2Model;
-    var gCache2;
+    Map<String, dynamic>? gCache2;
     jsonString2 = CacheHelper.getString("US2");
-    if (jsonString2 != null && jsonString2.isNotEmpty && jsonString2 != "") {
-      gCache2 = json.decode(jsonString2) as Map<String, dynamic>; // Convert String back to JSON
-      // UserSettingConst.userSettings2 = UserSettings2Model.fromJson(gCache2);
+    if (jsonString2 != null && jsonString2.isNotEmpty) {
+      try {
+        gCache2 = json.decode(jsonString2) as Map<String, dynamic>;
+      } catch (e) {
+        debugPrint("❌ Failed to decode US2 cache in HomeViewModel: $e");
+      }
     }
-    userSettingsModel = UserSettingsModel.fromJson(gCache);
-    userSettings2Model = UserSettings2Model.fromJson(gCache2);
+    if (gCache != null) {
+      try {
+        userSettingsModel = UserSettingsModel.fromJson(gCache);
+      } catch (e) {
+        debugPrint("❌ Error parsing UserSettingsModel from US1: $e");
+      }
+    }
+    if (gCache2 != null) {
+      try {
+        userSettings2Model = UserSettings2Model.fromJson(gCache2);
+      } catch (e) {
+        debugPrint("❌ Error parsing UserSettings2Model from US2: $e");
+      }
+    }
     userSettings = userSettingsModel;
     userSettings2 = userSettings2Model;
     // get user requests
@@ -71,18 +90,21 @@ class HomeViewModel extends ChangeNotifier {
       final userBirthDate = userSettings?.birthDate;
       if (userBirthDate != null) {
         // intialize Birthday Service Checker
-        var jsonString;
-        UserSettingsModel userSettingsModel;
-        var gCache;
-        jsonString = CacheHelper.getString("US1");
-        if (jsonString != null && jsonString.isNotEmpty && jsonString != "") {
-          gCache = json.decode(jsonString) as Map<String, dynamic>; // Convert String back to JSON
-          UserSettingConst.userSettings = UserSettingsModel.fromJson(gCache);
+        final String? jsonStringBirth = CacheHelper.getString("US1");
+        Map<String, dynamic>? gCacheBirth;
+        UserSettingsModel? userSettingsModelBirth;
+        if (jsonStringBirth != null && jsonStringBirth.isNotEmpty) {
+          try {
+            gCacheBirth = json.decode(jsonStringBirth) as Map<String, dynamic>;
+            UserSettingConst.userSettings = UserSettingsModel.fromJson(gCacheBirth);
+            userSettingsModelBirth = UserSettingsModel.fromJson(gCacheBirth);
+          } catch (e) {
+            debugPrint("❌ Failed to decode US1 cache for birthday check: $e");
+          }
         }
-        userSettingsModel = UserSettingsModel.fromJson(gCache);
         // BirthdayChecker.checkBirthday(
         //     context: context,
-        //     birthDate: userSettingsModel.birthDate);
+        //     birthDate: userSettingsModelBirth?.birthDate);
       }
     } catch (err, t) {
       debugPrint("error while checking on user birthday $err at :- $t");
