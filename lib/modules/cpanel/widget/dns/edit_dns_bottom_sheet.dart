@@ -3,9 +3,7 @@ import 'dart:math';
 import 'package:cpanal/common_modules_widgets/custom_elevated_button.widget.dart';
 import 'package:cpanal/constants/app_colors.dart';
 import 'package:cpanal/constants/app_strings.dart';
-import 'package:cpanal/modules/cpanel/logic/auto_response_provider.dart';
 import 'package:cpanal/modules/cpanel/logic/dns_provider.dart';
-import 'package:cpanal/modules/cpanel/logic/email_account_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +15,7 @@ class EditEmailBottomSheet extends StatefulWidget {
   var dominName;
   var object;
   bool? multi = false;
-  EditEmailBottomSheet({this.dominId,this.dominName,this.multi,this.object});
+  EditEmailBottomSheet({super.key, this.dominId,this.dominName,this.multi,this.object});
 
   @override
   State<EditEmailBottomSheet> createState() => _EditEmailBottomSheetState();
@@ -95,7 +93,7 @@ class _EditEmailBottomSheetState extends State<EditEmailBottomSheet> {
                   Center(
                     child: Text(
                       AppStrings.update.tr().toUpperCase(),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Color(AppColors.primary),
                         fontWeight: FontWeight.bold,
                         fontSize: 24,
@@ -167,21 +165,21 @@ class _EditEmailBottomSheetState extends State<EditEmailBottomSheet> {
                             });
                           },
                           child: AnimatedContainer(
-                            duration: Duration(milliseconds: 200),
+                            duration: const Duration(milliseconds: 200),
                             width: 60,
                             height: 30,
-                            padding: EdgeInsets.symmetric(horizontal: 4),
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
                             decoration: BoxDecoration(
-                              color: isContainsHtml ? Color(0xFFE91E63) : Colors.grey[400],
+                              color: isContainsHtml ? const Color(0xFFE91E63) : Colors.grey[400],
                               borderRadius: BorderRadius.circular(30),
                             ),
                             child: AnimatedAlign(
-                              duration: Duration(milliseconds: 200),
+                              duration: const Duration(milliseconds: 200),
                               alignment: isContainsHtml ? Alignment.centerRight : Alignment.centerLeft,
                               child: Container(
                                 width: 22,
                                 height: 22,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   color: Colors.white,
                                   shape: BoxShape.circle,
                                 ),
@@ -220,7 +218,7 @@ class _EditEmailBottomSheetState extends State<EditEmailBottomSheet> {
                       Expanded(
                           child: CustomElevatedButton(
                             width: null,
-                            backgroundColor: const Color(AppColors.dark),
+                            backgroundColor: Color(AppColors.dark),
                             title: AppStrings.update.tr().toUpperCase(),
                             onPressed: () async {
                               value.updateDNS(context,
@@ -275,7 +273,7 @@ class _EditEmailBottomSheetState extends State<EditEmailBottomSheet> {
               suffixText,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 12,
                 color: Color(AppColors.dark),

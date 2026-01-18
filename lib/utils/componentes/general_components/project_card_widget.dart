@@ -24,7 +24,7 @@ Widget defaultProjectCard(String? title1, String? title2, src, {onTap}) {
         child: Column(
           children: [
             ClipRRect(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
                 child:  CachedNetworkImage(
                   height: 135,
                   fit: BoxFit.cover,
@@ -43,8 +43,8 @@ Widget defaultProjectCard(String? title1, String? title2, src, {onTap}) {
               child: Column(
                 children: [
                   Text(title1 ?? "".toUpperCase(),maxLines: 1, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10, color: Color(AppColors.primary))),
-                  SizedBox(height: 7,),
-                  Text(title2 ?? "".toUpperCase(), style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14, color: Color(0xFF090B60))),
+                  const SizedBox(height: 7,),
+                  Text(title2 ?? "".toUpperCase(), style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14, color: Color(0xFF090B60))),
                 ],
               ),
             ),

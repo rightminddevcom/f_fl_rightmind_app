@@ -1,8 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:cpanal/constants/app_colors.dart';
 import 'package:cpanal/constants/app_sizes.dart';
 import 'package:cpanal/constants/app_strings.dart';
@@ -16,6 +14,8 @@ import 'package:cpanal/modules/more/views/lang_setting/logic/lang_controller.dar
 import '../../../../utils/componentes/general_components/gradient_bg_image.dart';
 
 class LangSettingScreens extends StatefulWidget {
+  const LangSettingScreens({super.key});
+
   @override
   State<LangSettingScreens> createState() => _LangSettingScreensState();
 }
@@ -34,14 +34,12 @@ class _LangSettingScreensState extends State<LangSettingScreens> {
       "اللغه العربية"]
         : lang;
     print("is--->${context.locale.languageCode}");
-    if(context.locale.languageCode != null){
-      if(context.locale.languageCode.contains("en")){
-        selectIndex = 0;
-      }if(context.locale.languageCode.contains("ar")){
-        selectIndex = 1;
-      }
+    if(context.locale.languageCode.contains("en")){
+      selectIndex = 0;
+    }if(context.locale.languageCode.contains("ar")){
+      selectIndex = 1;
     }
-    print("LANG Is : $lang");
+      print("LANG Is : $lang");
     return ChangeNotifierProvider(create: (context) => LangControllerProvider(),
       child: Consumer<LangControllerProvider>(builder: (context, value, child) {
         return Scaffold(
@@ -55,14 +53,14 @@ class _LangSettingScreensState extends State<LangSettingScreens> {
                 child: Icon(Icons.arrow_back, color: Color(AppColors.dark),)),
             title: Text(
               AppStrings.languageSettings.tr().toUpperCase(),
-              style: const TextStyle(
+              style: TextStyle(
                   fontSize: AppSizes.s16,
                   fontWeight: FontWeight.w700,
                   color: Color(AppColors.dark)),
             ),
           ),
           body: GradientBgImage(
-            padding: EdgeInsets.all(0),
+            padding: const EdgeInsets.all(0),
             child: SingleChildScrollView(
               physics: const ClampingScrollPhysics(),
               child: Container(
@@ -87,7 +85,7 @@ class _LangSettingScreensState extends State<LangSettingScreens> {
                                       selectIndex = index;
                                       selectValue = lang![index].toString();
                                     });
-                                    print("selectValue --> ${selectValue}");
+                                    print("selectValue --> $selectValue");
                                     print("selectValue is ----> $selectValue");
                                     CacheHelper.setString(key: "lang", value: (selectValue == "ar"|| selectValue == "اللغه العربية")? "ar" : "en");
                                     LocalizationService.setLocaleAndUpdateUrl(
@@ -126,9 +124,9 @@ class _LangSettingScreensState extends State<LangSettingScreens> {
                                           child: Icon(Icons.check, color: Color(AppColors.backgroundColor), size: 18,),
                                         ),
                                         const SizedBox(width: 15,),
-                                        Text((lang![index].contains("English language")||lang![index].contains("en"))?"English language".toUpperCase() : "اللغه العربية", style: TextStyle(color: Color(AppColors.overlayColor), fontWeight: FontWeight.w500, fontSize: 14),)
+                                        Text((lang![index].contains("English language")||lang[index].contains("en"))?"English language".toUpperCase() : "اللغه العربية", style: TextStyle(color: Color(AppColors.overlayColor), fontWeight: FontWeight.w500, fontSize: 14),)
                                         ,const Spacer(),
-                                        Text((lang![index].contains("en"))?"change".toUpperCase() : "تغيير", style: TextStyle(fontSize: 12 ,fontWeight: FontWeight.w500, color: Color(AppColors.primary)),)
+                                        Text((lang[index].contains("en"))?"change".toUpperCase() : "تغيير", style: TextStyle(fontSize: 12 ,fontWeight: FontWeight.w500, color: Color(AppColors.primary)),)
                                       ],
                                     ),
                                   ),
@@ -148,7 +146,7 @@ class _LangSettingScreensState extends State<LangSettingScreens> {
                             //       height: 50,
                             //       alignment: Alignment.center,
                             //       decoration: BoxDecoration(
-                            //         color: const Color(AppColors.dark),
+                            //         color: Color(AppColors.dark),
                             //         borderRadius: BorderRadius.circular(50),
                             //       ),
                             //       padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -159,7 +157,7 @@ class _LangSettingScreensState extends State<LangSettingScreens> {
                             //           const SizedBox(width: 12,),
                             //           Text(
                             //             AppStrings.addLanguage.tr().toUpperCase(),
-                            //             style:const TextStyle(
+                            //             style:TextStyle(
                             //                 fontSize: 12,
                             //                 fontWeight: FontWeight.w500,
                             //                 color: Color(0xffFFFFFF)

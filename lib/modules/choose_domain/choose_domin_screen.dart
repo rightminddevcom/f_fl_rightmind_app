@@ -7,7 +7,6 @@ import 'package:cpanal/constants/user_consts.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
 import 'package:cpanal/models/settings/user_settings.model.dart';
 import 'package:cpanal/modules/choose_domain/logic/domain_provider.dart';
-import 'package:cpanal/modules/dashboard/dashboard_screen.dart';
 import 'package:cpanal/utils/custom_shimmer_loading/shimmer_animated_loading.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
@@ -17,12 +16,13 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../common_modules_widgets/template_page.widget.dart';
 import '../../../constants/app_sizes.dart';
-import '../../constants/web_image.dart';
 import '../../routing/app_router.dart';
 import '../../utils/componentes/general_components/gradient_bg_image.dart';
 import '../cpanel/email_account/email_account_screen.dart';
 
 class ChooseDomainScreen extends StatefulWidget {
+  const ChooseDomainScreen({super.key});
+
 
   @override
   State<ChooseDomainScreen> createState() =>
@@ -51,10 +51,10 @@ class _ChooseDomainScreenState extends State<ChooseDomainScreen> {
                 await value.getUserDomains(context);
               },
               body: GradientBgImage(
-                padding: EdgeInsets.all(0),
+                padding: const EdgeInsets.all(0),
                 child: Center(
                   child: ConstrainedBox(
-                    constraints: BoxConstraints(
+                    constraints: const BoxConstraints(
                       maxWidth: kIsWeb ? 1100 : double.infinity,
                     ),
                     child: Padding(
@@ -187,7 +187,7 @@ class _ChooseDomainScreenState extends State<ChooseDomainScreen> {
                                             imageUrl: value.domains[index]['logo'].isNotEmpty?value.domains[index]['logo'][0]['file'] : "",
                                             placeholder: (context, url) =>
                                             const ShimmerAnimatedLoading(),
-                                            errorWidget: (context, url, error) => const Icon(
+                                            errorWidget: (context, url, error) => Icon(
                                               Icons.image_not_supported_outlined,
                                               size: AppSizes.s32,
                                               color: Color(AppColors.backgroundColor),

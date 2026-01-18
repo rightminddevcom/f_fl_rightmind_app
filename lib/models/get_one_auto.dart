@@ -8,15 +8,15 @@ class GetOneAuto {
   GetOneAuto.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    res = json['res'] != null ? new Res.fromJson(json['res']) : null;
+    res = json['res'] != null ? Res.fromJson(json['res']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
-    if (this.res != null) {
-      data['res'] = this.res!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
+    if (res != null) {
+      data['res'] = res!.toJson();
     }
     return data;
   }
@@ -54,15 +54,15 @@ class Res {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['start'] = this.start;
-    data['body'] = this.body;
-    data['interval'] = this.interval;
-    data['charset'] = this.charset;
-    data['subject'] = this.subject;
-    data['stop'] = this.stop;
-    data['from'] = this.from;
-    data['is_html'] = this.isHtml;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['start'] = start;
+    data['body'] = body;
+    data['interval'] = interval;
+    data['charset'] = charset;
+    data['subject'] = subject;
+    data['stop'] = stop;
+    data['from'] = from;
+    data['is_html'] = isHtml;
     return data;
   }
 }

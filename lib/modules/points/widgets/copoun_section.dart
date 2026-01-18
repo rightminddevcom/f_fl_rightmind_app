@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:cpanal/constants/app_images.dart';
 import 'package:cpanal/constants/app_sizes.dart';
 import 'package:cpanal/constants/app_strings.dart';
 import 'package:cpanal/modules/home/view_models/home.viewmodel.dart';
@@ -72,7 +71,7 @@ class CopounSection extends StatelessWidget {
                                   'assets/images/png/logo_white.png',
                                   fit: BoxFit.cover,
                                 ),
-                                SizedBox(width: 10,),
+                                const SizedBox(width: 10,),
                                 Text(AppStrings.couponCode.tr().toUpperCase(),
                                 style: const TextStyle(fontSize: 17,
                                 color: Color(0xffE6007E),
@@ -100,7 +99,7 @@ class CopounSection extends StatelessWidget {
                             height: 50,
                             width: 224,
                             decoration: BoxDecoration(
-                              color: Color(0xFF0D3B6F),
+                              color: const Color(0xFF0D3B6F),
                               borderRadius: BorderRadius.circular(50),
                             ),
                             child: MaterialButton(onPressed: () {

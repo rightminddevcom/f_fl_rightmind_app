@@ -11,7 +11,7 @@ import 'package:cpanal/models/get_one_request_model.dart';
 class RequestDetailsAppbarWidget extends StatelessWidget {
   GetOneRequestModel? getOneRequestModel;
   List? types;
-  RequestDetailsAppbarWidget({this.getOneRequestModel, this.types});
+  RequestDetailsAppbarWidget({super.key, this.getOneRequestModel, this.types});
   var type;
   @override
   Widget build(BuildContext context) {
@@ -39,31 +39,31 @@ class RequestDetailsAppbarWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 50,),
+                  const SizedBox(height: 50,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                      GestureDetector(
                           onTap: (){Navigator.pop(context);},
-                          child: Icon(Icons.arrow_back, color: Color(0xffFFFFFF),)),
-                      Spacer(),
+                          child: const Icon(Icons.arrow_back, color: Color(0xffFFFFFF),)),
+                      const Spacer(),
                       Text(
                         AppStrings.myRequests.tr().toUpperCase(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 20,
                           color: Colors.white,
                           fontWeight: FontWeight.w700,
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Container(width: 20,),
                     ],
                   ),
-                  SizedBox(height: 16,),
+                  const SizedBox(height: 16,),
                   Center(
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(
+                      constraints: const BoxConstraints(
                         maxWidth: kIsWeb ? 1100 : double.infinity,
                       ),
                       child: Column(
@@ -71,14 +71,14 @@ class RequestDetailsAppbarWidget extends StatelessWidget {
                         children: [
                           Text(
                             getOneRequestModel!.item!.title!.toUpperCase(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
                             ),
                             textAlign: TextAlign.center,
                           ),
-                          SizedBox(height: 25,),
+                          const SizedBox(height: 25,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -96,8 +96,8 @@ class RequestDetailsAppbarWidget extends StatelessWidget {
                               ),
                               Row(
                                 children: [
-                                  Icon(Icons.folder_open_outlined, color: Colors.white,),
-                                  SizedBox(width: 5,),
+                                  const Icon(Icons.folder_open_outlined, color: Colors.white,),
+                                  const SizedBox(width: 5,),
                                   SizedBox(
                                     width: kIsWeb? MediaQuery.sizeOf(context).width * 0.1:MediaQuery.sizeOf(context).width * 0.25,
                                     child: Text( getOneRequestModel!.item!.pType!.title.toString().tr(),
@@ -117,12 +117,12 @@ class RequestDetailsAppbarWidget extends StatelessWidget {
                                   Container(
                                     width: 8,
                                     height: 8,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                         color: Colors.white,
                                         shape: BoxShape.circle
                                     ),
                                   ),
-                                  SizedBox(width: 5,),
+                                  const SizedBox(width: 5,),
                                   SizedBox(
                                     width:kIsWeb? MediaQuery.sizeOf(context).width * 0.1: MediaQuery.sizeOf(context).width * 0.25,
                                     child: Text(
@@ -139,7 +139,7 @@ class RequestDetailsAppbarWidget extends StatelessWidget {
                               ),
                             ],
                           ),
-                          SizedBox(height: 16,),
+                          const SizedBox(height: 16,),
                         ],
                       ),
                     ),

@@ -45,7 +45,7 @@ class SwitchRow extends StatelessWidget {
             height: AppSizes.s20,
             padding: AppSizes.s3,
             value: value,
-            inactiveColor: const Color(AppColors.dark),
+            inactiveColor: Color(AppColors.dark),
             onChanged: onChanged,
           ),
           gapW8,

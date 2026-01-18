@@ -1,30 +1,16 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cpanal/constants/app_strings.dart';
-import 'package:cpanal/general_services/alert_service/alerts.service.dart';
-import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/dio.dart';
-import 'package:cpanal/models/all_company_request.model.dart';
-import 'package:cpanal/models/myteam_request.model.dart';
-import 'package:cpanal/models/other_department_request.model.dart';
-import 'package:cpanal/modules/more/views/contactus/model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../constants/user_consts.dart';
 import '../../../general_services/app_config.service.dart';
 import '../../../general_services/backend_services/api_service/dio_api_service/shared.dart';
-import '../../../general_services/birthday_checker.service.dart';
 import '../../../general_services/settings.service.dart';
 import '../../../models/notification.model.dart';
 import '../../../models/request.model.dart';
 import '../../../models/settings/general_settings.model.dart';
 import '../../../models/settings/user_settings.model.dart';
 import '../../../models/settings/user_settings_2.model.dart';
-import '../../../routing/app_router.dart';
-import '../../../services/crud_operation.service.dart';
-import '../../../services/requests.services.dart';
 
 class HomeViewModel extends ChangeNotifier {
   UserSettingsModel? userSettings;
@@ -73,8 +59,8 @@ class HomeViewModel extends ChangeNotifier {
       gCache2 = json.decode(jsonString2) as Map<String, dynamic>; // Convert String back to JSON
       // UserSettingConst.userSettings2 = UserSettings2Model.fromJson(gCache2);
     }
-    userSettingsModel = gCache != null ? UserSettingsModel.fromJson(gCache) : userSettingsModel;
-    userSettings2Model = gCache2 != null ?UserSettings2Model.fromJson(gCache2) : userSettings2Model;
+    userSettingsModel = UserSettingsModel.fromJson(gCache);
+    userSettings2Model = UserSettings2Model.fromJson(gCache2);
     userSettings = userSettingsModel;
     userSettings2 = userSettings2Model;
     // get user requests

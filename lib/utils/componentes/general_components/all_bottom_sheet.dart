@@ -232,7 +232,7 @@ Future<void> defaultActionBottomSheet2({
                                 child: Row(
                                   children: [
                                     Text(code.toString(),
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 12,
                                           color: Color(AppColors.grey50)),),
@@ -266,7 +266,7 @@ Future<void> defaultActionBottomSheet2({
                                 Stack(
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.only(top: 0.5),
+                                      padding: const EdgeInsets.only(top: 0.5),
                                       child: Container(
                                         height: 49,
                                         decoration: BoxDecoration(
@@ -438,7 +438,7 @@ defaultActionBottomSheet(
           alignment: Alignment.center,
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Center(
@@ -447,7 +447,7 @@ defaultActionBottomSheet(
                   width: 63,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
-                      color: Color(0xffB9C0C9)),
+                      color: const Color(0xffB9C0C9)),
                 ),
               ),
               Padding(
@@ -478,13 +478,13 @@ defaultActionBottomSheet(
                           ),
                           if (viewCheckIcon == true)
                             const Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: EdgeInsets.all(8.0),
                               child: CircleAvatar(
                                 radius: 10,
-                                backgroundColor: const Color(0xff38CF71),
+                                backgroundColor: Color(0xff38CF71),
                                 child: Icon(
                                   Icons.check,
-                                  color: const Color(0xffFFFFFF),
+                                  color: Color(0xffFFFFFF),
                                   size: 12,
                                 ),
                               ),
@@ -494,7 +494,7 @@ defaultActionBottomSheet(
                     const SizedBox(height: 20),
                     Text(
                       title!.toUpperCase(),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 20,
                         color: Color(AppColors.dark),
@@ -515,7 +515,7 @@ defaultActionBottomSheet(
                       Stack(
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(top: 0.5),
+                            padding: const EdgeInsets.only(top: 0.5),
                             child: Container(
                               height: 49,
                               decoration: BoxDecoration(
@@ -546,8 +546,8 @@ defaultActionBottomSheet(
                           color: AppThemeService.colorPalette.tertiaryColorBackground.color,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(AppSizes.s10),
-                            side: BorderSide(
-                              color: const Color(0xffE3E5E5),
+                            side: const BorderSide(
+                              color: Color(0xffE3E5E5),
                               width: 1.0,
                             ),
                           ),
@@ -560,7 +560,7 @@ defaultActionBottomSheet(
                             )
                           ],
                         ),
-                        child: Text(refLink!, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 12, color: Color(0xff5E5E5E)),),
+                        child: Text(refLink!, style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 12, color: Color(0xff5E5E5E)),),
                       ),
                     if (viewPhoneField == true)
                       PhoneNumberField(
@@ -581,7 +581,7 @@ defaultActionBottomSheet(
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(50),
-                              color: const Color(AppColors.primary)),
+                              color: Color(AppColors.primary)),
                           child: (buttonWidget != null)
                               ? buttonWidget
                               : Text(

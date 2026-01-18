@@ -7,7 +7,7 @@ import '../../logic/fawry_cubit/fawry_provider.dart';
 
 class ChargePhoneBottomBar extends StatelessWidget {
   var serviceId;
-  ChargePhoneBottomBar({this.serviceId});
+  ChargePhoneBottomBar({super.key, this.serviceId});
 
   @override
   Widget build(BuildContext context) {

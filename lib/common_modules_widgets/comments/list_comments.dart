@@ -3,20 +3,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:cpanal/common_modules_widgets/comments/logic/view_model.dart';
 import 'package:cpanal/constants/app_colors.dart';
-import 'package:cpanal/constants/app_images.dart';
 import 'package:cpanal/constants/app_sizes.dart';
 import 'package:cpanal/constants/app_strings.dart';
 import 'package:provider/provider.dart';
 import 'package:cpanal/constants/user_consts.dart';
-import 'package:cpanal/general_services/app_theme.service.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
 import 'package:cpanal/general_services/layout.service.dart';
-import 'package:cpanal/general_services/localization.service.dart';
 import 'package:cpanal/models/settings/user_settings.model.dart';
-import 'package:cpanal/routing/app_router.dart';
 import 'package:cpanal/utils/placeholder_no_existing_screen/no_existing_placeholder_screen.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../modules/complain_screen/widget/full_image_screen.dart';
@@ -26,7 +21,7 @@ import '../../utils/custom_shimmer_loading/shimmer_animated_loading.dart';
 class ListCommentsScreen extends StatefulWidget {
   var id;
   var slug;
-  ListCommentsScreen({
+  ListCommentsScreen({super.key, 
     this.id,
     this.slug,
   });
@@ -77,7 +72,7 @@ class _ListCommentsScreenState extends State<ListCommentsScreen> {
             backgroundColor: const Color(0xffFFFFFF),
             appBar: AppBar(
               surfaceTintColor: Colors.transparent,
-              title:  Text(AppStrings.comments.tr().toUpperCase(), style: const TextStyle(fontSize: 16,
+              title:  Text(AppStrings.comments.tr().toUpperCase(), style: TextStyle(fontSize: 16,
                   color: Color(AppColors.dark), fontWeight: FontWeight.w700),),
               backgroundColor: Colors.transparent,
             ),
@@ -166,7 +161,7 @@ class _ListCommentsScreenState extends State<ListCommentsScreen> {
                                             width: MediaQuery.sizeOf(context).width * 0.4,
                                             child: Text(
                                                 value.comments[index]['user']['name'] ?? "", maxLines: 1,
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                     fontWeight: FontWeight.w700, fontSize: 12,color: Color(AppColors.dark)
                                                 )
                                             ),
@@ -174,7 +169,7 @@ class _ListCommentsScreenState extends State<ListCommentsScreen> {
                                           const SizedBox(height: 5,),SizedBox(
                                             width: MediaQuery.sizeOf(context).width * 0.4,
                                             child: Text(
-                                                "${DateFormat("dd/MM/yyyy hh:mm a", context.locale.languageCode).format(DateTime.parse("${value.comments[index]['created_at']}"))}", maxLines: 1,
+                                                DateFormat("dd/MM/yyyy hh:mm a", context.locale.languageCode).format(DateTime.parse("${value.comments[index]['created_at']}")), maxLines: 1,
                                                 style: const TextStyle(
                                                     fontWeight: FontWeight.w500, fontSize: 12,color: Color(0xff5E5E5E)
                                                 )
@@ -202,7 +197,7 @@ class _ListCommentsScreenState extends State<ListCommentsScreen> {
                                                     MaterialPageRoute(
                                                       builder: (context) => FullScreenImageViewer(
                                                         initialIndex: 0,
-                                                        imageUrls: [""],
+                                                        imageUrls: const [""],
                                                         one: true,
                                                         url: false,
                                                         image: value.comments[index]['images'][0]['file'],

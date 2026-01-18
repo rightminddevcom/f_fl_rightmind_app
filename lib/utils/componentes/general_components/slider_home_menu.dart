@@ -8,7 +8,7 @@ class SliderHomeMenu extends StatelessWidget {
   var description;
   var onTap;
   var src;
-  SliderHomeMenu({this.description, this.title, this.onTap, this.src});
+  SliderHomeMenu({super.key, this.description, this.title, this.onTap, this.src});
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +16,13 @@ class SliderHomeMenu extends StatelessWidget {
       alignment: Alignment.topCenter,
       children: [
         Container(
-          padding:EdgeInsets.symmetric(vertical: 25),
+          padding:const EdgeInsets.symmetric(vertical: 25),
           width: 150,
           height: 170,
           color: Colors.transparent,
           child: Container(
             decoration: BoxDecoration(
-                color: const Color(AppColors.textC5),
+                color: Color(AppColors.textC5),
                 borderRadius: BorderRadius.circular(15)),
             padding: const EdgeInsetsDirectional.only(
               bottom: 30,
@@ -39,7 +39,7 @@ class SliderHomeMenu extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                       color: Color(0xff15223D)),
                 ),
-                SizedBox(height: 4,),
+                const SizedBox(height: 4,),
                 Text(
                   description.toUpperCase(),
                   style: const TextStyle(
@@ -56,7 +56,7 @@ class SliderHomeMenu extends StatelessWidget {
             height: 64,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-                color: Color(0xFFE93F81),
+                color: const Color(0xFFE93F81),
                 borderRadius: BorderRadius.circular(15)),
             child: SvgPicture.asset(src ??"assets/images/svg/ref_link.svg")
         ),
@@ -97,7 +97,7 @@ class SliderHomeMenu2 extends StatelessWidget {
           height: cardHeight,
           child: Container(
             decoration: BoxDecoration(
-              color: const Color(AppColors.textC5),
+              color: Color(AppColors.textC5),
               borderRadius: BorderRadius.circular(15),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
@@ -135,7 +135,7 @@ class SliderHomeMenu2 extends StatelessWidget {
           height: cardWidth * 0.4,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: const Color(AppColors.dark),
+            color: Color(AppColors.dark),
             borderRadius: BorderRadius.circular(15),
           ),
           child: SvgPicture.asset(src),

@@ -20,13 +20,12 @@ import '../../../../constants/app_sizes.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../../utils/componentes/general_components/gradient_bg_image.dart';
-import '../../choose_domain/choose_domin_screen.dart' show ChooseDomainScreen;
 import '../../more/views/more_screen.dart';
 
 class AutoResponseScreen extends StatefulWidget {
   final String? name;
   final String? dominId;
-  AutoResponseScreen({this.name, this.dominId});
+  const AutoResponseScreen({super.key, this.name, this.dominId});
 
   @override
   State<AutoResponseScreen> createState() => _AutoResponseScreenState();
@@ -176,13 +175,13 @@ class _AutoResponseScreenState extends State<AutoResponseScreen> {
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const MoreScreen(),));
                     },
-                    child: const Icon(Icons.menu, color: Color(AppColors.primary)),
+                    child: Icon(Icons.menu, color: Color(AppColors.primary)),
                   )
                 ],
               ),
             ),
             body: GradientBgImage(
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               child: SizedBox(
                 height: MediaQuery.sizeOf(context).height * 0.8,
                 child: ListView(
@@ -199,7 +198,7 @@ class _AutoResponseScreenState extends State<AutoResponseScreen> {
                       Container(
                         padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                         decoration: BoxDecoration(
-                          color: const Color(AppColors.primary),
+                          color: Color(AppColors.primary),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         width: double.infinity,
@@ -261,7 +260,7 @@ class _AutoResponseScreenState extends State<AutoResponseScreen> {
                     ],
                     Center(
                       child: ConstrainedBox(
-                        constraints: BoxConstraints(
+                        constraints: const BoxConstraints(
                           maxWidth: kIsWeb ? 1100 : double.infinity,
                         ),
                         child: ListView.separated(
@@ -324,17 +323,17 @@ class _AutoResponseScreenState extends State<AutoResponseScreen> {
                                           final obj = value.autoRes[index]['email'];
                                           await Clipboard.setData(ClipboardData(text: "Email : $obj"));
                                           ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(content: Text("${AppStrings.copied.tr()}")),
+                                            SnackBar(content: Text(AppStrings.copied.tr())),
                                           );
                                         },
                                         child: Container(
                                           width: 50,
                                           height: 50,
-                                          decoration: const BoxDecoration(
+                                          decoration: BoxDecoration(
                                             color: Color(AppColors.dark),
                                             shape: BoxShape.circle,
                                           ),
-                                          child: Icon(Icons.copy, color: Colors.white,),
+                                          child: const Icon(Icons.copy, color: Colors.white,),
                                         ),
                                       ),
                                       CustomSlidableAction(
@@ -357,7 +356,7 @@ class _AutoResponseScreenState extends State<AutoResponseScreen> {
                                         child: Container(
                                           width: 50,
                                           height: 50,
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                             color: Color(0xFFA372FF),
                                             shape: BoxShape.circle,
                                           ),
@@ -384,7 +383,7 @@ class _AutoResponseScreenState extends State<AutoResponseScreen> {
                                         child: Container(
                                           width: 50,
                                           height: 50,
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                             color: Color(0xFFE93F81),
                                             shape: BoxShape.circle,
                                           ),
@@ -403,14 +402,14 @@ class _AutoResponseScreenState extends State<AutoResponseScreen> {
                                               children: [
                                                 Text(
                                                   value.autoRes[index]['email'],
-                                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
+                                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
                                                 ),
                                               ],
                                             ),
                                             const SizedBox(height: 5),
                                             Row(
                                               children: [
-                                                SvgPicture.asset("assets/images/svg/message.svg", color: Color(0xffE93F81)),
+                                                SvgPicture.asset("assets/images/svg/message.svg", color: const Color(0xffE93F81)),
                                                 const SizedBox(width: 5),
                                                 Text(
                                                   value.autoRes[index]['subject'],

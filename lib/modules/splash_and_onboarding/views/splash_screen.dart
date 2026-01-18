@@ -142,7 +142,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (json2String != null && json2String != "") {
       us2Cache = json.decode(json2String) as Map<String, dynamic>;// Convert String back to JSON
     }
-    if (us1Cache != null && us1Cache.isNotEmpty && us1Cache != "") {
+    if (us1Cache.isNotEmpty && us1Cache != "") {
       try {
         // Decode JSON string into a Map
         // Convert the Map to the appropriate type (e.g., UserSettingsModel)
@@ -154,7 +154,7 @@ class _SplashScreenState extends State<SplashScreen> {
     else {
       print("us1Cache is null or empty.");
     }
-    if (us2Cache != null && us2Cache.isNotEmpty && us2Cache != "") {
+    if (us2Cache.isNotEmpty && us2Cache != "") {
       try {
         // Decode JSON string into a Map
         // Convert the Map to the appropriate type (e.g., UserSettingsModel)

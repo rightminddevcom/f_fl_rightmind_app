@@ -1,8 +1,4 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:go_router/go_router.dart';
-import 'package:cpanal/common_modules_widgets/custom_elevated_button.widget.dart';
-import 'package:cpanal/constants/app_strings.dart';
-import 'package:cpanal/routing/app_router.dart';
+import 'package:cpanal/constants/app_colors.dart';
 
 import '../constants/app_sizes.dart';
 import '../models/operation_result.model.dart';

@@ -1,14 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cpanal/constants/app_colors.dart';
-import 'package:cpanal/constants/app_images.dart';
-import 'package:cpanal/constants/app_strings.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
-import 'package:cpanal/general_services/localization.service.dart';
 import 'package:cpanal/utils/custom_shimmer_loading/shimmer_animated_loading.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 Widget defaultTapBarItem({
@@ -22,7 +17,7 @@ Widget defaultTapBarItem({
 }) {
   return StatefulBuilder(
     builder: (BuildContext context, StateSetter setState) {
-      final isWeb = kIsWeb; // نحدد لو ويب أو موبايل
+      const isWeb = kIsWeb; // نحدد لو ويب أو موبايل
       double itemWidth = (tapBarItemsWidth ?? MediaQuery.sizeOf(context).width * 0.95) / items!.length;
 
       if (isWeb) {
@@ -44,7 +39,7 @@ Widget defaultTapBarItem({
                     selectIndex = index;
                     selectName = items[index];
                     if (onTapItem != null) {
-                      onTapItem!(index);
+                      onTapItem(index);
                     }
                   });
                 },
@@ -53,7 +48,7 @@ Widget defaultTapBarItem({
                   padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: isSelected ? const Color(AppColors.primary) : Colors.transparent,
+                    color: isSelected ? Color(AppColors.primary) : Colors.transparent,
                   ),
                   child: Row(
                     children: [
@@ -104,7 +99,7 @@ Widget defaultTapBarItem({
                     selectIndex = index;
                     selectName = items[index];
                     if (onTapItem != null) {
-                      onTapItem!(index);
+                      onTapItem(index);
                     }
                   });
                 },
@@ -114,7 +109,7 @@ Widget defaultTapBarItem({
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
-                    color: isSelected ? const Color(AppColors.primary) : Colors.transparent,
+                    color: isSelected ? Color(AppColors.primary) : Colors.transparent,
                   ),
                   child: Text(
                     items[index].toUpperCase(),
@@ -143,10 +138,10 @@ Widget defaultBottomNavigationBar(
   return StatefulBuilder(
     builder: (BuildContext context, StateSetter setState) {
       double containerWidth = tapBarItemsWidth ?? MediaQuery.sizeOf(context).width;
-      double itemWidth =(items!.length > 4)? containerWidth / items!.length * 0.9 :containerWidth / items!.length * 0.95;
+      double itemWidth =(items!.length > 4)? containerWidth / items.length * 0.9 :containerWidth / items.length * 0.95;
       double itemHeight = itemWidth * 1;
       double itemRadius = (items.length > 4)?itemWidth / 2 : itemHeight;
-      print("SELECTED => ${selectIndex}");
+      print("SELECTED => $selectIndex");
       return Center(
         child: Container(
           alignment: Alignment.center,
@@ -166,7 +161,7 @@ Widget defaultBottomNavigationBar(
                     setState(() {
                       selectIndex = index;
                       if (onTapItem != null) {
-                        onTapItem!(index);
+                        onTapItem(index);
                       }
                     });
                   },
@@ -227,7 +222,7 @@ Widget defaultProductContainer(
     required String? imageUrl}) {
   return Container(
     width: containerWidth ?? MediaQuery.sizeOf(context!).width * 1,
-    padding: EdgeInsets.only(right: 10),
+    padding: const EdgeInsets.only(right: 10),
     decoration: BoxDecoration(
       color: containerColor ?? const Color(0xffFFFFFF),
       borderRadius: borderRadius ?? BorderRadius.circular(10),
@@ -250,7 +245,7 @@ Widget defaultProductContainer(
                   Icons.image_not_supported_outlined,
                 )),
       ),
-      SizedBox(
+      const SizedBox(
         width: 16,
       ),
       SizedBox(
@@ -281,7 +276,7 @@ Widget defaultProductContainer(
                         fontWeight: FontWeight.w500,
                         fontSize: 13),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 17,
                   ),
                   if (showDiscountPrice == true)
@@ -384,21 +379,21 @@ Widget defaultProfileContainer({
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 10,
         ),
-        Container(
+        SizedBox(
           width: MediaQuery.sizeOf(context!).width * 0.45,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 height: 23,
                 child: Text(
                   userName!.toUpperCase(),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Color(0xffFFFFFF),
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -408,12 +403,12 @@ Widget defaultProfileContainer({
               const SizedBox(
                 height: 1,
               ),
-              Container(
+              SizedBox(
                 height: 15,
                 child: Text(
                   userRole!.toUpperCase(),
                   style: TextStyle(
-                      color: Color(0xffFFFFFF).withOpacity(0.5),
+                      color: const Color(0xffFFFFFF).withOpacity(0.5),
                       fontSize: 10,
                       fontWeight: FontWeight.w500,
                       ),

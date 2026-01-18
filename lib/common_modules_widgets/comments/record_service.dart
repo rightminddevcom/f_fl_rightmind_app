@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:record/record.dart';
 
@@ -25,7 +24,7 @@ class RecordingService {
         final timestamp = DateTime.now().millisecondsSinceEpoch;
         final path = '/data/user/0/temp_audio_$timestamp.m4a';
         await _recorder!.start(
-          RecordConfig(encoder: AudioEncoder.aacLc),
+          const RecordConfig(encoder: AudioEncoder.aacLc),
           path: path,
         );
         _lastRecordingPath = path;

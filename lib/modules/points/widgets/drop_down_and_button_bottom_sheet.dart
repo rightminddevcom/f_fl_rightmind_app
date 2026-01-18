@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cpanal/constants/app_sizes.dart';
 import 'package:cpanal/constants/app_strings.dart';
@@ -64,7 +63,7 @@ class _DropDownAndButtonBottomSheetState extends State<DropDownAndButtonBottomSh
                         },
                       ),
                       const SizedBox(height: 30,),
-                      if(provider.status == RedeemPrizeStatus.loading)Center(
+                      if(provider.status == RedeemPrizeStatus.loading)const Center(
                         child: CircularProgressIndicator(),
                       ),
                       if(provider.status != RedeemPrizeStatus.loading) GestureDetector(
@@ -99,7 +98,7 @@ class _DropDownAndButtonBottomSheetState extends State<DropDownAndButtonBottomSh
                           height: 50,
                           width: 224,
                           decoration: BoxDecoration(
-                            color: Color(0xFF0D3B6F),
+                            color: const Color(0xFF0D3B6F),
                             borderRadius: BorderRadius.circular(50),
                           ),
                           child: Row(

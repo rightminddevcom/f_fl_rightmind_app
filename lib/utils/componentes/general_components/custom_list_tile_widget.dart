@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cpanal/constants/app_colors.dart';
 import 'package:cpanal/constants/app_sizes.dart';
-import 'package:cpanal/constants/settings/app_icons.dart';
 import 'package:cpanal/general_services/app_theme.service.dart';
 import 'package:cpanal/utils/componentes/general_components/button_widget.dart';
 import 'package:cpanal/utils/media_query_values.dart';
@@ -155,9 +153,9 @@ class CustomListTileWidget extends StatelessWidget {
                           const EdgeInsets.symmetric(horizontal: AppSizes.s16),
                       title: buttonOneTitle ?? '',
                       backgroundColor:
-                          buttonOneColor, //const Color(AppColors.red1),
+                          buttonOneColor, //Color(AppColors.red1),
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               isButtonTwoVisible == true
                   ? Padding(
                       padding: const EdgeInsets.only(left: AppSizes.s8),
@@ -168,10 +166,10 @@ class CustomListTileWidget extends StatelessWidget {
                             horizontal: AppSizes.s16),
                         title: buttonTwoTitle ?? '', //'REMOVE',
                         backgroundColor:
-                            buttonTwoColor, //const Color(AppColors.red1),
+                            buttonTwoColor, //Color(AppColors.red1),
                       ),
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
             ],
           ),
         ],

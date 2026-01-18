@@ -1,6 +1,5 @@
 import 'package:cpanal/modules/points/logic/points_cubit/points_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +10,8 @@ import 'package:cpanal/controller/home_model/home_model.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
 class ContactSelectionScreen extends StatefulWidget {
+  const ContactSelectionScreen({super.key});
+
   @override
   _ContactSelectionScreenState createState() => _ContactSelectionScreenState();
 }
@@ -18,10 +19,10 @@ class ContactSelectionScreen extends StatefulWidget {
 class _ContactSelectionScreenState extends State<ContactSelectionScreen> {
   List<Contact> _contacts = [];
   List<Contact> _filteredContacts = [];
-  Map<String, dynamic> _selectedContacts = {
+  final Map<String, dynamic> _selectedContacts = {
     "items": []
   };
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -71,7 +72,7 @@ class _ContactSelectionScreenState extends State<ContactSelectionScreen> {
         });
       }
     });
-    print("_selectedContacts is --> ${_selectedContacts}");
+    print("_selectedContacts is --> $_selectedContacts");
     print("_selectedContacts is --> ${_selectedContacts.length}");
   }
   Future<String> getCountryCode(String phoneNumber) async {
@@ -103,7 +104,7 @@ class _ContactSelectionScreenState extends State<ContactSelectionScreen> {
               value.isAddFriendContactSuccess = false;
             }
             return Scaffold(
-              backgroundColor: Color(0xffFFFFFF),
+              backgroundColor: const Color(0xffFFFFFF),
               appBar: AppBar(
                 backgroundColor: Colors.transparent,
                 surfaceTintColor: Colors.transparent,
@@ -111,7 +112,7 @@ class _ContactSelectionScreenState extends State<ContactSelectionScreen> {
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  child: const Icon(
+                  child: Icon(
                     Icons.arrow_back,
                     color: Color(AppColors.dark),
                   ),
@@ -119,7 +120,7 @@ class _ContactSelectionScreenState extends State<ContactSelectionScreen> {
                 centerTitle: true,
                 title: Text(
                   AppStrings.recommendFriends.tr().toUpperCase(),
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(AppColors.dark),
                     fontWeight: FontWeight.w700,
                     fontSize: 16,
@@ -135,13 +136,13 @@ class _ContactSelectionScreenState extends State<ContactSelectionScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text("${_selectedContacts['items'].length} ${AppStrings.selected.tr()}",
-                            style: TextStyle(color: Color(0xff5E5E5E), fontSize: 12 ,fontWeight: FontWeight.w500),
+                            style: const TextStyle(color: Color(0xff5E5E5E), fontSize: 12 ,fontWeight: FontWeight.w500),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           if(value.isAddFriendLoading == true)Container(
                             width: 90,
                             alignment: Alignment.center,
-                            child: CircularProgressIndicator(),
+                            child: const CircularProgressIndicator(),
                           ),
                           if(value.isAddFriendLoading == false)SizedBox(
                             height: 30,
@@ -164,18 +165,18 @@ class _ContactSelectionScreenState extends State<ContactSelectionScreen> {
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Container(
+                              child: SizedBox(
                                 height: 45,
                                 child: TextField(
                                   controller: _searchController,
                                   decoration: InputDecoration(
                                     labelText: AppStrings.search.tr(),
-                                    prefixIcon: Icon(Icons.search),
+                                    prefixIcon: const Icon(Icons.search),
                                     suffixIcon: GestureDetector(
                                         onTap: (){
                                           _searchController.clear();
                                         },
-                                        child: Icon(Icons.close)),
+                                        child: const Icon(Icons.close)),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(8),
                                     ),
@@ -184,21 +185,21 @@ class _ContactSelectionScreenState extends State<ContactSelectionScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 10,),
+                          const SizedBox(width: 10,),
                           GestureDetector(
                               onTap: (){
                                 _searchController.clear();
                               },
-                              child: Text(AppStrings.cancel.tr().toUpperCase(),style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14, color: Color(AppColors.black)),))
+                              child: Text(AppStrings.cancel.tr().toUpperCase(),style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14, color: Color(AppColors.black)),))
                         ],
                       ),
                     ),
                     if(_filteredContacts.isEmpty)Container(
                       height: MediaQuery.sizeOf(context).height * 0.7,
                       alignment: Alignment.center,
-                      child: Center(child: Text("${AppStrings.searchingInContacts.tr()} ...", style: TextStyle(color: Colors.black, fontSize: 18),),),
+                      child: Center(child: Text("${AppStrings.searchingInContacts.tr()} ...", style: const TextStyle(color: Colors.black, fontSize: 18),),),
                     ),
-                    if(_filteredContacts.isNotEmpty)Container(
+                    if(_filteredContacts.isNotEmpty)SizedBox(
                       height: MediaQuery.sizeOf(context).height * 0.7,
                       child: ListView.builder(
                         itemCount: _filteredContacts.length,

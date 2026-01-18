@@ -9,22 +9,16 @@ import 'package:cpanal/modules/cpanel/logic/email_filter_provider.dart';
 import 'package:cpanal/modules/cpanel/logic/email_forward_provider.dart';
 import 'package:cpanal/modules/cpanel/logic/ftp_provider.dart';
 import 'package:cpanal/modules/cpanel/logic/sql_provider.dart';
-import 'package:cpanal/platform/platform_is.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/services.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:hive/hive.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
-import 'package:cpanal/general_services/connections.service.dart';
 import 'package:cpanal/modules/more/views/blog/controller/blog_controller.dart';
 import 'package:cpanal/modules/more/views/notification/logic/notification_provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'app.dart';
 import 'controller/request_controller/request_controller.dart';
 import 'firebase_options.dart';
@@ -33,9 +27,7 @@ import 'general_services/sentry_service.dart';
 import 'utils/error_handling/global_error_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'general_services/conditional_imports/change_url_strategy.service.dart';
 import 'general_services/internet_check.dart';
-import 'general_services/notification_service.dart';
 import 'modules/home/view_models/home.viewmodel.dart';
 import 'modules/main_screen/view_models/main_viewmodel.dart';
 import 'modules/points/logic/points_cubit/points_provider.dart';
@@ -134,8 +126,4 @@ class GoRouterRefreshNotifier extends ChangeNotifier {
     service.addListener(notifyListeners);
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 }

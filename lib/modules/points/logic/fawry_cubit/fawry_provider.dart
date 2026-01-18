@@ -100,7 +100,7 @@ class FawryProviderModel extends ChangeNotifier {
   }
 
   double calcFees(Map<String, dynamic> service, double amount) {
-    print("service is --> ${service}");
+    print("service is --> $service");
     List<dynamic> rules = [];
 
     try {
@@ -156,7 +156,7 @@ class FawryProviderModel extends ChangeNotifier {
       isGetFawryCategoryLoading = true;
       notifyListeners();
     } catch (error) {
-      getNotificationErrorMessage = error is DioError
+      getNotificationErrorMessage = error is DioException
           ? error.response?.data['message'] ?? 'Something went wrong'
           : error.toString();
     } finally {
@@ -214,7 +214,7 @@ class FawryProviderModel extends ChangeNotifier {
       isGetFawryCategoryLoading = false;
       notifyListeners();
     } catch (error) {
-      getNotificationErrorMessage = error is DioError
+      getNotificationErrorMessage = error is DioException
           ? error.response?.data['message'] ?? 'Something went wrong'
           : error.toString();
     } finally {
@@ -323,7 +323,7 @@ class FawryProviderModel extends ChangeNotifier {
       isPostPayLoading = true;
       notifyListeners();
     } catch (error) {
-      getNotificationErrorMessage = error is DioError
+      getNotificationErrorMessage = error is DioException
           ? error.response?.data['message'] ?? 'Something went wrong'
           : error.toString();
     } finally {

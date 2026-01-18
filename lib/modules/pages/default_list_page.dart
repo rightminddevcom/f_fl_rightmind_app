@@ -1,14 +1,10 @@
-import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cpanal/models/get_request_comment_model.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:cpanal/modules/more/views/blog/controller/blog_controller.dart';
-import 'package:cpanal/modules/more/views/blog/controller/blog_controller.dart';
 import 'package:cpanal/modules/more/views/blog/controller/blog_controller.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -22,7 +18,7 @@ import '../../utils/placeholder_no_existing_screen/no_existing_placeholder_scree
 
 class DefaultListPage extends StatefulWidget {
   var type;
-  DefaultListPage({this.type});
+  DefaultListPage({super.key, this.type});
 
   @override
   _DefaultListPageState createState() => _DefaultListPageState();
@@ -186,7 +182,7 @@ class _DefaultListPageState extends State<DefaultListPage> {
           child: Column(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
                 child: src.toString().startsWith("http") || src.toString().startsWith("https")?  CachedNetworkImage(
                   height: kIsWeb ? 200 : 135,
                   fit: BoxFit.cover,
@@ -205,13 +201,13 @@ class _DefaultListPageState extends State<DefaultListPage> {
                   width: double.infinity,
                 ),
               ), // Replace with project images
-              SizedBox(height: 5,),
+              const SizedBox(height: 5,),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(title1 ?? "".toUpperCase(),maxLines: 1, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10, color: Color(0xFF090B60))),],
+                    Text(title1 ?? "".toUpperCase(),maxLines: 1, style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 10, color: Color(0xFF090B60))),],
                 ),
               ),
             ],

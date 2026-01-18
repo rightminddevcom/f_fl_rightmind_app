@@ -12,17 +12,14 @@ import 'package:cpanal/constants/app_constants.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/dio.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
 import 'package:provider/provider.dart';
-import 'package:cpanal/general_services/localization.service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/settings/default_general_settings.dart';
 import '../constants/settings/default_user_settings.dart';
 import '../constants/settings/default_user_settings_2.dart';
-import '../constants/user_consts.dart';
 import '../models/endpoint.model.dart';
 import '../models/operation_result.model.dart';
 import '../models/settings/app_settings_model.dart';
 import '../models/settings/general_settings.model.dart';
-import '../modules/more/views/contactus/model.dart';
 import 'app_config.service.dart';
 import 'backend_services/api_service/dio_api_service/dio_api.service.dart';
 import 'backend_services/get_endpoint.service.dart';
@@ -110,7 +107,7 @@ abstract class AppSettingsService {
         }
       }
     }).catchError((error){
-      if (error is DioError) {
+      if (error is DioException) {
         print(error.response?.data['message'] ?? 'Something went wrong');
       }
     });
@@ -171,7 +168,7 @@ abstract class AppSettingsService {
     var s2Cache;
     var gCache;
     print("FAAAAAAAAAAAAAAAILD");
-    String? fcm_token;
+    String? fcmToken;
 
     try {
       if (kIsWeb) {
@@ -185,9 +182,9 @@ abstract class AppSettingsService {
             print("⛔ User denied permission, won't request FCM token");
           }
         }
-        fcm_token = await FirebaseMessaging.instance.getToken();
+        fcmToken = await FirebaseMessaging.instance.getToken();
       } else {
-        fcm_token = await FirebaseMessaging.instance.getToken();
+        fcmToken = await FirebaseMessaging.instance.getToken();
       }
     } catch (e) {
       print("🔥 Error while requesting permission or token: $e");
@@ -195,11 +192,11 @@ abstract class AppSettingsService {
 
     print("FAAAAAAAAAAAAAAAILD 2");
 
-    fcm_token ??= CacheHelper.getString("fcm_token"); // fallback
+    fcmToken ??= CacheHelper.getString("fcm_token"); // fallback
 
     if (settingType == SettingsType.startupSettings) {
       Map<String, dynamic> body = {
-        if(CacheHelper.getString("fcm_token") != fcm_token.toString()) "notification_token" : fcm_token,
+        if(CacheHelper.getString("fcm_token") != fcmToken.toString()) "notification_token" : fcmToken,
         if (CacheHelper.getString("gDate")!= null )"last_update_date_general": CacheHelper.getString("gDate"),
         if (CacheHelper.getString("s1Date")!= null)"last_update_date_user": CacheHelper.getString("s1Date"),
         if (CacheHelper.getString("s2Date") != null) "last_update_date_user2": CacheHelper.getString("s2Date"),
@@ -225,7 +222,7 @@ abstract class AppSettingsService {
           : 'user2_settings';
       Map<String, dynamic> body = {
         "type": settingTypeName,
-        if(CacheHelper.getString("fcm_token") != fcm_token.toString()) "notification_token" : fcm_token,
+        if(CacheHelper.getString("fcm_token") != fcmToken.toString()) "notification_token" : fcmToken,
         "last_update_date": lastUpdateDate
       };
       result = await DioApiService().post<Map<String, dynamic>>(
@@ -238,7 +235,7 @@ abstract class AppSettingsService {
           allData: allData);
     }
     if (result.success && result.data != null && (result.data?.isNotEmpty ?? false)) {
-      CacheHelper.setString(key: "fcm_token", value: fcm_token.toString());
+      CacheHelper.setString(key: "fcm_token", value: fcmToken.toString());
       CacheHelper.setString(key: "update_url", value: result.data!['update_url'] ?? "" );
       if(result.data!['token'] != null){
         if(appConfigServiceProvider.token.isNotEmpty && appConfigServiceProvider.token != result.data!['token']){

@@ -12,6 +12,8 @@ import 'package:cpanal/modules/more/views/faq/view/faq_loading_widget.dart';
 import '../../../../../utils/componentes/general_components/gradient_bg_image.dart';
 
 class FaqScreen extends StatefulWidget {
+  const FaqScreen({super.key});
+
   @override
   _FaqScreenState createState() => _FaqScreenState();
 }
@@ -27,7 +29,7 @@ class _FaqScreenState extends State<FaqScreen> {
           backgroundColor: Colors.white,
           appBar: AppBar(
             surfaceTintColor: Colors.transparent,
-            title:  Text(AppStrings.faqs.tr().toUpperCase(), style: const TextStyle(fontSize: 16,
+            title:  Text(AppStrings.faqs.tr().toUpperCase(), style: TextStyle(fontSize: 16,
                 color: Color(AppColors.dark), fontWeight: FontWeight.w700),),
             leading: Padding(
               padding: const EdgeInsets.all(AppSizes.s10),
@@ -48,7 +50,7 @@ class _FaqScreenState extends State<FaqScreen> {
             backgroundColor: Colors.transparent,
           ),
           body: (value.faqModel != null)?GradientBgImage(
-            padding: EdgeInsets.all(0),
+            padding: const EdgeInsets.all(0),
             child: Center(
               child: ConstrainedBox(
                     constraints: const BoxConstraints(
@@ -94,7 +96,7 @@ class FaqItem {
 class FaqTile extends StatefulWidget {
   final Questions item;
 
-  const FaqTile({Key? key, required this.item}) : super(key: key);
+  const FaqTile({super.key, required this.item});
 
   @override
   _FaqTileState createState() => _FaqTileState();

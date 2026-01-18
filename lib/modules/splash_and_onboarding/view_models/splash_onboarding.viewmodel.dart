@@ -3,23 +3,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
 import 'package:cpanal/modules/home/view_models/home.viewmodel.dart';
 import 'package:provider/provider.dart';
 import '../../../constants/app_constants.dart';
 import '../../../constants/app_images.dart';
-import '../../../constants/settings/default_general_settings.dart';
 import '../../../general_services/app_config.service.dart';
 import '../../../general_services/app_info.service.dart';
-import '../../../general_services/backend_services/get_endpoint.service.dart';
-import '../../../general_services/connections.service.dart';
-import '../../../general_services/device_info.service.dart';
-import '../../../general_services/notification_service/notification.service.dart';
-import '../../../models/endpoint.model.dart';
-import '../../../models/settings/general_settings.model.dart';
 import '../../../routing/app_router.dart';
 
 class OnboardingViewModel extends ChangeNotifier {
@@ -137,6 +128,7 @@ class OnboardingViewModel extends ChangeNotifier {
 
       return gCache['features']['items'];
     }
+    return null;
   }
   List<Map<String, dynamic>>? _getOnboardingDataFromCache() {
     final jsonString = CacheHelper.getString("USG");
@@ -333,8 +325,8 @@ class OnboardingViewModel extends ChangeNotifier {
         print("WATCH 1");
         final jsonString = CacheHelper.getString("USG");
         var gCache;
-        var dateToCheck;
-        var referenceDate;
+        DateTime? dateToCheck;
+        DateTime? referenceDate;
         print("WATCH 2");
         if (jsonString != null && jsonString != "") {
           gCache = json.decode(jsonString) as Map<String,
@@ -348,9 +340,8 @@ class OnboardingViewModel extends ChangeNotifier {
               safeParseDateTime(CacheHelper.getString("dateWatchScreen"));
         } else {
           if (CacheHelper.getString("dateWatchScreen") == null ||
-              CacheHelper.getString("dateWatchScreen") == "" ||
-              gCache == null || gCache['features']['date'] == "" ||
-              dateToCheck.isAfter(referenceDate) == false){
+              CacheHelper.getString("dateWatchScreen") == "" || gCache['features']['date'] == "" ||
+              dateToCheck!.isAfter(referenceDate!) == false){
             print("WATCH IN IN");
             await _precacheImages(context);
             print("WATCH IN 2");
@@ -374,9 +365,8 @@ class OnboardingViewModel extends ChangeNotifier {
           return;
         } else {
           if (CacheHelper.getString("dateWatchScreen") == null ||
-              CacheHelper.getString("dateWatchScreen") == "" ||
-              gCache == null || gCache['features']['date'] == "" ||
-              dateToCheck.isAfter(referenceDate) == false) {
+              CacheHelper.getString("dateWatchScreen") == "" || gCache['features']['date'] == "" ||
+              dateToCheck?.isAfter(referenceDate!) == false) {
             await _precacheImages(context);
             print("WATCH IN 4");
             context.goNamed(AppRoutes.onboarding.name,
@@ -395,7 +385,7 @@ class OnboardingViewModel extends ChangeNotifier {
         //   pathParameters: {'lang': context.locale.languageCode},
         // );
       }
-    } catch (err, t) {
+    } catch (err) {
       print("login-5");
       return context.goNamed(
         AppRoutes.login.name,

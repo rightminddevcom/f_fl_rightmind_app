@@ -41,7 +41,7 @@ class AddFriendBottomSheet extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Center(
@@ -50,7 +50,7 @@ class AddFriendBottomSheet extends StatelessWidget {
                         width: 63,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
-                            color: Color(0xffB9C0C9)),
+                            color: const Color(0xffB9C0C9)),
                       ),
                     ),
                     Padding(
@@ -62,7 +62,7 @@ class AddFriendBottomSheet extends StatelessWidget {
                           const SizedBox(height: 20),
                           Text(
                             AppStrings.registerYourFriendData.tr().toUpperCase(),
-                            style: const TextStyle(
+                            style: TextStyle(
 
                               fontWeight: FontWeight.w700,
                               fontSize: 20,
@@ -90,7 +90,7 @@ class AddFriendBottomSheet extends StatelessWidget {
                             countryCodeController: value.countryCodeController,
                           ),
                           const SizedBox(height: 20),
-                          if(value.isAddFriendLoading)Center(child: CircularProgressIndicator(),),
+                          if(value.isAddFriendLoading)const Center(child: CircularProgressIndicator(),),
                           if(!value.isAddFriendLoading)GestureDetector(
                             onTap: (){
                               value.addFriend(context);
@@ -101,7 +101,7 @@ class AddFriendBottomSheet extends StatelessWidget {
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(50),
-                                  color: const Color(AppColors.primary)),
+                                  color: Color(AppColors.primary)),
                               child: Text(
                                 AppStrings.invitation.tr().toUpperCase(),
                                 style: const TextStyle(

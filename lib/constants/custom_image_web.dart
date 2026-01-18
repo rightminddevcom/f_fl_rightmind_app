@@ -19,5 +19,5 @@ Widget buildCustomImage(
   // // );
   //
   // return HtmlElementView(viewType: viewType);
-  return SizedBox.shrink();
+  return const SizedBox.shrink();
 }

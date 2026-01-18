@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -48,7 +47,7 @@ class PersonalProfileShrinkedHeaderWidget extends StatelessWidget {
                       )),
                    Text(
                     AppStrings.accountAndSettings.tr(),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: AppSizes.s14,
                       letterSpacing: 1.4,

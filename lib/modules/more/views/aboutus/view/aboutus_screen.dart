@@ -12,9 +12,10 @@ import 'package:cpanal/utils/custom_shimmer_loading/shimmer_animated_loading.dar
 import 'package:cpanal/utils/styles.dart';
 import 'package:cpanal/utils/tab_bar_widget.dart';
 
-import '../../../../../utils/componentes/general_components/gradient_bg_image.dart';
 
 class AboutUsScreen extends StatefulWidget {
+  const AboutUsScreen({super.key});
+
   @override
   State<AboutUsScreen> createState() => _AboutUsScreenState();
 }
@@ -177,7 +178,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                                             //                         const ShimmerAnimatedLoading(),
                                             //                     errorWidget: (context,
                                             //                             url, error) =>
-                                            //                         const Icon(
+                                            //                         Icon(
                                             //                       Icons
                                             //                           .image_not_supported_outlined,
                                             //                       size: AppSizes.s32,
@@ -191,7 +192,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                                                 : (selectIndex == 2)
                                                 ? Container(
                                               child: GridView.builder(
-                                                physics: NeverScrollableScrollPhysics(),
+                                                physics: const NeverScrollableScrollPhysics(),
                                                 shrinkWrap: true,
                                                 reverse: false,
                                                 gridDelegate:
@@ -263,7 +264,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(height: 25,)
+                                  const SizedBox(height: 25,)
                                 ],
                               ),
                             ],
@@ -352,7 +353,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                                         //                         const ShimmerAnimatedLoading(),
                                         //                     errorWidget: (context,
                                         //                             url, error) =>
-                                        //                         const Icon(
+                                        //                         Icon(
                                         //                       Icons
                                         //                           .image_not_supported_outlined,
                                         //                       size: AppSizes.s32,
@@ -364,7 +365,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                                         //         ),
                                         //       )
                                             : (selectIndex == 2)
-                                            ? Container(
+                                            ? SizedBox(
                                           height:
                                           MediaQuery.sizeOf(context)
                                               .height *
@@ -457,7 +458,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                         });
                       },
                     ),
-                  ) : SizedBox.shrink(),
+                  ) : const SizedBox.shrink(),
                   extendBody: true,
                 ),
               ),

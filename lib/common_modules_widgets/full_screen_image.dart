@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
@@ -11,7 +10,7 @@ class FullScreenImageViewer extends StatelessWidget {
   var image;
   final int initialIndex;
 
-  FullScreenImageViewer({required this.imageUrls,
+  FullScreenImageViewer({super.key, required this.imageUrls,
     this.one,
     this.image,
     required this.initialIndex,required this.url, this.file, this.thum});
@@ -39,8 +38,8 @@ class FullScreenImageViewer extends StatelessWidget {
             maxScale: PhotoViewComputedScale.covered * 2,
           );
         },
-        scrollPhysics: BouncingScrollPhysics(),
-        backgroundDecoration: BoxDecoration(color: Colors.black),
+        scrollPhysics: const BouncingScrollPhysics(),
+        backgroundDecoration: const BoxDecoration(color: Colors.black),
         pageController: PageController(initialPage: initialIndex),
       ),
     );
@@ -51,7 +50,7 @@ class FullScreenImageViewers extends StatelessWidget {
   final bool? url;
   final int initialIndex;
 
-  FullScreenImageViewers({required this.imageUrls, required this.initialIndex,required this.url});
+  const FullScreenImageViewers({super.key, required this.imageUrls, required this.initialIndex,required this.url});
 
   @override
   Widget build(BuildContext context) {
@@ -74,8 +73,8 @@ class FullScreenImageViewers extends StatelessWidget {
             maxScale: PhotoViewComputedScale.covered * 2,
           );
         },
-        scrollPhysics: BouncingScrollPhysics(),
-        backgroundDecoration: BoxDecoration(color: Colors.black),
+        scrollPhysics: const BouncingScrollPhysics(),
+        backgroundDecoration: const BoxDecoration(color: Colors.black),
         pageController: PageController(initialPage: initialIndex),
       ),
     );

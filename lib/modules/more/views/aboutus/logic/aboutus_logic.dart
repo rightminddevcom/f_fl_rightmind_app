@@ -19,7 +19,7 @@ class AboutUsLogicProvider extends ChangeNotifier{
       isLoading = false;
       notifyListeners();
     }).catchError((error){
-      if (error is DioError) {
+      if (error is DioException) {
         errorMessage = error.response?.data['message'] ?? 'Something went wrong';
       } else {
         errorMessage = error.toString();

@@ -105,7 +105,7 @@ class SendPointFriendBottomSheet extends StatelessWidget {
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(50),
-                                  color: const Color(AppColors.dark)),
+                                  color: Color(AppColors.dark)),
                               child: Text(
                                 AppStrings.sendPoints.tr().toUpperCase(),
                                 style: const TextStyle(

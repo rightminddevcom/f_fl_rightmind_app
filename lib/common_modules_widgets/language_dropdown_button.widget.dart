@@ -3,10 +3,8 @@ import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../constants/app_sizes.dart';
-import '../constants/user_consts.dart';
 import '../general_services/backend_services/api_service/dio_api_service/shared.dart';
 import '../general_services/localization.service.dart';
-import '../general_services/settings.service.dart';
 import '../models/settings/general_settings.model.dart';
 
 class LanguageDropdownButton extends StatelessWidget {

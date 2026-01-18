@@ -67,7 +67,7 @@ class UpdateApp{
                 onWillPop: () async => true,
                 child: AlertDialog(
                   backgroundColor: const Color(0xffFFFFFF),
-                  title: Text(AppStrings.available_update.tr(), style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Color(AppColors.dark)),),
+                  title: Text(AppStrings.available_update.tr(), style:  TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Color(AppColors.dark)),),
                   content: Text(AppStrings.youMustUpdateTheAppToContinue.tr(), style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 16, color: Color(AppColors.black))),
                   actions: [
                     Row(

@@ -41,7 +41,7 @@ class HomeGridView extends StatelessWidget {
                     });
            // Navigator.push(context, MaterialPageRoute(builder: (context) => PointsScreen(),));
           },
-          backgroundColor: const Color(AppColors.primary)),
+          backgroundColor: Color(AppColors.primary)),
       GrideViewItemModel(
           image: "assets/images/svg/h-contact.svg",
           title: AppStrings.contactUs.tr().toUpperCase(),
@@ -69,7 +69,7 @@ class HomeGridView extends StatelessWidget {
                 });
             //Navigator.push(context, MaterialPageRoute(builder: (context) => RequestsScreen(),));
           },
-          backgroundColor: const Color(AppColors.dark)),
+          backgroundColor: Color(AppColors.dark)),
       GrideViewItemModel(
           image: "assets/images/svg/menu.svg",
           title: AppStrings.more.tr(),
@@ -84,13 +84,13 @@ class HomeGridView extends StatelessWidget {
                 });
             //Navigator.push(context, MaterialPageRoute(builder: (context) => const MoreScreen(),));
           },
-          backgroundColor: const Color(AppColors.dark)),
+          backgroundColor: Color(AppColors.dark)),
     ];
     return !kIsWeb?SliverPadding(
       padding: const EdgeInsetsDirectional.only(
           top: AppSizes.s90),
       sliver: SliverGrid(
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 300,
           mainAxisSpacing: 5,
           crossAxisSpacing: 12,

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:cpanal/constants/app_sizes.dart';
 import 'package:cpanal/constants/user_consts.dart';
 import 'package:cpanal/controller/home_model/home_model.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
@@ -14,6 +13,8 @@ import '../../../general_services/general_listener.dart';
 import '../../../utils/componentes/general_components/gradient_bg_image.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -28,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (jsonString != null && jsonString.isNotEmpty && jsonString != "") {
       gCache = json.decode(jsonString) as Map<String, dynamic>; // Convert String back to JSON
     }
-    final popups = gCache?['popups'];
+    final popups = gCache['popups'];
     if (popups != null && popups.isNotEmpty) {
       // WidgetsBinding.instance.addPostFrameCallback((_) {
       //   if (context.mounted) {
@@ -64,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
       return Scaffold(
         backgroundColor: const Color(0xffFFFFFF),
         body: GradientBgImage(
-          padding: EdgeInsets.all(0),
+          padding: const EdgeInsets.all(0),
           child: RefreshIndicator.adaptive(
             onRefresh: () async {
             },
@@ -84,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           FlexibleSpaceBar(
                             background: Container(
-                              decoration:  BoxDecoration(
+                              decoration:  const BoxDecoration(
                                   borderRadius: BorderRadius.only(
                                       bottomLeft: Radius.circular(30),
                                       bottomRight: Radius.circular(30)),
@@ -103,11 +104,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Navigator.push(context, MaterialPageRoute(builder: (context) => const PersonalProfileScreen(),));
                                       },
                                       child: AppbarProfileContainer(
-                                        imageUrl:(us1Cache != null && us1Cache['photo'] != null)?
+                                        imageUrl:(us1Cache['photo'] != null)?
                                         "${us1Cache['photo']}" : '',
-                                        userName:(us1Cache != null && us1Cache['name'] != null)?
+                                        userName:(us1Cache['name'] != null)?
                                         "${us1Cache['name']}" : "",
-                                        userRole:(us1Cache != null && us1Cache['role'] != null)?(us1Cache['role'].isNotEmpty)?
+                                        userRole:(us1Cache['role'] != null)?(us1Cache['role'].isNotEmpty)?
                                         "${us1Cache['role'][0]}".tr() : "" : "",
                                       ),
                                     ),

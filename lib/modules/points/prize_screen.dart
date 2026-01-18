@@ -21,7 +21,7 @@ import 'logic/points_cubit/points_provider.dart';
 class PrizeScreen extends StatefulWidget {
   final bool viewArrow;
   var id;
-  PrizeScreen(this.viewArrow,this.id);
+  PrizeScreen(this.viewArrow,this.id, {super.key});
 
   @override
   _PrizeScreenState createState() => _PrizeScreenState();
@@ -211,7 +211,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                     padding: const EdgeInsetsDirectional.symmetric(
                                         horizontal: AppSizes.s15, vertical: AppSizes.s12),
                                     decoration: BoxDecoration(
-                                      color: const Color(AppColors.textC5),
+                                      color: Color(AppColors.textC5),
                                       borderRadius: BorderRadius.circular(AppSizes.s15),
                                       boxShadow: const [
                                         BoxShadow(
@@ -244,7 +244,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                         Row(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            if(!points.isRedeemLoading) Icon(Icons.arrow_back_ios, size: 16,),
+                                            if(!points.isRedeemLoading) const Icon(Icons.arrow_back_ios, size: 16,),
                                             if(!points.isRedeemLoading)  gapH4,
                                             if(!points.isRedeemLoading)  Text("${points.prizes[index]['points']} ${AppStrings.points.tr()}".toString(),
                                               style: const TextStyle(

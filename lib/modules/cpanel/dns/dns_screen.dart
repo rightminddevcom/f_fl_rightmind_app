@@ -5,10 +5,6 @@ import 'package:cpanal/constants/app_strings.dart';
 import 'package:cpanal/constants/user_consts.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
 import 'package:cpanal/models/settings/user_settings.model.dart';
-import 'package:cpanal/modules/cpanel/logic/auto_response_provider.dart';
-import 'package:cpanal/modules/cpanel/logic/dns_provider.dart';
-import 'package:cpanal/modules/cpanel/logic/dns_provider.dart';
-import 'package:cpanal/modules/cpanel/logic/dns_provider.dart';
 import 'package:cpanal/modules/cpanel/logic/dns_provider.dart';
 import 'package:cpanal/modules/cpanel/widget/dns/create_dns_bottom_sheet.dart';
 import 'package:cpanal/modules/cpanel/widget/dns/delete_dns_bottom_sheet.dart';
@@ -26,13 +22,12 @@ import '../../../../constants/app_sizes.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../../utils/componentes/general_components/gradient_bg_image.dart';
-import '../../choose_domain/choose_domin_screen.dart';
 import '../../more/views/more_screen.dart';
 
 class DNSScreen extends StatefulWidget {
   final String? name;
   final String? dominId;
-  DNSScreen({this.name, this.dominId});
+  const DNSScreen({super.key, this.name, this.dominId});
 
   @override
   State<DNSScreen> createState() => _DNSScreenState();
@@ -217,13 +212,13 @@ class _DNSScreenState extends State<DNSScreen> {
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const MoreScreen(),));
                     },
-                    child: const Icon(Icons.menu, color: Color(AppColors.primary)),
+                    child: Icon(Icons.menu, color: Color(AppColors.primary)),
                   )
                 ],
               ),
             ),
             body: GradientBgImage(
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               child: SingleChildScrollView(
                 controller: _scrollController,
                 child: Padding(
@@ -243,7 +238,7 @@ class _DNSScreenState extends State<DNSScreen> {
                               decoration: BoxDecoration(
                                   color: Color(AppColors.dark),
                                   borderRadius: BorderRadius.circular(20)),
-                              padding: EdgeInsetsGeometry.symmetric(vertical: 4, horizontal: 10),
+                              padding: const EdgeInsetsGeometry.symmetric(vertical: 4, horizontal: 10),
                               child:  Row(
                                 children: [
                                   Text(
@@ -252,7 +247,7 @@ class _DNSScreenState extends State<DNSScreen> {
                                     style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Colors.white),
                                   ),
                                   const SizedBox(width: 10,),
-                                  Icon(Icons.close, color: Colors.white,)
+                                  const Icon(Icons.close, color: Colors.white,)
                                 ],
                               ),
                             ),
@@ -268,7 +263,7 @@ class _DNSScreenState extends State<DNSScreen> {
                       const SizedBox(height: 15),
                       Center(
                         child: ConstrainedBox(
-                          constraints: BoxConstraints(
+                          constraints: const BoxConstraints(
                             maxWidth: kIsWeb ? 1100 : double.infinity,
                           ),
                           child: ListView.separated(
@@ -310,17 +305,17 @@ class _DNSScreenState extends State<DNSScreen> {
                                             final objTTL = AppConstants.accountsEmailsDNSFilter![index]['ttl'];
                                             await Clipboard.setData(ClipboardData(text: "Name : $objName \n Type : $objType \n Content : $objContent \n TTL : $objTTL"));
                                             ScaffoldMessenger.of(context).showSnackBar(
-                                              SnackBar(content: Text("${AppStrings.copied.tr()}")),
+                                              SnackBar(content: Text(AppStrings.copied.tr())),
                                             );
                                           },
                                           child: Container(
                                             width: 50,
                                             height: 50,
-                                            decoration: const BoxDecoration(
+                                            decoration: BoxDecoration(
                                               color: Color(AppColors.dark),
                                               shape: BoxShape.circle,
                                             ),
-                                            child: Icon(Icons.copy, color: Colors.white,),
+                                            child: const Icon(Icons.copy, color: Colors.white,),
                                           ),
                                         ),
                                         CustomSlidableAction(
@@ -343,7 +338,7 @@ class _DNSScreenState extends State<DNSScreen> {
                                           child: Container(
                                             width: 50,
                                             height: 50,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               color: Color(0xFFA372FF),
                                               shape: BoxShape.circle,
                                             ),
@@ -371,7 +366,7 @@ class _DNSScreenState extends State<DNSScreen> {
                                           child: Container(
                                             width: 50,
                                             height: 50,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               color: Color(0xFFE93F81),
                                               shape: BoxShape.circle,
                                             ),
@@ -411,7 +406,7 @@ class _DNSScreenState extends State<DNSScreen> {
                                                         AppConstants.accountsEmailsDNSFilter![index]['name'],
                                                         maxLines: 1,
                                                         overflow: TextOverflow.ellipsis,
-                                                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(AppColors.dark),
+                                                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(AppColors.dark),
                                                         ),
                                                       ),
                                                     ),
@@ -428,13 +423,13 @@ class _DNSScreenState extends State<DNSScreen> {
                                                 const SizedBox(height: 5),
                                                 Row(
                                                   children: [
-                                                    SvgPicture.asset("assets/images/svg/personal.svg", color: Color(0xffE93F81)),
+                                                    SvgPicture.asset("assets/images/svg/personal.svg", color: const Color(0xffE93F81)),
                                                     const SizedBox(width: 5),
                                                     Text(
                                                       AppConstants.accountsEmailsDNSFilter![index]['type'],
                                                       style: const TextStyle(color: Color(0xffE93F81), fontWeight: FontWeight.bold, fontSize: 12),
                                                     ),
-                                                    Spacer(),
+                                                    const Spacer(),
                                                     Container(
                                                       alignment: Alignment.centerRight,
                                                       width: !kIsWeb? MediaQuery.sizeOf(context).width * 0.55:MediaQuery.sizeOf(context).width * 0.3,

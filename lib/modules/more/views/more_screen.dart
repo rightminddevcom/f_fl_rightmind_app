@@ -1,8 +1,5 @@
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cpanal/modules/more/views/company_structure/company_structure_screen.dart';
-import 'package:cpanal/modules/personal_profile/views/personal_profile_screen.dart';
-import 'package:cpanal/modules/splash_and_onboarding/views/splash_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,11 +10,9 @@ import 'package:cpanal/constants/user_consts.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
 import 'package:cpanal/modules/more/widgets/customize_notification_screen.dart';
 import 'package:cpanal/utils/custom_shimmer_loading/shimmer_animated_loading.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_sizes.dart';
 import '../../../constants/app_strings.dart';
-import '../../../constants/web_image.dart';
 import '../../../general_services/localization.service.dart';
 import '../../../models/settings/user_settings.model.dart';
 import '../../../general_services/app_config.service.dart';
@@ -93,7 +88,7 @@ class _MoreScreenState extends State<MoreScreen> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsetsGeometry.only(left: 16, top: 40, right: 16),
+                      padding: const EdgeInsetsGeometry.only(left: 16, top: 40, right: 16),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -102,7 +97,7 @@ class _MoreScreenState extends State<MoreScreen> {
                               child: Icon(Icons.arrow_back, color: Color(AppColors.backgroundColor))),
                           Text(
                             AppStrings.accountAndSettings.tr(),
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: AppSizes.s14,
                               letterSpacing: 1.4,
@@ -111,7 +106,7 @@ class _MoreScreenState extends State<MoreScreen> {
                           ),
                           GestureDetector(
                               onTap: () {},
-                              child: Icon(Icons.arrow_back, color: Colors.transparent)),
+                              child: const Icon(Icons.arrow_back, color: Colors.transparent)),
                         ],
                       ),
                     )
@@ -121,13 +116,13 @@ class _MoreScreenState extends State<MoreScreen> {
                   top: MediaQuery.sizeOf(context).height * 0.25,
                   child: Container(
                     // height: MediaQuery.sizeOf(context).height * 0.66,
-                    decoration: const ShapeDecoration(
+                    decoration:  ShapeDecoration(
                       gradient: LinearGradient(
-                        begin: Alignment(0, 0),
-                        end: Alignment(1, 0),
+                        begin: const Alignment(0, 0),
+                        end: const Alignment(1, 0),
                         colors: [Color(AppColors.backgroundColor), Color(AppColors.bgC4)],
                       ),
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(40),
                           topRight: Radius.circular(40),
@@ -146,13 +141,13 @@ class _MoreScreenState extends State<MoreScreen> {
                               children: [
                                 Center(
                                   child: ConstrainedBox(
-                                    constraints: BoxConstraints(
+                                    constraints: const BoxConstraints(
                                       maxWidth: kIsWeb ? 1070 : double.infinity,
                                     ),
                                     child: Container(
                                       alignment: LocalizationService.isArabic(context: context)? Alignment.centerRight:Alignment.centerLeft,
                                       child: Text(AppStrings.more.tr().toUpperCase(),
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               fontSize: 13,
                                               fontWeight: FontWeight.w600,
                                               color: Color(AppColors.primary))),
@@ -228,7 +223,7 @@ class _MoreScreenState extends State<MoreScreen> {
                                 //         child: Column(
                                 //           mainAxisAlignment: MainAxisAlignment.center,
                                 //           children: [
-                                //             const Icon(Icons.open_in_new, size: 60, color: Colors.blue),
+                                //             Icon(Icons.open_in_new, size: 60, color: Colors.blue),
                                 //             const SizedBox(height: 16),
                                 //             const Text("تم فتح الرابط في تبويب جديد"),
                                 //             const SizedBox(height: 16),
@@ -343,13 +338,13 @@ class _MoreScreenState extends State<MoreScreen> {
                                 const SizedBox(height: 15),
                                 Center(
                                   child: ConstrainedBox(
-                                    constraints: BoxConstraints(
+                                    constraints: const BoxConstraints(
                                       maxWidth: kIsWeb ? 1070 : double.infinity,
                                     ),
                                     child: Container(
                                       alignment: LocalizationService.isArabic(context: context)? Alignment.centerRight:Alignment.centerLeft,
                                       child: Text(AppStrings.myAccount.tr().toUpperCase(),
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               fontSize: 13,
                                               fontWeight: FontWeight.w600,
                                               color: Color(AppColors.primary))),
@@ -364,7 +359,7 @@ class _MoreScreenState extends State<MoreScreen> {
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return CustomizeNotificationScreen();
+                                          return const CustomizeNotificationScreen();
                                         });
                                   },
                                 ),
@@ -480,7 +475,7 @@ class _MoreScreenState extends State<MoreScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 50),
                         width: MediaQuery.sizeOf(context).width * 1,
                         child: Text(
-                          (gCache != null && gCache['name'] != null ? gCache['name'] ?? '' : "")
+                          (gCache['name'] != null ? gCache['name'] ?? '' : "")
                               .toUpperCase(),
                           maxLines: 1,
                           textAlign: TextAlign.center,
@@ -498,7 +493,7 @@ class _MoreScreenState extends State<MoreScreen> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        gCache != null && gCache['job_title'] != null ? gCache['job_title'] ?? "" : "",
+                        gCache['job_title'] != null ? gCache['job_title'] ?? "" : "",
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               color: Color(AppColors.subtitleTextColor),
                               fontSize: 11,
@@ -542,7 +537,7 @@ class DefaultListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ConstrainedBox(
-        constraints: BoxConstraints(
+        constraints: const BoxConstraints(
           maxWidth: kIsWeb ? 1100 : double.infinity,
         ),
         child: Container(

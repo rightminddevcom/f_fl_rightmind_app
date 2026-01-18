@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cpanal/constants/app_sizes.dart';
 import 'package:cpanal/constants/app_strings.dart';
@@ -11,6 +10,8 @@ import 'package:shimmer/shimmer.dart';
 import '../../../../../utils/componentes/general_components/gradient_bg_image.dart';
 
 class BlogScreen extends StatefulWidget {
+  const BlogScreen({super.key});
+
   @override
   State<BlogScreen> createState() => _BlogScreenState();
 }
@@ -42,7 +43,7 @@ class _BlogScreenState extends State<BlogScreen> {
           child: Scaffold(
             backgroundColor: const Color(0xffFFFFFF),
             body: GradientBgImage(
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               child: SingleChildScrollView(
                 controller: _scrollController,
                 child: Column(

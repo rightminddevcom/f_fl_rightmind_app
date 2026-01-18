@@ -1,14 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cpanal/constants/app_strings.dart';
 import 'package:cpanal/routing/app_router.dart';
 import 'package:cpanal/constants/app_colors.dart';
-import 'package:cpanal/constants/app_images.dart';
 import 'package:cpanal/constants/app_sizes.dart';
-import 'package:cpanal/routing/app_router.dart';
 import 'package:cpanal/utils/custom_shimmer_loading/shimmer_animated_loading.dart';
 
 class ListViewItem extends StatelessWidget {
@@ -31,7 +28,7 @@ class ListViewItem extends StatelessWidget {
         padding: const EdgeInsetsDirectional.symmetric(
             horizontal: AppSizes.s15, vertical: AppSizes.s12),
         decoration: BoxDecoration(
-          color: const Color(AppColors.textC5),
+          color: Color(AppColors.textC5),
           borderRadius: BorderRadius.circular(AppSizes.s15),
           boxShadow: const [
             BoxShadow(

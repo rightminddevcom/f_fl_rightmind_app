@@ -1,4 +1,3 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,6 +7,8 @@ import 'package:cpanal/constants/app_sizes.dart';
 import 'package:cpanal/constants/app_strings.dart';
 import 'package:cpanal/controller/device_sys/device_controller.dart';
 class CustomizeNotificationScreen extends StatefulWidget {
+  const CustomizeNotificationScreen({super.key});
+
   @override
   State<CustomizeNotificationScreen> createState() => _CustomizeNotificationScreenState();
 }
@@ -147,7 +148,7 @@ class SwitchRow extends StatelessWidget {
           Switch(
             value: value,
             onChanged: onChanged,
-            activeColor: const Color(0xff224982),
+            activeThumbColor: const Color(0xff224982),
             inactiveThumbColor: Colors.black,
           ),
           gapW8,

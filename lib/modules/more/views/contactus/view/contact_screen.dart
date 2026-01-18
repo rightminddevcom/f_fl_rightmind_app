@@ -12,9 +12,10 @@ import 'package:cpanal/general_services/localization.service.dart';
 import 'package:cpanal/modules/more/views/contactus/controller/controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../../utils/componentes/general_components/gradient_bg_image.dart';
 
 class ContactScreen extends StatefulWidget {
+  const ContactScreen({super.key});
+
   @override
   State<ContactScreen> createState() => _ContactScreenState();
 }
@@ -78,7 +79,7 @@ class _ContactScreenState extends State<ContactScreen> {
                   ),
                   body: SingleChildScrollView(
                     keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
-                    physics: ClampingScrollPhysics(),
+                    physics: const ClampingScrollPhysics(),
                     scrollDirection: Axis.vertical,
                     child: Center(
                       child: ConstrainedBox(
@@ -110,8 +111,8 @@ class _ContactScreenState extends State<ContactScreen> {
                                       children: [
                                         Text(
                                           AppStrings.phone.tr().toUpperCase(),
-                                          style: TextStyle(
-                                              color: const Color(0xffFFFFFF),
+                                          style: const TextStyle(
+                                              color: Color(0xffFFFFFF),
                                               fontWeight: FontWeight.w700,
                                               fontSize: 18),
                                         ),
@@ -130,8 +131,8 @@ class _ContactScreenState extends State<ContactScreen> {
                                             },
                                             child: Text(
                                               "${AppStrings.hotline.tr().toUpperCase()} ${gCache['company_contacts']['phone']}",
-                                              style: TextStyle(
-                                                  color: const Color(0xffFFFFFF),
+                                              style: const TextStyle(
+                                                  color: Color(0xffFFFFFF),
                                                   fontWeight: FontWeight.w400,
                                                   fontSize: 14),
                                             )),
@@ -146,7 +147,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                           child: ListView.separated(
                                               shrinkWrap: true,
                                               physics:
-                                              NeverScrollableScrollPhysics(),
+                                              const NeverScrollableScrollPhysics(),
                                               reverse: false,
                                               scrollDirection: Axis.vertical,
                                               itemBuilder: (context, index) =>
@@ -164,15 +165,15 @@ class _ContactScreenState extends State<ContactScreen> {
                                                       },
                                                       child: Text(
                                                         "${gCache['company_contacts']['otherphones'][index]}",
-                                                        style: TextStyle(
-                                                            color: const Color(
+                                                        style: const TextStyle(
+                                                            color: Color(
                                                                 0xffFFFFFF),
                                                             fontWeight:
                                                             FontWeight.w400,
                                                             fontSize: 14),
                                                       )),
                                               separatorBuilder:
-                                                  (context, index) => SizedBox(
+                                                  (context, index) => const SizedBox(
                                                 height: 5,
                                               ),
                                               itemCount:
@@ -287,8 +288,8 @@ class _ContactScreenState extends State<ContactScreen> {
                                                           child: Text(
                                                             AppStrings.showMap
                                                                 .tr(),
-                                                            style: TextStyle(
-                                                                color: const Color(
+                                                            style: const TextStyle(
+                                                                color: Color(
                                                                     0xffFFFFFF),
                                                                 fontSize: 10,
                                                                 fontWeight:
@@ -300,7 +301,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                                     ],
                                                   ),
                                               separatorBuilder:
-                                                  (context, index) => SizedBox(
+                                                  (context, index) => const SizedBox(
                                                 height: 10,
                                               ),
                                               itemCount:
@@ -345,7 +346,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                           //whatsAppConversationStarterMessage en/ar
                                           ListView.separated(
                                               padding: EdgeInsets.zero,
-                                              physics: NeverScrollableScrollPhysics(),
+                                              physics: const NeverScrollableScrollPhysics(),
                                               reverse: false,
                                               shrinkWrap: true,
                                               itemBuilder: (context, index) => GestureDetector(
@@ -368,7 +369,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                                           fontSize: 14),
                                                     )),
                                               ),
-                                              separatorBuilder: (context, index) => SizedBox(height: 5,),
+                                              separatorBuilder: (context, index) => const SizedBox(height: 5,),
                                               itemCount: gCache['company_contacts']['otheremails'].length)
                                         ],
                                       ),
@@ -394,7 +395,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                       const SizedBox(
                                         height: 20,
                                       ),
-                                      Container(
+                                      SizedBox(
                                         height: 60,
                                         child: Wrap(
                                           spacing: 10,
@@ -606,7 +607,7 @@ class _ContactScreenState extends State<ContactScreen> {
           padding: const EdgeInsets.all(5),
           height: 30,
           width: 30,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
               shape: BoxShape.circle, color: Color(AppColors.primary)),
           child: SvgPicture.asset(src, color: Colors.white),
         ),

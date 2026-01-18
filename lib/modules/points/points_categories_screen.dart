@@ -22,7 +22,7 @@ import 'logic/points_cubit/points_provider.dart';
 
 class PointsCategoriesScreen extends StatefulWidget {
   final bool viewArrow;
-  PointsCategoriesScreen(this.viewArrow);
+  const PointsCategoriesScreen(this.viewArrow, {super.key});
 
   @override
   _PointsCategoriesScreenState createState() => _PointsCategoriesScreenState();
@@ -109,7 +109,7 @@ class _PointsCategoriesScreenState extends State<PointsCategoriesScreen> {
                               ),
                               Text(
                                 AppStrings.chooseTheCategory.tr().toUpperCase(),
-                                style: const TextStyle(color: Color(AppColors.dark), fontWeight: FontWeight.bold, fontSize: 16),
+                                style: TextStyle(color: Color(AppColors.dark), fontWeight: FontWeight.bold, fontSize: 16),
                               ),
                               IconButton(
                                 icon: const Icon(Icons.arrow_back, color: Colors.transparent),
@@ -128,7 +128,7 @@ class _PointsCategoriesScreenState extends State<PointsCategoriesScreen> {
                         ),
                         Center(
                           child: ConstrainedBox(
-                              constraints: BoxConstraints(
+                              constraints: const BoxConstraints(
                                 maxWidth: kIsWeb ? 1100 : double.infinity,
                               ),
                             child: Padding(
@@ -136,14 +136,14 @@ class _PointsCategoriesScreenState extends State<PointsCategoriesScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 15),
                                 child: GridView.builder(
-                                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: kIsWeb ? 4 : 2,
                                     crossAxisSpacing: 12,
                                     mainAxisSpacing: 12,
                                     childAspectRatio: kIsWeb ? 1.0 : 1 / 1.3, // web أقصر شوية
                                   ),
                                   shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
+                                  physics: const NeverScrollableScrollPhysics(),
                                   itemCount: (points.isLoading && points.currentPage == 1)
                                       ? 8
                                       : points.categories.length,
@@ -223,7 +223,7 @@ class _PointsCategoriesScreenState extends State<PointsCategoriesScreen> {
           child: Column(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
                 child:  CachedNetworkImage(
                   height: 135,
                   fit: BoxFit.contain,
@@ -237,13 +237,13 @@ class _PointsCategoriesScreenState extends State<PointsCategoriesScreen> {
                     color: Colors.white,
                   ),
                 ),), // Replace with project images
-              SizedBox(height: 5,),
+              const SizedBox(height: 5,),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(title1 ?? "".toUpperCase(),maxLines: 1, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10, color: Color(0xFF090B60))),],
+                    Text(title1 ?? "".toUpperCase(),maxLines: 1, style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 10, color: Color(0xFF090B60))),],
                 ),
               ),
             ],

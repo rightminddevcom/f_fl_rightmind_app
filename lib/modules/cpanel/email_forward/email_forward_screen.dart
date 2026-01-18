@@ -4,11 +4,9 @@ import 'package:cpanal/constants/app_strings.dart';
 import 'package:cpanal/constants/user_consts.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
 import 'package:cpanal/models/settings/user_settings.model.dart';
-import 'package:cpanal/modules/cpanel/logic/auto_response_provider.dart';
 import 'package:cpanal/modules/cpanel/logic/email_forward_provider.dart';
 import 'package:cpanal/modules/cpanel/widget/email_forward/create_forward_bottom_sheet.dart';
 import 'package:cpanal/modules/cpanel/widget/email_forward/delete_forward_bottom_sheet.dart';
-import 'package:cpanal/modules/cpanel/widget/email_forward/edit_forward_bottom_sheet.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -21,13 +19,12 @@ import '../../../../constants/app_sizes.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../../utils/componentes/general_components/gradient_bg_image.dart';
-import '../../choose_domain/choose_domin_screen.dart';
 import '../../more/views/more_screen.dart';
 
 class EmailForwardScreen extends StatefulWidget {
   final String? name;
   final String? dominId;
-  EmailForwardScreen({this.name, this.dominId});
+  const EmailForwardScreen({super.key, this.name, this.dominId});
 
   @override
   State<EmailForwardScreen> createState() => _EmailForwardScreenState();
@@ -177,13 +174,13 @@ class _EmailForwardScreenState extends State<EmailForwardScreen> {
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const MoreScreen(),));
                     },
-                    child: const Icon(Icons.menu, color: Color(AppColors.primary)),
+                    child: Icon(Icons.menu, color: Color(AppColors.primary)),
                   )
                 ],
               ),
             ),
             body: GradientBgImage(
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               child: SizedBox(
                 height: MediaQuery.sizeOf(context).height * 0.8,
                 child: ListView(
@@ -198,7 +195,7 @@ class _EmailForwardScreenState extends State<EmailForwardScreen> {
                     const SizedBox(height: 15),
                      Center(
                        child: ConstrainedBox(
-                         constraints: BoxConstraints(
+                         constraints: const BoxConstraints(
                            maxWidth: kIsWeb ? 1100 : double.infinity,
                          ),
                          child: Row(
@@ -234,10 +231,10 @@ class _EmailForwardScreenState extends State<EmailForwardScreen> {
                          ),
                        ),
                      ),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     Center(
                       child: ConstrainedBox(
-                        constraints: BoxConstraints(
+                        constraints: const BoxConstraints(
                           maxWidth: kIsWeb ? 1100 : double.infinity,
                         ),
                         child: ListView.separated(
@@ -276,17 +273,17 @@ class _EmailForwardScreenState extends State<EmailForwardScreen> {
                                           final obj = value.domainForward[index]['dest'];
                                           await Clipboard.setData(ClipboardData(text: "domain : $obj"));
                                           ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(content: Text("${AppStrings.copied.tr()}")),
+                                            SnackBar(content: Text(AppStrings.copied.tr())),
                                           );
                                         },
                                         child: Container(
                                           width: 50,
                                           height: 50,
-                                          decoration: const BoxDecoration(
+                                          decoration: BoxDecoration(
                                             color: Color(AppColors.dark),
                                             shape: BoxShape.circle,
                                           ),
-                                          child: Icon(Icons.copy, color: Colors.white,),
+                                          child: const Icon(Icons.copy, color: Colors.white,),
                                         ),
                                       ),
                                       CustomSlidableAction(
@@ -310,7 +307,7 @@ class _EmailForwardScreenState extends State<EmailForwardScreen> {
                                         child: Container(
                                           width: 50,
                                           height: 50,
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                             color: Color(0xFFE93F81),
                                             shape: BoxShape.circle,
                                           ),
@@ -329,14 +326,14 @@ class _EmailForwardScreenState extends State<EmailForwardScreen> {
                                               children: [
                                                 Text(
                                                   value.domainForward[index]['dest'],
-                                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
+                                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
                                                 ),
                                               ],
                                             ),
                                             const SizedBox(height: 5),
                                             Row(
                                               children: [
-                                                SvgPicture.asset("assets/images/svg/message.svg", color: Color(0xffE93F81)),
+                                                SvgPicture.asset("assets/images/svg/message.svg", color: const Color(0xffE93F81)),
                                                 const SizedBox(width: 5),
                                                 Text(
                                                   value.domainForward[index]['forward'],
@@ -362,7 +359,7 @@ class _EmailForwardScreenState extends State<EmailForwardScreen> {
                     const SizedBox(height: 30,),
                     Center(
                       child: ConstrainedBox(
-                        constraints: BoxConstraints(
+                        constraints: const BoxConstraints(
                           maxWidth: kIsWeb ? 1100 : double.infinity,
                         ),
                         child: Row(
@@ -399,10 +396,10 @@ class _EmailForwardScreenState extends State<EmailForwardScreen> {
                          ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     Center(
                       child: ConstrainedBox(
-                        constraints: BoxConstraints(
+                        constraints: const BoxConstraints(
                           maxWidth: kIsWeb ? 1100 : double.infinity,
                         ),
                         child: ListView.separated(
@@ -441,17 +438,17 @@ class _EmailForwardScreenState extends State<EmailForwardScreen> {
                                           final obj = value.emailForward[index]['dest'];
                                           await Clipboard.setData(ClipboardData(text: "Email : $obj"));
                                           ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(content: Text("${AppStrings.copied.tr()}")),
+                                            SnackBar(content: Text(AppStrings.copied.tr())),
                                           );
                                         },
                                         child: Container(
                                           width: 50,
                                           height: 50,
-                                          decoration: const BoxDecoration(
+                                          decoration: BoxDecoration(
                                             color: Color(AppColors.dark),
                                             shape: BoxShape.circle,
                                           ),
-                                          child: Icon(Icons.copy, color: Colors.white,),
+                                          child: const Icon(Icons.copy, color: Colors.white,),
                                         ),
                                       ),
                                       CustomSlidableAction(
@@ -476,7 +473,7 @@ class _EmailForwardScreenState extends State<EmailForwardScreen> {
                                         child: Container(
                                           width: 50,
                                           height: 50,
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                             color: Color(0xFFE93F81),
                                             shape: BoxShape.circle,
                                           ),
@@ -495,14 +492,14 @@ class _EmailForwardScreenState extends State<EmailForwardScreen> {
                                               children: [
                                                 Text(
                                                   value.emailForward[index]['dest'],
-                                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
+                                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
                                                 ),
                                               ],
                                             ),
                                             const SizedBox(height: 5),
                                             Row(
                                               children: [
-                                                SvgPicture.asset("assets/images/svg/message.svg", color: Color(0xffE93F81)),
+                                                SvgPicture.asset("assets/images/svg/message.svg", color: const Color(0xffE93F81)),
                                                 const SizedBox(width: 5),
                                                 Text(
                                                   value.emailForward[index]['forward'],

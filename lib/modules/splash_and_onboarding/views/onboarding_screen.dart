@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:cpanal/constants/app_colors.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
 import 'package:cpanal/general_services/localization.service.dart';
 import '../../../common_modules_widgets/custom_elevated_button.widget.dart';
@@ -69,7 +70,7 @@ class OnBoardingScreen extends StatelessWidget {
                                   Color(AppColors.titleTextColor).withOpacity(0.30), // #090B60 at 15%
                                   Color(AppColors.titleTextColor).withOpacity(0.7), // #090B60 at 30%
                                 ],
-                                stops: [0.0, 0.1, 0.3], // Define stops for each color
+                                stops: const [0.0, 0.1, 0.3], // Define stops for each color
                                 begin: Alignment.center,
                                 end: Alignment.bottomCenter,
                               ),

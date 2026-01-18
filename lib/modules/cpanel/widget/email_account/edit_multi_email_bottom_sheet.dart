@@ -17,7 +17,7 @@ class EditMultiEmailBottomSheet extends StatefulWidget {
   var storage;
   var index;
   var multiEmails;
-  EditMultiEmailBottomSheet({this.dominId,this.dominName,this.email,this.index, this.storage, this.password, this.multiEmails});
+  EditMultiEmailBottomSheet({super.key, this.dominId,this.dominName,this.email,this.index, this.storage, this.password, this.multiEmails});
 
   @override
   State<EditMultiEmailBottomSheet> createState() => _EditMultiEmailBottomSheetState();
@@ -74,7 +74,7 @@ class _EditMultiEmailBottomSheetState extends State<EditMultiEmailBottomSheet> {
                   Center(
                     child: Text(
                       AppStrings.editEmail.tr().toUpperCase(),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Color(AppColors.primary),
                         fontWeight: FontWeight.bold,
                         fontSize: 24,
@@ -87,7 +87,7 @@ class _EditMultiEmailBottomSheetState extends State<EditMultiEmailBottomSheet> {
                     child: Text(
                       AppStrings.createEmailMessage.tr(),
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black54, fontSize: 13),
+                      style: const TextStyle(color: Colors.black54, fontSize: 13),
                     ),
                   ),
                   const SizedBox(height: 25),
@@ -116,7 +116,7 @@ class _EditMultiEmailBottomSheetState extends State<EditMultiEmailBottomSheet> {
                       Expanded(
                           child: CustomElevatedButton(
                             width: null,
-                            backgroundColor: const Color(AppColors.dark),
+                            backgroundColor: Color(AppColors.dark),
                             title: AppStrings.updateEmail.tr().toUpperCase(),
                             onPressed: () async {
                               widget.multiEmails[widget.index]["username"] = emailController.text;
@@ -168,7 +168,7 @@ class _EditMultiEmailBottomSheetState extends State<EditMultiEmailBottomSheet> {
               suffixText,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 12,
                 color: Color(AppColors.dark),

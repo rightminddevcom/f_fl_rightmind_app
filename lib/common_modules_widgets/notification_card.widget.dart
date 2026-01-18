@@ -11,7 +11,6 @@ import '../constants/app_images.dart';
 import '../constants/app_sizes.dart';
 import '../general_services/date.service.dart';
 import '../models/notification.model.dart';
-import 'cached_network_image_widget.dart';
 
 class NotificationCard extends StatefulWidget {
   final NotificationModel notification;
@@ -43,7 +42,7 @@ class _NotificationCardState extends State<NotificationCard> {
     return InkWell(
       onTap: (){
         setState(() {
-          widget.notification!.seen = true;
+          widget.notification.seen = true;
         });
         context.pushNamed(AppRoutes.notificationDetails.name,
             pathParameters: {'lang': context.locale.languageCode,
@@ -78,7 +77,7 @@ class _NotificationCardState extends State<NotificationCard> {
                 : Container(
                     height: AppSizes.s75,
                     width: AppSizes.s75,
-                    padding: EdgeInsets.all(15),
+                    padding: const EdgeInsets.all(15),
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.secondary,
                       borderRadius: const BorderRadius.all(

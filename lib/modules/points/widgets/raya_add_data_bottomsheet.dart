@@ -1,8 +1,6 @@
-import 'dart:convert';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:cpanal/modules/authentication/views/widgets/phone_number_field.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +12,7 @@ import 'bottom_sheet_external_success.dart';
 class RayaAddDataBottomsheet extends StatelessWidget {
   var id;
   var needData;
-  RayaAddDataBottomsheet(this.id, this.needData);
+  RayaAddDataBottomsheet(this.id, this.needData, {super.key});
   var keys;
   List values = [];
   FocusNode fieldFocusNode = FocusNode();
@@ -41,9 +39,9 @@ class RayaAddDataBottomsheet extends StatelessWidget {
           needData.forEach((e){
             print("e['value'] ---> ${e['value']}");
             values.add(e['key']);
-            print("values --> ${values}");
+            print("values --> $values");
           });
-          print("values --> ${values}");
+          print("values --> $values");
           return Padding(
             padding: EdgeInsets.only(
               bottom: MediaQuery.of(context).viewInsets.bottom, // Push above keyboard

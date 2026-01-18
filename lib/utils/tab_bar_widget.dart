@@ -23,7 +23,7 @@ Widget defaultTapBarItem({
             ? 200 // العرض ثابت للقائمة الجانبية
             : (tapBarItemsWidth ?? MediaQuery.sizeOf(context).width * 0.95),
         decoration: BoxDecoration(
-          color: const Color(AppColors.dark),
+          color: Color(AppColors.dark),
           borderRadius: BorderRadius.circular(25),
         ),
         child: SizedBox(
@@ -41,7 +41,7 @@ Widget defaultTapBarItem({
                   selectIndex = index;
                   selectName = items[index];
                   if (onTapItem != null) {
-                    onTapItem!(index);
+                    onTapItem(index);
                   }
                 });
               },
@@ -56,7 +56,7 @@ Widget defaultTapBarItem({
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   color: (selectIndex == index || selectName == items[index])
-                      ? const Color(AppColors.primary)
+                      ? Color(AppColors.primary)
                       : Colors.transparent,
                 ),
                 child: Text(

@@ -18,7 +18,7 @@ class FaqModelProvider extends ChangeNotifier{
       faqModel = FaqModel.fromJson(value.data);
       notifyListeners();
     }).catchError((error){
-      if (error is DioError) {
+      if (error is DioException) {
         errorMessage = error.response?.data['message'] ?? 'Something went wrong';
       } else {
         errorMessage = error.toString();

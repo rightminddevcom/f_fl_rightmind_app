@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart' as locale;
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cpanal/common_modules_widgets/dynamic_image_widget.dart';
@@ -19,11 +18,9 @@ import 'package:cpanal/modules/personal_profile/viewmodels/personal_profile.view
 import 'package:provider/provider.dart';
 import '../../../../../constants/app_sizes.dart';
 import '../../../../constants/app_colors.dart';
-import '../../../../constants/web_image.dart';
 import '../../../../general_services/app_config.service.dart';
 import '../../../../routing/app_router.dart';
 import '../../../../utils/custom_shimmer_loading/shimmer_animated_loading.dart';
-import '../../../splash_and_onboarding/views/splash_screen.dart';
 
 class PersonalProfileHeaderWidget extends StatelessWidget {
 
@@ -124,17 +121,17 @@ class PersonalProfileHeaderWidget extends StatelessWidget {
           ),
           Positioned(
             top: MediaQuery.of(context).padding.top + AppSizes.s12,
-            child: Container(
+            child: SizedBox(
               width: LayoutService.getWidth(context),
               child: Column(
                 children: [
-                  if ( us1Cache != null &&  ( (us1Cache['phone'] != null && us1Cache['phone_verified_at'] == null) ||(us1Cache['email'] != null && us1Cache['email_verified_at'] == null)  ) )  Container(
-                    padding: EdgeInsetsGeometry.symmetric(horizontal: 10),
+                  if ( ( (us1Cache['phone'] != null && us1Cache['phone_verified_at'] == null) ||(us1Cache['email'] != null && us1Cache['email_verified_at'] == null)  ) )  Container(
+                    padding: const EdgeInsetsGeometry.symmetric(horizontal: 10),
                     color: Colors.yellow,
                     child: Row(
                       children: [
-                        Icon(Icons.warning, color: Colors.red),
-                        SizedBox(width: 8),
+                        const Icon(Icons.warning, color: Colors.red),
+                        const SizedBox(width: 8),
                         SizedBox(
                           width: MediaQuery.sizeOf(context).width * 0.6,
                           child: Text(
@@ -146,7 +143,7 @@ class PersonalProfileHeaderWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if ( us1Cache != null &&  ( (us1Cache['phone'] != null && us1Cache['phone_verified_at'] == null) ||(us1Cache['email'] != null && us1Cache['email_verified_at'] == null)  ) ) const SizedBox(height: 15,),
+                  if ( ( (us1Cache['phone'] != null && us1Cache['phone_verified_at'] == null) ||(us1Cache['email'] != null && us1Cache['email_verified_at'] == null)  ) ) const SizedBox(height: 15,),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: AppSizes.s12),
                   child: Row(
@@ -382,8 +379,8 @@ class _CompanyInfoNotchedContainerState extends State<CompanyInfoNotchedContaine
                         child: Container(
                           width: 40,
                           height: 40,
-                          padding: EdgeInsets.all(0),
-                          decoration: BoxDecoration(
+                          padding: const EdgeInsets.all(0),
+                          decoration: const BoxDecoration(
                               color: Color(0xffFFFFFF),
                               shape: BoxShape.circle
                           ),
@@ -452,16 +449,16 @@ class _CompanyInfoNotchedContainerState extends State<CompanyInfoNotchedContaine
               ),
             ),
           ),
-          SizedBox(height: 5,),
+          const SizedBox(height: 5,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsetsGeometry.only(top: 50, left: 95),
+                padding: const EdgeInsetsGeometry.only(top: 50, left: 95),
                 child: Container(
                   width: 30,
                   height: 30,
-                  padding: EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(0),
                   decoration: const BoxDecoration(
                       color: Colors.red,
                       shape: BoxShape.circle
@@ -480,7 +477,7 @@ class _CompanyInfoNotchedContainerState extends State<CompanyInfoNotchedContaine
                         setState(() {
                           _isLoading = false;
                         });
-                      }): CircularProgressIndicator(),
+                      }): const CircularProgressIndicator(),
                 ),
               ),
             ],

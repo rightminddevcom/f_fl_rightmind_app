@@ -82,7 +82,7 @@ class SingleListDetailsScreen extends StatelessWidget {
                         if(value.notificationModel!.mainThumbnail!.isNotEmpty)  gapH24,
                         if(value.notificationModel!.createdAt != null) Text(
                           value.notificationModel!.createdAt!,
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontSize: AppSizes.s10,
                               fontWeight: FontWeight.w400,
                               color: Color(AppColors.c1)),
@@ -90,7 +90,7 @@ class SingleListDetailsScreen extends StatelessWidget {
                         gapH14,
                         Text(
                           value.notificationModel!.title!,
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontSize: AppSizes.s16,
                               fontWeight: FontWeight.bold,
                               color: Color(AppColors.c1)),
@@ -101,7 +101,7 @@ class SingleListDetailsScreen extends StatelessWidget {
                             style: TextsStyles.htmlStyle),
                       ],
                     ),
-                  ) : NotificationDetailsLoading()
+                  ) : const NotificationDetailsLoading()
               ),
             ),
           );

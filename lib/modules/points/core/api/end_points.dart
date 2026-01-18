@@ -1,5 +1,3 @@
-import 'package:cpanal/general_services/app_config.service.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../constants/app_constants.dart';
 

@@ -41,14 +41,14 @@ class MainScreenViewModel extends ChangeNotifier {
   Widget getCurrentMainPage(NavbarPages currPage) {
     switch (currPage) {
       case NavbarPages.home:
-        return HomeScreen();
+        return const HomeScreen();
       case NavbarPages.fingerprint:
-        return NotificationScreen(false);
+        return const NotificationScreen(false);
       case NavbarPages.requests:
-        return NotificationScreen(false);
+        return const NotificationScreen(false);
       case NavbarPages.notifications:
         CacheHelper.deleteData(key: "value");
-        return NotificationScreen(false);
+        return const NotificationScreen(false);
       case NavbarPages.more:
         return const MoreScreen();
     }

@@ -11,9 +11,10 @@ import '../../../../constants/app_colors.dart';
 import '../../../../controller/device_sys/device_controller.dart';
 import '../../../../general_services/app_config.service.dart';
 import '../../../../general_services/layout.service.dart';
-import '../../../../utils/componentes/general_components/gradient_bg_image.dart';
 
 class UserDeviceScreen extends StatefulWidget {
+  const UserDeviceScreen({super.key});
+
   @override
   State<UserDeviceScreen> createState() => _UserDeviceScreenState();
 }
@@ -55,9 +56,9 @@ class _UserDeviceScreenState extends State<UserDeviceScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Padding(padding: EdgeInsetsGeometry.symmetric(horizontal: kIsWeb? 20 : 0),
+                        Padding(padding: const EdgeInsetsGeometry.symmetric(horizontal: kIsWeb? 20 : 0),
                         child: IconButton(
-                          icon: const Icon(Icons.arrow_back, color: Color(AppColors.dark)),
+                          icon: Icon(Icons.arrow_back, color: Color(AppColors.dark)),
                           onPressed: () {
                             Navigator.pop(context);
                           },
@@ -65,7 +66,7 @@ class _UserDeviceScreenState extends State<UserDeviceScreen> {
                         ),
                         Text(
                           AppStrings.userDevices.tr().toUpperCase(),
-                          style: const TextStyle(color: Color(AppColors.dark), fontWeight: FontWeight.bold, fontSize: 16),
+                          style: TextStyle(color: Color(AppColors.dark), fontWeight: FontWeight.bold, fontSize: 16),
                         ),
                         IconButton(
                             icon: const Icon(Icons.arrow_back, color: Colors.transparent),
@@ -113,7 +114,7 @@ class _UserDeviceScreenState extends State<UserDeviceScreen> {
                               padding: const EdgeInsetsDirectional.symmetric(
                                   horizontal: AppSizes.s15, vertical: AppSizes.s12),
                               decoration: BoxDecoration(
-                                color: const Color(AppColors.textC5),
+                                color: Color(AppColors.textC5),
                                 borderRadius: BorderRadius.circular(AppSizes.s15),
                                 boxShadow: const [
                                   BoxShadow(
@@ -128,13 +129,13 @@ class _UserDeviceScreenState extends State<UserDeviceScreen> {
                                 children: [
                                   if(value.devices[index]['device_type'] != "PC/Laptop")SvgPicture.asset("assets/images/svg/mobile.svg"),
                                   if(value.devices[index]['device_type'] == "PC/Laptop")SvgPicture.asset("assets/images/svg/laptop.svg"),
-                                  SizedBox(width: 15,),
+                                  const SizedBox(width: 15,),
                                   SizedBox(
                                     width : MediaQuery.sizeOf(context).width * 0.4,
                                     child: Text(
                                       "${value.devices[index]['browser'].toString()} (${value.devices[index]['os_version'].toString()})".toUpperCase(),
                                       maxLines: 2,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w600,
                                           color: Color(AppColors.dark)),

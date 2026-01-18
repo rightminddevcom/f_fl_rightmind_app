@@ -32,7 +32,7 @@ class LoadFromFilesBottomSheet extends StatelessWidget {
           Center(
             child: Text(
               AppStrings.loadFromFile.tr().toUpperCase(),
-              style: const TextStyle(
+              style: TextStyle(
                 color: Color(AppColors.primary),
                 fontWeight: FontWeight.bold,
                 fontSize: 24,
@@ -45,7 +45,7 @@ class LoadFromFilesBottomSheet extends StatelessWidget {
             child: Text(
               AppStrings.createEmailMessage.tr(),
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black54, fontSize: 13),
+              style: const TextStyle(color: Colors.black54, fontSize: 13),
             ),
           ),
           const SizedBox(height: 25),
@@ -68,7 +68,7 @@ class LoadFromFilesBottomSheet extends StatelessWidget {
               Expanded(
                 child: CustomElevatedButton(
                   width: null,
-                  backgroundColor: const Color(AppColors.dark),
+                  backgroundColor: Color(AppColors.dark),
                   title: AppStrings.addEmail.tr().toUpperCase(),
                   onPressed: () async {
                   },

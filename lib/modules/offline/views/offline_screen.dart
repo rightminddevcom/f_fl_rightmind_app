@@ -141,7 +141,7 @@ class _OfflineScreenState extends State<OfflineScreen> {
                         const SizedBox(height: 25,),
                         Text(AppStrings.youAreOffline.tr(), style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),),
                         const SizedBox(height: 15,),
-                        Text(AppStrings.pleaseConnectToTheInternetAndTryAgain.tr(), style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: Color(AppColors.black)),),
+                        Text(AppStrings.pleaseConnectToTheInternetAndTryAgain.tr(), style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: Color(AppColors.black)),),
                         const SizedBox(height: 25,),
                         Consumer<ConnectionService>(
                           builder: (context, connectionService, _) {

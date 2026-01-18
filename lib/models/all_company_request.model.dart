@@ -1,4 +1,3 @@
-import 'department.model.dart';
 
 class AllCompanyRequestModel {
   var id;

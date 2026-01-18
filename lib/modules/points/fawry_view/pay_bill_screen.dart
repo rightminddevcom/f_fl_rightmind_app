@@ -1,12 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cpanal/constants/app_colors.dart';
 import 'package:cpanal/constants/app_sizes.dart';
 import 'package:cpanal/constants/app_strings.dart';
 import 'package:cpanal/general_services/layout.service.dart';
-import 'package:cpanal/general_services/validation_service.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -25,7 +23,7 @@ class PayBillScreen extends StatefulWidget {
   List? fawryInqury = [];
   var inquiryId;
   var inputsValues;
-  PayBillScreen(this.title,this.phone,this.id, {
+  PayBillScreen(this.title,this.phone,this.id, {super.key, 
     this.pointsPerOne,this.fawryInqury,this.inputsValues,this.us2Cache,this.totalPoints,this.serviceObject,
   });
   @override
@@ -79,7 +77,7 @@ class _PayBillScreenState extends State<PayBillScreen> {
                   ),
                 ),
               ),
-              body: Container(
+              body: SizedBox(
                 height: MediaQuery.sizeOf(context).height * 1,
                 child: GradientBgImage(padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                   child: SingleChildScrollView(keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -161,7 +159,7 @@ class _PayBillScreenState extends State<PayBillScreen> {
                                           padding: const EdgeInsets.all(2),
                                           decoration: BoxDecoration(
                                             shape: BoxShape.circle,
-                                            border: Border.all(color: const Color(AppColors.dark)),
+                                            border: Border.all(color: Color(AppColors.dark)),
                                           ),
                                           child: Container(
                                             decoration: BoxDecoration(
@@ -172,7 +170,7 @@ class _PayBillScreenState extends State<PayBillScreen> {
                                         ),
                                       ),
                                       const SizedBox(width: 10,),
-                                      Text(widget.title ?? "", style: const TextStyle(color: Color(AppColors.dark),fontSize: 14, fontWeight: FontWeight.w700),),
+                                      Text(widget.title ?? "", style: TextStyle(color: Color(AppColors.dark),fontSize: 14, fontWeight: FontWeight.w700),),
                                     ],
                                   ),
                                   const SizedBox(height: 15,),
@@ -190,10 +188,10 @@ class _PayBillScreenState extends State<PayBillScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 25,horizontal: 15),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
-                            color: Color(0xffFFFFFF),
+                            color: const Color(0xffFFFFFF),
                             boxShadow: [
                               BoxShadow(
-                                color: Color(0xffC9CFD2).withOpacity(0.5),
+                                color: const Color(0xffC9CFD2).withOpacity(0.5),
                                 blurRadius: AppSizes.s5,
                                 spreadRadius: 1,
                               )
@@ -221,9 +219,9 @@ class _PayBillScreenState extends State<PayBillScreen> {
                                       },
                                     ),
                                   ),
-                                  Spacer(),
+                                  const Spacer(),
                                   SvgPicture.asset("assets/images/svg/transfer.svg"),
-                                  Spacer(),
+                                  const Spacer(),
                                   SizedBox(
                                     width: MediaQuery.sizeOf(context).width * 0.35,
                                     child: TextFormField(
@@ -248,9 +246,9 @@ class _PayBillScreenState extends State<PayBillScreen> {
                               // defaultTransferDetailsTexts(AppStrings.yourActualBalanceOnPhone.tr(), "345 ج.م"),
                               defaultTransferDetailsTexts(AppStrings.withdrawalAmount.tr(), "${value.rechargeAmountController.text.isNotEmpty? value.rechargeAmountController.text : 0} ج.م"),
                               defaultTransferDetailsTexts(AppStrings.fees.tr(), "${value.cachedFee} ج.م"),
-                              defaultTransferDetailsTexts(AppStrings.total.tr(), "${double.parse(value.rechargeAmountController.text.isNotEmpty? value.rechargeAmountController.text : "0") + double.parse(value.cachedFee != null ? value.cachedFee.toStringAsFixed(0): "0")} ج.م"),
+                              defaultTransferDetailsTexts(AppStrings.total.tr(), "${double.parse(value.rechargeAmountController.text.isNotEmpty? value.rechargeAmountController.text : "0") + double.parse(value.cachedFee.toStringAsFixed(0))} ج.م"),
                               SizedBox(width: MediaQuery.sizeOf(context).width * 0.6,
-                                child: const Divider(color: Color(AppColors.dark),),
+                                child: Divider(color: Color(AppColors.dark),),
                               ),
                               const SizedBox(height: 10,),
                               defaultTransferDetailsTexts(AppStrings.yourAvailablePoints.tr(), "${widget.us2Cache['points']['available']} ج.م"),
@@ -265,9 +263,7 @@ class _PayBillScreenState extends State<PayBillScreen> {
                                                     : "0"
                                             )
                                                 + double.parse(
-                                                value.cachedFee != null
-                                                    ? value.cachedFee.toStringAsFixed(0)
-                                                    : (0 * widget.pointsPerOne).toString()
+                                                value.cachedFee.toStringAsFixed(0)
                                             )
                                         )* double.parse(widget.pointsPerOne.toString())
                                     )
@@ -325,9 +321,9 @@ class _PayBillScreenState extends State<PayBillScreen> {
     margin: const EdgeInsets.only(bottom: 10),
     child: Row(
       children: [
-        Text(t1, style: const TextStyle(color: Color(AppColors.dark),fontSize: 12, fontWeight: FontWeight.w600),),
+        Text(t1, style: TextStyle(color: Color(AppColors.dark),fontSize: 12, fontWeight: FontWeight.w600),),
         const Spacer(),
-        Text(t2, style: const TextStyle(color: Color(AppColors.c3),fontSize: 12, fontWeight: FontWeight.w500),)
+        Text(t2, style: TextStyle(color: Color(AppColors.c3),fontSize: 12, fontWeight: FontWeight.w500),)
       ],
     ),
   );

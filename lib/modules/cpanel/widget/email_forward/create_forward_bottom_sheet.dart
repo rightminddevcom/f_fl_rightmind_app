@@ -3,8 +3,6 @@ import 'dart:math';
 import 'package:cpanal/common_modules_widgets/custom_elevated_button.widget.dart';
 import 'package:cpanal/constants/app_colors.dart';
 import 'package:cpanal/constants/app_strings.dart';
-import 'package:cpanal/modules/cpanel/logic/auto_response_provider.dart';
-import 'package:cpanal/modules/cpanel/logic/email_account_provider.dart';
 import 'package:cpanal/modules/cpanel/logic/email_forward_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +16,7 @@ class CreateEmailFowardBottomSheet extends StatefulWidget {
   var dominName;
   var actionType;
   bool domain = true;
-  CreateEmailFowardBottomSheet({this.dominId,this.dominName,this.actionType,this.email, required this.domain});
+  CreateEmailFowardBottomSheet({super.key, this.dominId,this.dominName,this.actionType,this.email, required this.domain});
 
   @override
   State<CreateEmailFowardBottomSheet> createState() => _CreateEmailFowardBottomSheetState();
@@ -71,7 +69,7 @@ class _CreateEmailFowardBottomSheetState extends State<CreateEmailFowardBottomSh
                        widget.domain == false? AppStrings.addANewEmailForwarder.tr().toUpperCase():
                        AppStrings.addANewDomainForwarder.tr().toUpperCase(),
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Color(AppColors.primary),
                           fontWeight: FontWeight.bold,
                           fontSize: 24,
@@ -79,7 +77,7 @@ class _CreateEmailFowardBottomSheetState extends State<CreateEmailFowardBottomSh
                         ),
                       ),
                     ),
-                    SizedBox(height: 15,),
+                    const SizedBox(height: 15,),
                      Center(
                       child: Text(
                         widget.domain == false? "${AppStrings.forwardMessage.tr()} ${AppStrings.email.tr()}":"${AppStrings.forwardMessage.tr()} ${AppStrings.domain.tr()}",
@@ -98,7 +96,7 @@ class _CreateEmailFowardBottomSheetState extends State<CreateEmailFowardBottomSh
                         hintText: AppStrings.fromUserName.tr(),
                       ),
                     ),
-                     SizedBox(height: 15,),
+                     const SizedBox(height: 15,),
                     if(widget.email == null) TextFormField(
                       controller: bodyController,
                       validator: (val) => widget.email == null? ValidationService.validateEmail(val):ValidationService.validateEmail(val),
@@ -125,7 +123,7 @@ class _CreateEmailFowardBottomSheetState extends State<CreateEmailFowardBottomSh
                         Expanded(
                           child: CustomElevatedButton(
                             width: null,
-                            backgroundColor: const Color(AppColors.dark),
+                            backgroundColor: Color(AppColors.dark),
                             title: AppStrings.add.tr().toUpperCase(),
                             onPressed: () async {
                               value.addEmailForward(context,
@@ -176,7 +174,7 @@ class _CreateEmailFowardBottomSheetState extends State<CreateEmailFowardBottomSh
               suffixText,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 12,
                 color: Color(AppColors.dark),

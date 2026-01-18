@@ -14,7 +14,7 @@ class CreateEmailBottomSheet extends StatefulWidget {
   var dominName;
   var multiEmails;
   bool? multi = false;
-  CreateEmailBottomSheet({this.dominId,this.dominName,this.multi,this.multiEmails});
+  CreateEmailBottomSheet({super.key, this.dominId,this.dominName,this.multi,this.multiEmails});
 
   @override
   State<CreateEmailBottomSheet> createState() => _CreateEmailBottomSheetState();
@@ -66,7 +66,7 @@ class _CreateEmailBottomSheetState extends State<CreateEmailBottomSheet> {
                       Center(
                         child: Text(
                           AppStrings.createEmails.tr().toUpperCase(),
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Color(AppColors.primary),
                             fontWeight: FontWeight.bold,
                             fontSize: 24,
@@ -79,7 +79,7 @@ class _CreateEmailBottomSheetState extends State<CreateEmailBottomSheet> {
                         child: Text(
                           AppStrings.createEmailMessage.tr(),
                           textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.black54, fontSize: 13),
+                          style: const TextStyle(color: Colors.black54, fontSize: 13),
                         ),
                       ),
                       const SizedBox(height: 25),
@@ -129,7 +129,7 @@ class _CreateEmailBottomSheetState extends State<CreateEmailBottomSheet> {
                           Expanded(
                             child: CustomElevatedButton(
                               width: null,
-                              backgroundColor: const Color(AppColors.dark),
+                              backgroundColor: Color(AppColors.dark),
                               title: AppStrings.addEmail.tr().toUpperCase(),
                               onPressed: () async {
                                 if(formKey.currentState!.validate()){
@@ -199,7 +199,7 @@ class _CreateEmailBottomSheetState extends State<CreateEmailBottomSheet> {
               suffixText,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 12,
                 color: Color(AppColors.dark),

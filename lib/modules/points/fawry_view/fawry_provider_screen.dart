@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cpanal/modules/points/fawry_view/charge_phone_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cpanal/constants/app_colors.dart';
 import 'package:cpanal/constants/app_sizes.dart';
@@ -15,6 +14,8 @@ import '../../../utils/componentes/general_components/gradient_bg_image.dart';
 import '../logic/fawry_cubit/fawry_provider.dart';
 
 class FawryProviderScreen extends StatelessWidget {
+  const FawryProviderScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -28,13 +29,13 @@ class FawryProviderScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: const Icon(
+                    child: Icon(
                       Icons.arrow_back,
                       color: Color(AppColors.dark),
                     )),
                 title: Text(
                   AppStrings.chooseFromFawryServices.tr().toUpperCase(),
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: AppSizes.s16,
                       fontWeight: FontWeight.w700,
                       color: Color(AppColors.dark)),
@@ -52,7 +53,7 @@ class FawryProviderScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              body: Container(
+              body: SizedBox(
                 height: MediaQuery.sizeOf(context).height * 1,
                 child: GradientBgImage(
                   padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
@@ -99,7 +100,7 @@ class FawryProviderScreen extends StatelessWidget {
       onTap: (){
         Navigator.push(context, MaterialPageRoute(builder: (context) => ChargePhoneScreen(service, ),));
       },
-      child: Container(
+      child: SizedBox(
         height: 150,
         child: Stack(
           alignment: Alignment.topCenter,
@@ -117,7 +118,7 @@ class FawryProviderScreen extends StatelessWidget {
                       color: Colors.grey.withOpacity(0.15),
                       blurRadius: 10,
                       spreadRadius: 2,
-                      offset: Offset(0, 4),
+                      offset: const Offset(0, 4),
                     ),
                   ],
                 ),
@@ -126,7 +127,7 @@ class FawryProviderScreen extends StatelessWidget {
                   child: Text(
                     title,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                       color: Color(AppColors.dark),
                       fontWeight: FontWeight.w600,
@@ -136,7 +137,7 @@ class FawryProviderScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(bottom: 20),
+              padding: const EdgeInsets.only(bottom: 20),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(14),
                 child: CachedNetworkImage(

@@ -8,15 +8,15 @@ class GetOneTaskModel {
   GetOneTaskModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    task = json['task'] != null ? new Task.fromJson(json['task']) : null;
+    task = json['task'] != null ? Task.fromJson(json['task']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
-    if (this.task != null) {
-      data['task'] = this.task!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
+    if (task != null) {
+      data['task'] = task!.toJson();
     }
     return data;
   }
@@ -55,13 +55,13 @@ class Task {
     if (json['assignTo'] != null) {
       assignTo = <AssignTo>[];
       json['assignTo'].forEach((v) {
-        assignTo!.add(new AssignTo.fromJson(v));
+        assignTo!.add(AssignTo.fromJson(v));
       });
     }
     if (json['subTasks'] != null) {
       subTasks = <SubTasks>[];
       json['subTasks'].forEach((v) {
-        subTasks!.add(new SubTasks.fromJson(v));
+        subTasks!.add(SubTasks.fromJson(v));
       });
     }
     dueDate = json['dueDate'];
@@ -70,19 +70,19 @@ class Task {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['content'] = this.content;
-    data['icon'] = this.icon;
-    if (this.assignTo != null) {
-      data['assignTo'] = this.assignTo!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['title'] = title;
+    data['content'] = content;
+    data['icon'] = icon;
+    if (assignTo != null) {
+      data['assignTo'] = assignTo!.map((v) => v.toJson()).toList();
     }
-    if (this.subTasks != null) {
-      data['subTasks'] = this.subTasks!.map((v) => v.toJson()).toList();
+    if (subTasks != null) {
+      data['subTasks'] = subTasks!.map((v) => v.toJson()).toList();
     }
-    data['dueDate'] = this.dueDate;
-    data['status'] = this.status;
+    data['dueDate'] = dueDate;
+    data['status'] = status;
     return data;
   }
 }
@@ -99,9 +99,9 @@ class AssignTo {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
     return data;
   }
 }
@@ -118,9 +118,9 @@ class SubTasks {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['status'] = status;
     return data;
   }
 }

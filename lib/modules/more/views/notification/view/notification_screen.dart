@@ -18,7 +18,7 @@ import '../../../../../utils/componentes/general_components/gradient_bg_image.da
 
 class NotificationScreen extends StatefulWidget {
   final bool viewArrow;
-  NotificationScreen(this.viewArrow);
+  const NotificationScreen(this.viewArrow, {super.key});
 
   @override
   _NotificationScreenState createState() => _NotificationScreenState();
@@ -83,7 +83,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             backgroundColor: const Color(0xffFFFFFF),
             appBar: AppBar(
               surfaceTintColor: Colors.transparent,
-              title:  Text(AppStrings.notifications.tr().toUpperCase(), style: const TextStyle(fontSize: 16,
+              title:  Text(AppStrings.notifications.tr().toUpperCase(), style: TextStyle(fontSize: 16,
                   color: Color(AppColors.dark), fontWeight: FontWeight.w700),),
               backgroundColor: Colors.transparent,
             ),
@@ -115,7 +115,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             //   ),
             // ) : const SizedBox.shrink(),
             body: GradientBgImage(
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               child: RefreshIndicator.adaptive(
                 onRefresh: ()async{
                   setState(() {

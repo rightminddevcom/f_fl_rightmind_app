@@ -4,10 +4,6 @@ import 'package:cpanal/constants/app_strings.dart';
 import 'package:cpanal/constants/user_consts.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
 import 'package:cpanal/models/settings/user_settings.model.dart';
-import 'package:cpanal/modules/cpanel/logic/ftp_provider.dart';
-import 'package:cpanal/modules/cpanel/logic/sql_provider.dart';
-import 'package:cpanal/modules/cpanel/logic/sql_provider.dart';
-import 'package:cpanal/modules/cpanel/logic/sql_provider.dart';
 import 'package:cpanal/modules/cpanel/logic/sql_provider.dart';
 import 'package:cpanal/modules/cpanel/widget/sql/create_sql_bottom_sheet.dart';
 import 'package:cpanal/modules/cpanel/widget/sql/delete_sql_bottom_sheet.dart';
@@ -24,13 +20,12 @@ import '../../../../constants/app_sizes.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../../utils/componentes/general_components/gradient_bg_image.dart';
-import '../../choose_domain/choose_domin_screen.dart';
 import '../../more/views/more_screen.dart';
 
 class SqlAccountsScreen extends StatefulWidget {
   final String? name;
   final String? dominId;
-  SqlAccountsScreen({this.name, this.dominId});
+  const SqlAccountsScreen({super.key, this.name, this.dominId});
 
   @override
   State<SqlAccountsScreen> createState() => _SqlAccountsScreenState();
@@ -175,13 +170,13 @@ class _SqlAccountsScreenState extends State<SqlAccountsScreen> {
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const MoreScreen(),));
                     },
-                    child: const Icon(Icons.menu, color: Color(AppColors.primary)),
+                    child: Icon(Icons.menu, color: Color(AppColors.primary)),
                   )
                 ],
               ),
             ),
             body: GradientBgImage(
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               child: SizedBox(
                 height: MediaQuery.sizeOf(context).height * 0.8,
                 child: ListView(
@@ -196,7 +191,7 @@ class _SqlAccountsScreenState extends State<SqlAccountsScreen> {
                     const SizedBox(height: 15),
                     Center(
                       child: ConstrainedBox(
-                        constraints: BoxConstraints(
+                        constraints: const BoxConstraints(
                           maxWidth: kIsWeb ? 1100 : double.infinity,
                         ),
                         child: ListView.separated(
@@ -236,17 +231,17 @@ class _SqlAccountsScreenState extends State<SqlAccountsScreen> {
                                           final obj2 = value.sqls[index]["db_username"];
                                           await Clipboard.setData(ClipboardData(text: "DB : $obj \n DB User : $obj2"));
                                           ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(content: Text("${AppStrings.copied.tr()}")),
+                                            SnackBar(content: Text(AppStrings.copied.tr())),
                                           );
                                         },
                                         child: Container(
                                           width: 50,
                                           height: 50,
-                                          decoration: const BoxDecoration(
+                                          decoration: BoxDecoration(
                                             color: Color(AppColors.dark),
                                             shape: BoxShape.circle,
                                           ),
-                                          child: Icon(Icons.copy, color: Colors.white,),
+                                          child: const Icon(Icons.copy, color: Colors.white,),
                                         ),
                                       ),
                                       CustomSlidableAction(
@@ -272,7 +267,7 @@ class _SqlAccountsScreenState extends State<SqlAccountsScreen> {
                                         child: Container(
                                           width: 50,
                                           height: 50,
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                             color: Color(0xFFA372FF),
                                             shape: BoxShape.circle,
                                           ),
@@ -302,7 +297,7 @@ class _SqlAccountsScreenState extends State<SqlAccountsScreen> {
                                         child: Container(
                                           width: 50,
                                           height: 50,
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                             color: Color(0xFFE93F81),
                                             shape: BoxShape.circle,
                                           ),
@@ -341,7 +336,7 @@ class _SqlAccountsScreenState extends State<SqlAccountsScreen> {
                                                 children: [
                                                   Text(
                                                     value.sqls[index]['db_name'],
-                                                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
+                                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
                                                   ),
                                                 ],
                                               ),
@@ -352,7 +347,7 @@ class _SqlAccountsScreenState extends State<SqlAccountsScreen> {
                                                   const SizedBox(width: 5),
                                                   Text(
                                                     value.sqls[index]['db_username'],
-                                                    style: const TextStyle(color: Color(AppColors.c4), fontWeight: FontWeight.bold, fontSize: 12),
+                                                    style: TextStyle(color: Color(AppColors.c4), fontWeight: FontWeight.bold, fontSize: 12),
                                                   ),
                                                 ],
                                               ),

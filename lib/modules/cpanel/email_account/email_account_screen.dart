@@ -5,11 +5,9 @@ import 'package:cpanal/constants/app_strings.dart';
 import 'package:cpanal/constants/user_consts.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
 import 'package:cpanal/models/settings/user_settings.model.dart';
-import 'package:cpanal/modules/cpanel/email_account/create_multi_accounts_screen.dart';
 import 'package:cpanal/modules/cpanel/logic/email_account_provider.dart';
 import 'package:cpanal/modules/cpanel/widget/auto_res/create_auto_bottom_sheet.dart';
 import 'package:cpanal/modules/cpanel/widget/email_account/create_email_bottom_sheet.dart';
-import 'package:cpanal/modules/cpanel/widget/email_account/create_multi_email_bottom_sheet.dart';
 import 'package:cpanal/modules/cpanel/widget/email_account/delete_account_bottom_sheet.dart';
 import 'package:cpanal/modules/cpanel/widget/email_account/edit_email_bottom_sheet.dart';
 import 'package:cpanal/modules/cpanel/widget/email_account/search_account_bottomsheet.dart';
@@ -20,7 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
@@ -28,18 +25,15 @@ import '../../../../common_modules_widgets/template_page.widget.dart';
 import '../../../../constants/app_sizes.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-import '../../../common_modules_widgets/swip_arrow.dart';
-import '../../../general_services/localization.service.dart';
 import '../../../routing/app_router.dart';
 import '../../../utils/componentes/general_components/gradient_bg_image.dart';
-import '../../choose_domain/choose_domin_screen.dart';
 import '../../more/views/more_screen.dart';
 
 class EmailAccountScreen extends StatefulWidget {
   List? permissions = [];
   final String? name;
   final String? dominId;
-  EmailAccountScreen({this.name, this.dominId, this.permissions});
+  EmailAccountScreen({super.key, this.name, this.dominId, this.permissions});
 
   @override
   State<EmailAccountScreen> createState() => _EmailAccountScreenState();
@@ -285,13 +279,13 @@ class _EmailAccountScreenState extends State<EmailAccountScreen> with SingleTick
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const MoreScreen(),));
                     },
-                    child: const Icon(Icons.menu, color: Color(AppColors.primary)),
+                    child: Icon(Icons.menu, color: Color(AppColors.primary)),
                   )
                 ],
               ),
             ),
             body: GradientBgImage(
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               child: Stack(
                 alignment: Alignment.center,
                 children: [
@@ -314,7 +308,7 @@ class _EmailAccountScreenState extends State<EmailAccountScreen> with SingleTick
                                 decoration: BoxDecoration(
                                     color: Color(AppColors.dark),
                                     borderRadius: BorderRadius.circular(20)),
-                                padding: EdgeInsetsGeometry.symmetric(vertical: 4, horizontal: 10),
+                                padding: const EdgeInsetsGeometry.symmetric(vertical: 4, horizontal: 10),
                                 child:  Row(
                                   children: [
                                    Text(
@@ -323,7 +317,7 @@ class _EmailAccountScreenState extends State<EmailAccountScreen> with SingleTick
                                       style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Colors.white),
                                     ),
                                     const SizedBox(width: 10,),
-                                    Icon(Icons.close, color: Colors.white,)
+                                    const Icon(Icons.close, color: Colors.white,)
                                   ],
                                 ),
                               ),
@@ -340,13 +334,13 @@ class _EmailAccountScreenState extends State<EmailAccountScreen> with SingleTick
                         if (selectedEmails.isNotEmpty) ...[
                           Center(
                             child: ConstrainedBox(
-                              constraints: BoxConstraints(
+                              constraints: const BoxConstraints(
                                 maxWidth: kIsWeb ? 1100 : double.infinity,
                               ),
                               child: Container(
                                 padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                                 decoration: BoxDecoration(
-                                  color: const Color(AppColors.primary),
+                                  color: Color(AppColors.primary),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 width: double.infinity,
@@ -433,7 +427,7 @@ class _EmailAccountScreenState extends State<EmailAccountScreen> with SingleTick
 
                         Center(
                           child: ConstrainedBox(
-                            constraints: BoxConstraints(
+                            constraints: const BoxConstraints(
                               maxWidth: kIsWeb ? 1100 : double.infinity,
                             ),
                             child: ListView.separated(
@@ -474,17 +468,17 @@ class _EmailAccountScreenState extends State<EmailAccountScreen> with SingleTick
                                               final obj = AppConstants.accountsEmailsFilter![index]['email'];
                                               await Clipboard.setData(ClipboardData(text: "Email : $obj"));
                                               ScaffoldMessenger.of(context).showSnackBar(
-                                                SnackBar(content: Text("${AppStrings.copied.tr()}")),
+                                                SnackBar(content: Text(AppStrings.copied.tr())),
                                               );
                                             },
                                             child: Container(
                                               width: 50,
                                               height: 50,
-                                              decoration: const BoxDecoration(
+                                              decoration: BoxDecoration(
                                                 color: Color(AppColors.dark),
                                                 shape: BoxShape.circle,
                                               ),
-                                              child: Icon(Icons.copy, color: Colors.white,),
+                                              child: const Icon(Icons.copy, color: Colors.white,),
                                             ),
                                           ),
                                           CustomSlidableAction(
@@ -508,7 +502,7 @@ class _EmailAccountScreenState extends State<EmailAccountScreen> with SingleTick
                                             child: Container(
                                               width: 50,
                                               height: 50,
-                                              decoration: BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                 color: Color(0xFFA372FF),
                                                 shape: BoxShape.circle,
                                               ),
@@ -525,11 +519,11 @@ class _EmailAccountScreenState extends State<EmailAccountScreen> with SingleTick
                                               width: 50,
                                               height: 50,
                                               alignment: Alignment.center,
-                                              decoration: BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                 color: Color(0xffE93F81),
                                                 shape: BoxShape.circle,
                                               ),
-                                              child: value.isWebLoading == false ?SvgPicture.asset("assets/images/svg/swip_view.svg", fit: BoxFit.scaleDown) : CircularProgressIndicator(),
+                                              child: value.isWebLoading == false ?SvgPicture.asset("assets/images/svg/swip_view.svg", fit: BoxFit.scaleDown) : const CircularProgressIndicator(),
                                             ),
                                           ),
                                           CustomSlidableAction(
@@ -556,9 +550,9 @@ class _EmailAccountScreenState extends State<EmailAccountScreen> with SingleTick
                                                     child: Row(
                                                       children: [
                                                         SvgPicture.asset("assets/images/svg/menu_edit.svg", fit: BoxFit.scaleDown),
-                                                        SizedBox(width: 10),
+                                                        const SizedBox(width: 10),
                                                         Text(AppStrings.autoresponders.tr(),
-                                                          style: const TextStyle(
+                                                          style: TextStyle(
                                                             color: Color(AppColors.dark),
                                                             fontSize: 12,
                                                             fontWeight: FontWeight.w500,
@@ -572,7 +566,7 @@ class _EmailAccountScreenState extends State<EmailAccountScreen> with SingleTick
                                                     child: Row(
                                                       children: [
                                                         SvgPicture.asset("assets/images/svg/menu_forward.svg", fit: BoxFit.scaleDown),
-                                                        SizedBox(width: 10),
+                                                        const SizedBox(width: 10),
                                                         Text(AppStrings.forwardEmail.tr(),
                                                           style: TextStyle(
                                                             color: Color(AppColors.dark),
@@ -587,11 +581,11 @@ class _EmailAccountScreenState extends State<EmailAccountScreen> with SingleTick
                                                     value: 2,
                                                     child: Container(
                                                       color: Colors.pink.withOpacity(0.1),
-                                                      padding: EdgeInsets.symmetric(vertical: 8),
+                                                      padding: const EdgeInsets.symmetric(vertical: 8),
                                                       child: Row(
                                                         children: [
                                                           SvgPicture.asset("assets/images/svg/menu_delete.svg", fit: BoxFit.scaleDown),
-                                                          SizedBox(width: 10),
+                                                          const SizedBox(width: 10),
                                                           Text(AppStrings.deleteEmail.tr(),
                                                             style: TextStyle(
                                                               color: Color(AppColors.dark),
@@ -670,23 +664,23 @@ class _EmailAccountScreenState extends State<EmailAccountScreen> with SingleTick
                                               children: [
                                                 Text(
                                                   AppConstants.accountsEmailsFilter![index]['email'],
-                                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
+                                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
                                                 ),
                                                 const SizedBox(height: 5),
                                                 Row(
                                                   children: [
-                                                    SvgPicture.asset("assets/images/svg/lock.svg", color: AppConstants.accountsEmailsFilter![index]['suspended_login'] == 0 || AppConstants.accountsEmailsFilter![index]['suspended_login'] == null? Colors.green : Color(0xffEB4335)),
+                                                    SvgPicture.asset("assets/images/svg/lock.svg", color: AppConstants.accountsEmailsFilter![index]['suspended_login'] == 0 || AppConstants.accountsEmailsFilter![index]['suspended_login'] == null? Colors.green : const Color(0xffEB4335)),
                                                     const SizedBox(width: 5),
                                                     Text(
                                                       AppConstants.accountsEmailsFilter![index]['suspended_login'] == 0 || AppConstants.accountsEmailsFilter![index]['suspended_login'] == null ? AppStrings.unrestricted.tr() : AppStrings.restricted.tr(),
-                                                      style: TextStyle(color: AppConstants.accountsEmailsFilter![index]['suspended_login'] == 0 || AppConstants.accountsEmailsFilter![index]['suspended_login'] == null? Colors.green : Color(0xffEB4335), fontWeight: FontWeight.bold),
+                                                      style: TextStyle(color: AppConstants.accountsEmailsFilter![index]['suspended_login'] == 0 || AppConstants.accountsEmailsFilter![index]['suspended_login'] == null? Colors.green : const Color(0xffEB4335), fontWeight: FontWeight.bold),
                                                     ),
                                                     const Spacer(),
                                                     SvgPicture.asset("assets/images/svg/speed.svg"),
                                                     const SizedBox(width: 5),
                                                     Text(
                                                       "${AppConstants.accountsEmailsFilter![index]['humandiskused']} / ${AppConstants.accountsEmailsFilter![index]['humandiskquota']}",
-                                                      style: const TextStyle(color: Color(AppColors.primary), fontSize: 12, fontWeight: FontWeight.bold),
+                                                      style: TextStyle(color: Color(AppColors.primary), fontSize: 12, fontWeight: FontWeight.bold),
                                                     ),
                                                   ],
                                                 ),

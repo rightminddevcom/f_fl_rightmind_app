@@ -39,7 +39,7 @@ class LangControllerProvider extends ChangeNotifier{
     } catch (error) {
       isLoading = false;
       notifyListeners();
-      if (error is DioError) {
+      if (error is DioException) {
         errorMessage = error.response?.data['message'] ?? 'Something went wrong';
       } else {
         errorMessage = error.toString();

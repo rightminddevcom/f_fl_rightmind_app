@@ -14,12 +14,11 @@ import 'package:cpanal/utils/placeholder_no_existing_screen/no_existing_placehol
 import 'package:shimmer/shimmer.dart';
 
 import '../../utils/componentes/general_components/gradient_bg_image.dart';
-import '../more/views/blog/widget/blog_list_view_item.dart';
 import 'default_page_list_view.dart';
 
 class DefaultPage extends StatefulWidget {
   var type;
-  DefaultPage(this.type,);
+  DefaultPage(this.type, {super.key});
 
   @override
   _DefaultPageState createState() => _DefaultPageState();
@@ -85,12 +84,12 @@ class _DefaultPageState extends State<DefaultPage> {
             backgroundColor: const Color(0xffFFFFFF),
             appBar: AppBar(
               surfaceTintColor: Colors.transparent,
-              title:  Text(widget.type == "rmnotifications" ? AppStrings.notifications.tr().toUpperCase() :widget.type.toString().tr().toUpperCase(), style: const TextStyle(fontSize: 16,
+              title:  Text(widget.type == "rmnotifications" ? AppStrings.notifications.tr().toUpperCase() :widget.type.toString().tr().toUpperCase(), style: TextStyle(fontSize: 16,
                   color: Color(AppColors.dark), fontWeight: FontWeight.w700),),
               backgroundColor: Colors.transparent,
             ),
             body: GradientBgImage(
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               child: RefreshIndicator.adaptive(
                 onRefresh: ()async{
                   setState(() {

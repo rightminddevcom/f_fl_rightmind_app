@@ -21,7 +21,7 @@ class CustomFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      backgroundColor: const Color(AppColors.blue),
+      backgroundColor: Color(AppColors.blue),
       heroTag: ValueKey('$iconPath-$tagSuffix'),
       onPressed: onPressed,
       child: Center(

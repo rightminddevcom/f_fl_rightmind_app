@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:cpanal/common_modules_widgets/custom_elevated_button.widget.dart';
 import 'package:cpanal/constants/app_colors.dart';
 import 'package:cpanal/constants/app_strings.dart';
-import 'package:cpanal/modules/cpanel/email_account/create_multi_accounts_screen.dart';
 import 'package:cpanal/modules/cpanel/logic/email_account_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,7 @@ class EditEmailBottomSheet extends StatefulWidget {
   var domainId;
   var email;
   bool? multi = false;
-  EditEmailBottomSheet({this.emails,this.domainId,this.email,this.multi});
+  EditEmailBottomSheet({super.key, this.emails,this.domainId,this.email,this.multi});
 
   @override
   State<EditEmailBottomSheet> createState() => _EditEmailBottomSheetState();
@@ -66,7 +65,7 @@ class _EditEmailBottomSheetState extends State<EditEmailBottomSheet> {
                   Center(
                     child: Text(
                       AppStrings.editEmail.tr().toUpperCase(),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Color(AppColors.primary),
                         fontWeight: FontWeight.bold,
                         fontSize: 24,
@@ -79,7 +78,7 @@ class _EditEmailBottomSheetState extends State<EditEmailBottomSheet> {
                     child: Text(
                       AppStrings.createEmailMessage.tr(),
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black54, fontSize: 13),
+                      style: const TextStyle(color: Colors.black54, fontSize: 13),
                     ),
                   ),
                   const SizedBox(height: 15),
@@ -87,7 +86,7 @@ class _EditEmailBottomSheetState extends State<EditEmailBottomSheet> {
                     width: double.infinity,child: Center(child:
                   Text(
                     widget.email,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                       color: Color(AppColors.dark),
@@ -114,7 +113,7 @@ class _EditEmailBottomSheetState extends State<EditEmailBottomSheet> {
                         ),
                         child: Text(
                           email,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
                             color: Color(AppColors.dark),
@@ -165,7 +164,7 @@ class _EditEmailBottomSheetState extends State<EditEmailBottomSheet> {
                       Expanded(
                         child:value.isLoading == false? CustomElevatedButton(
                           width: null,
-                          backgroundColor: const Color(AppColors.dark),
+                          backgroundColor: Color(AppColors.dark),
                           title: AppStrings.update.tr().toUpperCase(),
                           onPressed: () async {
                             if(widget.multi == false) {
@@ -266,7 +265,7 @@ class _EditEmailBottomSheetState extends State<EditEmailBottomSheet> {
               suffixText,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 12,
                 color: Color(AppColors.dark),

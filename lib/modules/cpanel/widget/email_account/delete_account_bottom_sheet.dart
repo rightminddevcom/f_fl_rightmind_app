@@ -1,7 +1,6 @@
 import 'package:cpanal/common_modules_widgets/custom_elevated_button.widget.dart';
 import 'package:cpanal/constants/app_colors.dart';
 import 'package:cpanal/constants/app_strings.dart';
-import 'package:cpanal/modules/cpanel/email_account/create_multi_accounts_screen.dart';
 import 'package:cpanal/modules/cpanel/logic/email_account_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,7 @@ class DeleteAccountBottomSheet extends StatelessWidget {
   var email;
   bool? multi = false;
   var domainId;
-  DeleteAccountBottomSheet({this.emails,this.domainId,this.multi,this.email});
+  DeleteAccountBottomSheet({super.key, this.emails,this.domainId,this.multi,this.email});
   @override
   Widget build(BuildContext context) {
     return Consumer<EmailAccountProvider>(
@@ -40,7 +39,7 @@ class DeleteAccountBottomSheet extends StatelessWidget {
               Center(
                 child: Text(
                   AppStrings.areYouSureToDelete.tr().toUpperCase(),
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(AppColors.primary),
                     fontWeight: FontWeight.bold,
                     fontSize: 24,
@@ -53,7 +52,7 @@ class DeleteAccountBottomSheet extends StatelessWidget {
                 child: Text(
                   AppStrings.createEmailMessage.tr(),
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.black54, fontSize: 13),
+                  style: const TextStyle(color: Colors.black54, fontSize: 13),
                 ),
               ),
               const SizedBox(height: 15),
@@ -61,7 +60,7 @@ class DeleteAccountBottomSheet extends StatelessWidget {
               child: Center(
                 child: Text(
                   email,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
                     color: Color(AppColors.dark),
@@ -88,7 +87,7 @@ class DeleteAccountBottomSheet extends StatelessWidget {
                     ),
                     child: Text(
                       email,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                         color: Color(AppColors.dark),
@@ -117,7 +116,7 @@ class DeleteAccountBottomSheet extends StatelessWidget {
                   Expanded(
                     child:value.isLoading == false? CustomElevatedButton(
                       width: null,
-                      backgroundColor: const Color(AppColors.dark),
+                      backgroundColor: Color(AppColors.dark),
                       title: AppStrings.delete.tr().toUpperCase(),
                       onPressed: () async {
                         if(multi == false){

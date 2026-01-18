@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +14,7 @@ import 'package:shimmer/shimmer.dart';
 
 class BlogListDetailsScreen extends StatelessWidget {
   String? title;
-  BlogListDetailsScreen({required this.title});
+  BlogListDetailsScreen({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +88,7 @@ class BlogListDetailsScreen extends StatelessWidget {
                             const SizedBox(width: 20,),
                             if(value.getOneBlogModel!.item!.category!.title != null)Row(
                               children: [
-                                Icon(Icons.category, color: Colors.black,),
+                                const Icon(Icons.category, color: Colors.black,),
                                 const SizedBox(width: 5,),
                                 Text(
                                   value.getOneBlogModel!.item!.category!.title!.toUpperCase(),
@@ -105,7 +104,7 @@ class BlogListDetailsScreen extends StatelessWidget {
                         gapH14,
                         Text(
                           value.getOneBlogModel!.item!.title ?? "",
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontSize: AppSizes.s16,
                               fontWeight: FontWeight.bold,
                               color: Color(AppColors.c1)),

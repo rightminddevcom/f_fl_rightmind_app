@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cpanal/general_services/url_launcher.service.dart';
-import 'dart:convert';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:html' as html;

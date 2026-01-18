@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart' as locale;
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
@@ -8,7 +7,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:provider/provider.dart';
-import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/dio.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
 import '../../../common_modules_widgets/custom_elevated_button.widget.dart';
 import '../../../constants/app_sizes.dart';
@@ -122,7 +120,7 @@ class AuthenticationViewModel extends ChangeNotifier {
       final appConfigServiceProvider =
       Provider.of<AppConfigService>(context, listen: false);
       final completePhoneNumber = (countryCodeController.text.isEmpty
-          ? '${phoneController.text}'
+          ? phoneController.text
           : countryCodeController.text + phoneController.text)
           .trim();
       OperationResult<Map<String, dynamic>> result =
@@ -260,7 +258,7 @@ class AuthenticationViewModel extends ChangeNotifier {
       builder: (BuildContext context) {
         return Center(
           child: ConstrainedBox(
-            constraints: BoxConstraints(
+            constraints: const BoxConstraints(
                 maxWidth: kIsWeb ? 800 : double.infinity
             ),
             child: AlertDialog(
@@ -507,7 +505,7 @@ class AuthenticationViewModel extends ChangeNotifier {
       builder: (BuildContext context) {
         return Center(
           child: ConstrainedBox(
-            constraints: BoxConstraints(
+            constraints: const BoxConstraints(
                 maxWidth: kIsWeb ? 800 : double.infinity
             ),
             child: AlertDialog(

@@ -1,12 +1,8 @@
 import 'package:cpanal/common_modules_widgets/custom_elevated_button.widget.dart';
 import 'package:cpanal/constants/app_colors.dart';
-import 'package:cpanal/constants/app_constants.dart';
 import 'package:cpanal/constants/app_strings.dart';
-import 'package:cpanal/modules/cpanel/email_account/create_multi_accounts_screen.dart';
-import 'package:cpanal/modules/cpanel/logic/email_account_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class SearchAccountBottomSheet extends StatefulWidget {
   final Function(String?)? onSearch;
@@ -49,7 +45,7 @@ class _SearchAccountBottomSheetState extends State<SearchAccountBottomSheet> {
             Center(
               child: Text(
                 widget.title ?? AppStrings.emailSearch.tr().toUpperCase(),
-                style: const TextStyle(
+                style: TextStyle(
                   color: Color(AppColors.primary),
                   fontWeight: FontWeight.bold,
                   fontSize: 24,
@@ -62,7 +58,7 @@ class _SearchAccountBottomSheetState extends State<SearchAccountBottomSheet> {
               child: Text(
                 AppStrings.createEmailMessage.tr(),
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.black54, fontSize: 13),
+                style: const TextStyle(color: Colors.black54, fontSize: 13),
               ),
             ),
             const SizedBox(height: 15),
@@ -98,7 +94,7 @@ class _SearchAccountBottomSheetState extends State<SearchAccountBottomSheet> {
                 Expanded(
                   child:  CustomElevatedButton(
                     width: null,
-                    backgroundColor: const Color(AppColors.dark),
+                    backgroundColor: Color(AppColors.dark),
                     title: AppStrings.search.tr().toUpperCase(),
                     onPressed: () async {
                       Navigator.pop(context);

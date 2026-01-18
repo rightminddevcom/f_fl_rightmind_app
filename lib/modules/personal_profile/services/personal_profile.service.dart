@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/dio.dart';
@@ -51,7 +50,7 @@ abstract class PersonalProfileService {
     List<XFile>? avatar,
     required BuildContext context,
   }) async {
-    print("AVATAR IS-->${avatar}");
+    print("AVATAR IS-->$avatar");
     print("SERVER FORM DATA");
     FormData formData = FormData.fromMap(
         {

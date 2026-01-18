@@ -51,7 +51,7 @@ class _CreateMultiEmailBottomSheetState extends State<CreateMultiEmailBottomShee
                   Center(
                     child: Text(
                       AppStrings.createEmails.tr().toUpperCase(),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Color(AppColors.primary),
                         fontWeight: FontWeight.bold,
                         fontSize: 24,
@@ -103,7 +103,7 @@ class _CreateMultiEmailBottomSheetState extends State<CreateMultiEmailBottomShee
                       Expanded(
                         child: CustomElevatedButton(
                           title: AppStrings.addEmail.tr().toUpperCase(),
-                          backgroundColor: const Color(AppColors.dark),
+                          backgroundColor: Color(AppColors.dark),
                           onPressed: ()async {
                             print("TAPED");
                             List<Map<String, dynamic>> accounts = emailAccounts.map((e) {
@@ -194,7 +194,7 @@ class _CreateMultiEmailBottomSheetState extends State<CreateMultiEmailBottomShee
               suffixText,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 12,
                 color: Color(AppColors.dark),

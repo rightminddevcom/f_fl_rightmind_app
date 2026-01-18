@@ -169,7 +169,7 @@ class CommentWidget extends StatelessWidget {
                                       .colorPalette.tertiaryTextColor.color,
                               fontSize: commentFontSize ?? AppSizes.s10,
                             ),
-                      ) : SizedBox.shrink(),
+                      ) : const SizedBox.shrink(),
                 SizedBox(height:rate != null ? 5 : 0,),
                 rate != null ? Row(
                   children: [
@@ -177,7 +177,7 @@ class CommentWidget extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 6, vertical: 1),
                             decoration: ShapeDecoration(
-                              color: Color(0xffFFFABB),
+                              color: const Color(0xffFFFABB),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(AppSizes.s18),
                               ),
@@ -204,7 +204,7 @@ class CommentWidget extends StatelessWidget {
                               ],
                             ),
                           ),
-                    SizedBox(width: 20,),
+                    const SizedBox(width: 20,),
                   if(isVerified == true)  Row(
                     children: [
                       Text(
@@ -217,9 +217,9 @@ class CommentWidget extends StatelessWidget {
                             fontSize: dateFontSize,
                           ),
                         ),
-                      SizedBox(width: 2,),
+                      const SizedBox(width: 2,),
                       Padding(
-                        padding: EdgeInsets.only(left: 4),
+                        padding: const EdgeInsets.only(left: 4),
                         child: SvgPicture.asset(
                           AppIcons.checkMarkDashed,
                           width: 12,
@@ -234,7 +234,7 @@ class CommentWidget extends StatelessWidget {
                     ],
                   )
                   ],
-                ) : SizedBox.shrink(),
+                ) : const SizedBox.shrink(),
               ],
             ),
           ),

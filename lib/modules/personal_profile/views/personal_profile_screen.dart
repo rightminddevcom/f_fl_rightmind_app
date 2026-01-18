@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:cpanal/constants/app_strings.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
 import 'package:cpanal/modules/home/view_models/home.viewmodel.dart';
-import '../../../common_modules_widgets/cached_network_image_widget.dart';
 import '../../../common_modules_widgets/custom_elevated_button.widget.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_images.dart';
@@ -19,7 +16,6 @@ import '../../../general_services/validation_service.dart';
 import '../../../utils/base_page/mobile.header.dart';
 import '../../../utils/base_page/mobile.scaffold.dart';
 import '../../../utils/componentes/general_components/gradient_bg_image.dart';
-import '../../../utils/custom_shimmer_loading/shimmer_animated_loading.dart';
 import '../../authentication/views/widgets/phone_number_field.dart';
 import '../viewmodels/personal_profile.viewmodel.dart';
 import 'widgets/personal_profile_header.widget.dart';
@@ -91,7 +87,7 @@ class _PersonalProfileScreenState extends State<PersonalProfileScreen> {
                   if (viewModel.isSuccessUpdate == true ||
                       viewModel.isSuccessUpdateImage == true) {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
-                      Future.delayed(Duration(seconds: 1), () {
+                      Future.delayed(const Duration(seconds: 1), () {
                         value.initializeHomeScreen(context, ['user_settings']);
                       });
                     });
@@ -105,7 +101,7 @@ class _PersonalProfileScreenState extends State<PersonalProfileScreen> {
                     us1Cache = json.decode(jsonString) as Map<String, dynamic>; // Convert String back to JSON
                   }
                   return GradientBgImage(
-                    padding: EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(0),
                     child: Padding(
                       padding: const EdgeInsets.only(top: AppSizes.s12),
                       child: Padding(
@@ -288,30 +284,30 @@ class _PersonalProfileScreenState extends State<PersonalProfileScreen> {
                             gapH12,
                             Text(AppStrings.two_factor_auth.tr(), style: textStyle, textAlign: TextAlign.center,),
                             gapH20,
-                            if(us1Cache != null)  Row(
-                              children: [
-                                Text(
-                                  AppStrings.enableAndDisable2fa.tr(),
-                                  style: textStyle.copyWith(fontSize: 18),
-                                ),
-                                const Spacer(),
-                                if(us1Cache != null) Switch(
-                                  inactiveTrackColor: Colors.white,
-                                  inactiveThumbColor: Colors.grey,
-                                  activeColor: Colors.white,
-                                  activeTrackColor: Color(AppColors.dark),
-                                  value: fa,
-                                  onChanged: (v) async{
-                                    setState(() {
-                                      fa = v;
-                                    });
-                                    await viewModel.activate2FA(context: context, tfa: fa == true ? "1" : "0", twoFa: false);
-                                    await value.initializeHomeScreen(context, ['user_settings']);
-                                  },
-                                ),
-
-                              ],
+                            Row(
+                            children: [
+                              Text(
+                                AppStrings.enableAndDisable2fa.tr(),
+                                style: textStyle.copyWith(fontSize: 18),
+                              ),
+                              const Spacer(),
+                              Switch(
+                              inactiveTrackColor: Colors.white,
+                              inactiveThumbColor: Colors.grey,
+                              activeThumbColor: Colors.white,
+                              activeTrackColor: Color(AppColors.dark),
+                              value: fa,
+                              onChanged: (v) async{
+                                setState(() {
+                                  fa = v;
+                                });
+                                await viewModel.activate2FA(context: context, tfa: fa == true ? "1" : "0", twoFa: false);
+                                await value.initializeHomeScreen(context, ['user_settings']);
+                              },
                             ),
+
+                            ],
+                          ),
                             if(us1Cache['tfa'] == true)Center(
                               child: CustomElevatedButton(
                                 titleSize: AppSizes.s14,
@@ -340,7 +336,7 @@ class _PersonalProfileScreenState extends State<PersonalProfileScreen> {
                                     .removeAccount(context: context),
                               ),
                             ),
-                            SizedBox(height: 25,)
+                            const SizedBox(height: 25,)
                           ],
                         ):
                         Center(
@@ -358,7 +354,7 @@ class _PersonalProfileScreenState extends State<PersonalProfileScreen> {
                                         AppStrings.updateMainData.tr(),
                                         style: textStyle,
                                       ),
-                                      SizedBox(width: 20,),
+                                      const SizedBox(width: 20,),
                                       Expanded(
                                         flex: 5,
                                         child: Form(
@@ -549,32 +545,32 @@ class _PersonalProfileScreenState extends State<PersonalProfileScreen> {
                                 gapH12,
                                 Text(AppStrings.two_factor_auth.tr(), style: textStyle, textAlign: TextAlign.center,),
                                 gapH20,
-                                if(us1Cache != null)  Row(
-                                  children: [
-                                    Text(
-                                      AppStrings.enableAndDisable2fa.tr(),
-                                      style: textStyle.copyWith(fontSize: 18),
-                                    ),
-                                    const Spacer(),
-                                    if(us1Cache != null) Switch(
-                                      value: fa,
-                                      inactiveTrackColor: Colors.white,
-                                      inactiveThumbColor: Colors.grey,
-                                      activeColor: Colors.white,
-                                      activeTrackColor: Color(AppColors.dark),
-                                      onChanged: (v) async{
-                                        setState(() {
-                                          fa = v;
-                                        });
-                                        await viewModel.activate2FA(context: context, tfa: fa == true ? "1" : "0", twoFa: false);
-                                        await value.initializeHomeScreen(context, ['user_settings']);
-                                      },
-                                    ),
-
-                                  ],
+                                Row(
+                                children: [
+                                  Text(
+                                    AppStrings.enableAndDisable2fa.tr(),
+                                    style: textStyle.copyWith(fontSize: 18),
+                                  ),
+                                  const Spacer(),
+                                  Switch(
+                                  value: fa,
+                                  inactiveTrackColor: Colors.white,
+                                  inactiveThumbColor: Colors.grey,
+                                  activeThumbColor: Colors.white,
+                                  activeTrackColor: Color(AppColors.dark),
+                                  onChanged: (v) async{
+                                    setState(() {
+                                      fa = v;
+                                    });
+                                    await viewModel.activate2FA(context: context, tfa: fa == true ? "1" : "0", twoFa: false);
+                                    await value.initializeHomeScreen(context, ['user_settings']);
+                                  },
                                 ),
 
-                                if( us1Cache!= null && us1Cache['tfa'] == true) Center(
+                                ],
+                              ),
+
+                                if( us1Cache['tfa'] == true) Center(
                                   child: CustomElevatedButton( isOutlined: true,titleColor: Color(AppColors.primary),
                                     titleSize: AppSizes.s14,
                                     width: LayoutService.getWidth(context),
@@ -603,7 +599,7 @@ class _PersonalProfileScreenState extends State<PersonalProfileScreen> {
                                         .removeAccount(context: context),
                                   ),
                                 ),
-                                SizedBox(height: 25,)
+                                const SizedBox(height: 25,)
                               ],
                             ),
                           ),

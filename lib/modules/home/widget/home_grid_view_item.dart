@@ -18,13 +18,13 @@ class HomeGridViewItem extends StatelessWidget {
         alignment: Alignment.topCenter,
         children: [
           Container(
-            padding:EdgeInsets.symmetric(vertical: 25),
+            padding:const EdgeInsets.symmetric(vertical: 25),
             width: kIsWeb ? AppSizes.s240:AppSizes.s150,
             height: AppSizes.s200,
             color: Colors.transparent,
             child: Container(
               decoration: BoxDecoration(
-                  color: const Color(AppColors.textC5),
+                  color: Color(AppColors.textC5),
                   boxShadow: const [
                     BoxShadow(
                       color: Color(0x0C000000),
@@ -45,7 +45,7 @@ class HomeGridViewItem extends StatelessWidget {
                 children: [
                   Text(
                     itemModel.title.toUpperCase(),
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
                         color: Color(AppColors.dark),
@@ -56,7 +56,7 @@ class HomeGridViewItem extends StatelessWidget {
                   Text(
                     itemModel.description!.toUpperCase(),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w400,
                         color: Color(AppColors.dark),

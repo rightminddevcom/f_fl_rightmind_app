@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cpanal/constants/app_colors.dart';
 import 'package:cpanal/constants/app_sizes.dart';
@@ -30,7 +29,7 @@ Widget defaultTextFormField({
     alignment: Alignment.center,
     margin: const EdgeInsets.symmetric(vertical: AppSizes.s10),
     padding: EdgeInsets.symmetric(
-        horizontal: 16, vertical: (maxLines! > 1) ? 16 : 0),
+        horizontal: 16, vertical: (maxLines > 1) ? 16 : 0),
     decoration: ShapeDecoration(
       color: AppThemeService.colorPalette.tertiaryColorBackground.color,
       shape: RoundedRectangleBorder(
@@ -122,7 +121,7 @@ Widget defaultTextFormFieldUpdate(
         suffixIcon: GestureDetector(
           onTap: onTap,
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 3),
+            padding: const EdgeInsets.symmetric(vertical: 3),
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               decoration: BoxDecoration(
@@ -176,9 +175,9 @@ Widget defaultCommentTextFormField(
           height: 48,
           alignment: Alignment.center,
           padding: EdgeInsets.symmetric(
-              horizontal: 16, vertical: (maxLines! > 1) ? 16 : 0),
+              horizontal: 16, vertical: (maxLines > 1) ? 16 : 0),
           decoration: BoxDecoration(
-              color: Color(0xffFFFFFF),
+              color: const Color(0xffFFFFFF),
               borderRadius: BorderRadius.circular(100),
               border: Border.all(color: borderColor ?? Colors.transparent),
               boxShadow: boxShadow),
@@ -199,7 +198,7 @@ Widget defaultCommentTextFormField(
                             
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
-                            color: Color(0xff464646).withOpacity(0.5)),
+                            color: const Color(0xff464646).withOpacity(0.5)),
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         errorBorder: InputBorder.none,
@@ -214,7 +213,7 @@ Widget defaultCommentTextFormField(
               if (viewDropDownRates == true)
                 Container(
                   height: 26,
-                  padding: EdgeInsets.symmetric(horizontal: 5),
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
                   decoration: BoxDecoration(
                     color: const Color(0xffFFFABB),
                     borderRadius: BorderRadius.circular(18.5),
@@ -236,7 +235,7 @@ Widget defaultCommentTextFormField(
           ),
         ),
       ),
-      SizedBox(
+      const SizedBox(
         width: 14,
       ),
       GestureDetector(
@@ -288,7 +287,7 @@ Widget defaultDropdownField(
     ),
     child: DropdownButton<String>(
         dropdownColor: Colors.white,
-        icon: const Icon(
+        icon: Icon(
           Icons.arrow_drop_down_sharp,
           color: Color(AppColors.primary),
         ),
@@ -315,7 +314,7 @@ Widget defaultUploadLinkAndImage(
   return Container(
     height: containerHeight ?? 48,
     width: 48,
-    padding: EdgeInsets.symmetric(horizontal: 16),
+    padding: const EdgeInsets.symmetric(horizontal: 16),
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8), color: const Color(0xffEE3F80)),
     child: Row(
@@ -368,7 +367,7 @@ Widget buildTextFieldDate({String? labelText, onTap}) {
                   fontWeight: FontWeight.w400,
                   color: Color(0xff464646)),
             ),
-            Spacer(),
+            const Spacer(),
             SvgPicture.asset("assets/images/calender.svg")
           ],
         ),

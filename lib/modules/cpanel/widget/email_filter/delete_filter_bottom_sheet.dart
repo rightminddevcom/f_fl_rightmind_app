@@ -3,10 +3,7 @@ import 'dart:math';
 import 'package:cpanal/common_modules_widgets/custom_elevated_button.widget.dart';
 import 'package:cpanal/constants/app_colors.dart';
 import 'package:cpanal/constants/app_strings.dart';
-import 'package:cpanal/modules/cpanel/logic/auto_response_provider.dart';
-import 'package:cpanal/modules/cpanel/logic/email_account_provider.dart';
 import 'package:cpanal/modules/cpanel/logic/email_filter_provider.dart';
-import 'package:cpanal/modules/cpanel/logic/email_forward_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +14,7 @@ class DeleteAccountBottomSheet extends StatefulWidget {
   var dest;
   var email;
   var actionType;
-  DeleteAccountBottomSheet({this.dominId,this.dominName,this.actionType, this.dest, this.email});
+  DeleteAccountBottomSheet({super.key, this.dominId,this.dominName,this.actionType, this.dest, this.email});
 
   @override
   State<DeleteAccountBottomSheet> createState() => _DeleteAccountBottomSheetState();
@@ -64,7 +61,7 @@ class _DeleteAccountBottomSheetState extends State<DeleteAccountBottomSheet> {
                 child: Text(
                   AppStrings.areYouSureToDelete.tr().toUpperCase(),
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(AppColors.primary),
                     fontWeight: FontWeight.bold,
                     fontSize: 24,
@@ -72,7 +69,7 @@ class _DeleteAccountBottomSheetState extends State<DeleteAccountBottomSheet> {
                   ),
                 ),
               ),
-              SizedBox(height: 15,),
+              const SizedBox(height: 15,),
               Center(
                 child: Text(
                   AppStrings.autoResponseMessage.tr(),
@@ -84,12 +81,12 @@ class _DeleteAccountBottomSheetState extends State<DeleteAccountBottomSheet> {
                   ),
                 ),
               ),
-              SizedBox(height: 15,),
+              const SizedBox(height: 15,),
               SizedBox(width: double.infinity,
                 child: Center(
                   child: Text(
                     widget.dest,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                       color: Color(AppColors.dark),
@@ -118,7 +115,7 @@ class _DeleteAccountBottomSheetState extends State<DeleteAccountBottomSheet> {
                     flex: 1,
                       child: CustomElevatedButton(
                         width: null,
-                        backgroundColor: const Color(AppColors.dark),
+                        backgroundColor: Color(AppColors.dark),
                         title: AppStrings.delete.tr().toUpperCase(),
                         onPressed: () async {
                           value.deleteEmailFilter(context,
@@ -167,7 +164,7 @@ class _DeleteAccountBottomSheetState extends State<DeleteAccountBottomSheet> {
               suffixText,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 12,
                 color: Color(AppColors.dark),

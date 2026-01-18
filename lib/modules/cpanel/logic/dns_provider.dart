@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/dio.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 class DNSProvider extends ChangeNotifier {
@@ -74,7 +73,7 @@ class DNSProvider extends ChangeNotifier {
     } catch (error) {
       isLoading = false;
       notifyListeners();
-      errorMessage = error is DioError
+      errorMessage = error is DioException
           ? error.response?.data['message'] ?? 'Something went wrong'
           : error.toString();
     }
@@ -116,7 +115,7 @@ class DNSProvider extends ChangeNotifier {
     } catch (error) {
       isLoading = false;
       notifyListeners();
-      if (error is DioError) {
+      if (error is DioException) {
         errorMessage = error.response?.data['message'] ?? 'Something went wrong';
       } else {
         errorMessage = error.toString();
@@ -161,7 +160,7 @@ class DNSProvider extends ChangeNotifier {
     } catch (error) {
       isLoading = false;
       notifyListeners();
-      if (error is DioError) {
+      if (error is DioException) {
         errorMessage = error.response?.data['message'] ?? 'Something went wrong';
       } else {
         errorMessage = error.toString();
@@ -197,7 +196,7 @@ class DNSProvider extends ChangeNotifier {
     } catch (error) {
       isLoading = false;
       notifyListeners();
-      if (error is DioError) {
+      if (error is DioException) {
         errorMessage = error.response?.data['message'] ?? 'Something went wrong';
       } else {
         errorMessage = error.toString();

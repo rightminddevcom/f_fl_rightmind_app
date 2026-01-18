@@ -97,20 +97,20 @@ class DioApiService implements BackEndServicesInterface {
 
       case 401:
         respond = 'Unauthorized';
-        print("Unauthorized is ${respond}");
+        print("Unauthorized is $respond");
         // _toast.toastMethod(LocaleKeys.respond_401.tr());
         final appConfigService = Provider.of<AppConfigService>(context, listen: false);
         appConfigService.logout(context, viewAlert: false, skipServerLogout: true).then((v){
           if (context.mounted) {
             Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => SplashScreen()));
+                MaterialPageRoute(builder: (context) => const SplashScreen()));
           }
         }).catchError((e) {
           if (context.mounted) {
             Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => SplashScreen()));
+                MaterialPageRoute(builder: (context) => const SplashScreen()));
           }
         });
         return OperationResult<T>(success: false, message: respond);
@@ -229,7 +229,7 @@ class DioApiService implements BackEndServicesInterface {
           applyTokenLogic: checkOnTokenExpiration!,
           dataKey: dataKey,
           context: context);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       final statusCode = e.response?.statusCode;
       print("Caught DioError with status code: $statusCode");
 
@@ -240,7 +240,7 @@ class DioApiService implements BackEndServicesInterface {
         appConfigService.logout(context, viewAlert: false).then((v) {
           Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => SplashScreen()));
+              MaterialPageRoute(builder: (context) => const SplashScreen()));
         });
         return OperationResult<T>(success: false, message: 'Unauthorized');
       }
@@ -292,7 +292,7 @@ class DioApiService implements BackEndServicesInterface {
           applyTokenLogic: checkOnTokenExpiration!,
           dataKey: dataKey,
           context: context);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       final statusCode = e.response?.statusCode;
       print("Caught DioError with status code: $statusCode");
 
@@ -403,7 +403,7 @@ class DioApiService implements BackEndServicesInterface {
           message: 'Result code = ${response.statusCode}',
         );
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       final statusCode = e.response?.statusCode;
       print("Caught DioError with status code: $statusCode");
 
@@ -414,7 +414,7 @@ class DioApiService implements BackEndServicesInterface {
         appConfigService.logout(context, viewAlert: false).then((v) {
           Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => SplashScreen()));
+              MaterialPageRoute(builder: (context) => const SplashScreen()));
         });
         return OperationResult<T>(success: false, message: 'Unauthorized');
       }
@@ -516,7 +516,7 @@ class DioApiService implements BackEndServicesInterface {
           context: context,
           allData: allData,
           dataKey: dataKey);
-    }on DioError catch (e) {
+    }on DioException catch (e) {
       final statusCode = e.response?.statusCode;
       print("Caught DioError with status code: $statusCode");
 
@@ -527,7 +527,7 @@ class DioApiService implements BackEndServicesInterface {
         appConfigService.logout(context, viewAlert: false).then((v) {
           Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => SplashScreen()));
+              MaterialPageRoute(builder: (context) => const SplashScreen()));
         });
         return OperationResult<T>(success: false, message: 'Unauthorized');
       }
@@ -564,7 +564,7 @@ class DioApiService implements BackEndServicesInterface {
           dataKey: dataKey,
           allData: allData,
           context: context);
-    }on DioError catch (e) {
+    }on DioException catch (e) {
       final statusCode = e.response?.statusCode;
       print("Caught DioError with status code: $statusCode");
 
@@ -575,7 +575,7 @@ class DioApiService implements BackEndServicesInterface {
         appConfigService.logout(context, viewAlert: false).then((v) {
           Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => SplashScreen()));
+              MaterialPageRoute(builder: (context) => const SplashScreen()));
         });
         return OperationResult<T>(success: false, message: 'Unauthorized');
       }
@@ -637,7 +637,7 @@ class DioApiService implements BackEndServicesInterface {
           message: 'Result code = ${response.statusCode}',
         );
       }
-    }on DioError catch (e) {
+    }on DioException catch (e) {
       final statusCode = e.response?.statusCode;
       print("Caught DioError with status code: $statusCode");
 
@@ -648,7 +648,7 @@ class DioApiService implements BackEndServicesInterface {
         appConfigService.logout(context, viewAlert: false).then((v) {
           Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => SplashScreen()));
+              MaterialPageRoute(builder: (context) => const SplashScreen()));
         });
         return OperationResult<T>(success: false, message: 'Unauthorized');
       }

@@ -273,7 +273,7 @@ abstract class AlertsService {
                           },
                           child: Text(AppStrings.no.tr(),
                               style:
-                              const TextStyle(color: Color(0xff0FF3389EE))),
+                              const TextStyle(color: Color(0xff0ff3389ee))),
                         ),
                       ),
                     ],

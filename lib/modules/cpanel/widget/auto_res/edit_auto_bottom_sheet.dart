@@ -6,7 +6,6 @@ import 'package:cpanal/constants/app_strings.dart';
 import 'package:cpanal/constants/string_convert.dart';
 import 'package:cpanal/general_services/localization.service.dart';
 import 'package:cpanal/modules/cpanel/logic/auto_response_provider.dart';
-import 'package:cpanal/modules/cpanel/logic/email_account_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +16,7 @@ class EditEmailBottomSheet extends StatefulWidget {
   var email;
   var index;
   bool? multi = false;
-  EditEmailBottomSheet({this.dominId, this.dominName, this.multi, this.email, this.index});
+  EditEmailBottomSheet({super.key, this.dominId, this.dominName, this.multi, this.email, this.index});
 
   @override
   State<EditEmailBottomSheet> createState() => _EditEmailBottomSheetState();
@@ -116,7 +115,7 @@ class _EditEmailBottomSheetState extends State<EditEmailBottomSheet> {
                     child: Text(
                       "${AppStrings.update.tr().toUpperCase()} ${AppStrings.autoresponders.tr().toUpperCase()}",
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Color(AppColors.primary),
                         fontWeight: FontWeight.bold,
                         fontSize: 24,
@@ -124,7 +123,7 @@ class _EditEmailBottomSheetState extends State<EditEmailBottomSheet> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Center(
@@ -186,12 +185,11 @@ class _EditEmailBottomSheetState extends State<EditEmailBottomSheet> {
                         builder: (BuildContext context, Widget? child) {
                           return Theme(
                             data: ThemeData.light().copyWith(
-                              colorScheme: ColorScheme.light(
+                              colorScheme: const ColorScheme.light(
                                 primary: Colors.blue, // لون الرأس والأزرار
                                 onPrimary: Colors.white, // لون النص على الأزرار
                                 onSurface: Colors.black, // لون النص في باقي الأماكن
-                              ),
-                              dialogBackgroundColor: Colors.white, // خلفية النافذة نفسها
+                              ), dialogTheme: const DialogThemeData(backgroundColor: Colors.white), // خلفية النافذة نفسها
                             ),
                             child: child!,
                           );
@@ -232,12 +230,11 @@ class _EditEmailBottomSheetState extends State<EditEmailBottomSheet> {
                         builder: (BuildContext context, Widget? child) {
                           return Theme(
                             data: ThemeData.light().copyWith(
-                              colorScheme: ColorScheme.light(
+                              colorScheme: const ColorScheme.light(
                                 primary: Colors.blue, // لون الرأس والأزرار
                                 onPrimary: Colors.white, // لون النص على الأزرار
                                 onSurface: Colors.black, // لون النص في باقي الأماكن
-                              ),
-                              dialogBackgroundColor: Colors.white, // خلفية النافذة نفسها
+                              ), dialogTheme: const DialogThemeData(backgroundColor: Colors.white), // خلفية النافذة نفسها
                             ),
                             child: child!,
                           );
@@ -290,25 +287,25 @@ class _EditEmailBottomSheetState extends State<EditEmailBottomSheet> {
                             });
                           },
                           child: AnimatedContainer(
-                            duration: Duration(milliseconds: 200),
+                            duration: const Duration(milliseconds: 200),
                             width: 60,
                             height: 30,
-                            padding: EdgeInsets.symmetric(horizontal: 4),
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
                             decoration: BoxDecoration(
                               color: isContainsHtml
-                                  ? Color(0xFFE91E63)
+                                  ? const Color(0xFFE91E63)
                                   : Colors.grey[400],
                               borderRadius: BorderRadius.circular(30),
                             ),
                             child: AnimatedAlign(
-                              duration: Duration(milliseconds: 200),
+                              duration: const Duration(milliseconds: 200),
                               alignment: isContainsHtml
                                   ? Alignment.centerRight
                                   : Alignment.centerLeft,
                               child: Container(
                                 width: 22,
                                 height: 22,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   color: Colors.white,
                                   shape: BoxShape.circle,
                                 ),
@@ -319,7 +316,7 @@ class _EditEmailBottomSheetState extends State<EditEmailBottomSheet> {
                         const SizedBox(width: 6),
                         Text(
                           AppStrings.containsHtml.tr().toUpperCase(),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                             color: Color(0xff1B1B1B),
@@ -349,7 +346,7 @@ class _EditEmailBottomSheetState extends State<EditEmailBottomSheet> {
                       Expanded(
                           child: value.isLoading == false?CustomElevatedButton(
                             width: null,
-                            backgroundColor: const Color(AppColors.dark),
+                            backgroundColor: Color(AppColors.dark),
                             title: AppStrings.update.tr().toUpperCase(),
                             onPressed: () async {
                               value.editAutoRes(context,
@@ -410,7 +407,7 @@ class _EditEmailBottomSheetState extends State<EditEmailBottomSheet> {
                 suffixText,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 12,
                   color: Color(AppColors.dark),

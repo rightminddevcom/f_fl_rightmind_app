@@ -8,11 +8,11 @@ import 'package:cpanal/constants/app_sizes.dart';
 import 'package:cpanal/general_services/validation_service.dart';
 import 'package:cpanal/modules/home/view_models/home.viewmodel.dart';
 import 'package:cpanal/modules/personal_profile/viewmodels/personal_profile.viewmodel.dart';
-import 'package:cpanal/utils/widgets/text_form_widget.dart';
 import '../../../../constants/app_strings.dart';
-import '../../../../utils/componentes/general_components/gradient_bg_image.dart';
 
 class UpdatePasswordScreen extends StatefulWidget {
+  const UpdatePasswordScreen({super.key});
+
   @override
   State<UpdatePasswordScreen> createState() => _UpdatePasswordScreenState();
 }
@@ -57,7 +57,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                     ),
                     title: Text(
                       AppStrings.updatePassword.tr().toUpperCase(),
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: AppSizes.s16,
                           fontWeight: FontWeight.w700,
                           color: Color(AppColors.dark)),
@@ -68,7 +68,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                     child: SingleChildScrollView(
                       child: Center(
                         child: ConstrainedBox(
-                          constraints: BoxConstraints(
+                          constraints: const BoxConstraints(
                             maxWidth: kIsWeb ? 1100 : double.infinity,
                           ),
                           child: Container(

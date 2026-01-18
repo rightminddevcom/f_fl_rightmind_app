@@ -9,12 +9,12 @@ class SwipeIndicator extends StatefulWidget {
   final Duration showFor; // المدة اللي يظهر فيها
 
   const SwipeIndicator({
-    Key? key,
+    super.key,
     this.isRtl = false,
     this.size = 40,
     this.duration = const Duration(milliseconds: 1200),
     this.showFor = const Duration(seconds: 10), // الافتراضي 10 ثواني
-  }) : super(key: key);
+  });
 
   @override
   State<SwipeIndicator> createState() => _SwipeIndicatorState();

@@ -5,7 +5,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +18,7 @@ import 'package:cpanal/utils/componentes/general_components/slider_home_menu.dar
 
 
 class ReferralSection extends StatefulWidget {
-  ReferralSection({super.key});
+  const ReferralSection({super.key});
 
   @override
   State<ReferralSection> createState() => _ReferralSectionState();
@@ -67,7 +66,7 @@ class _ReferralSectionState extends State<ReferralSection> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   AppStrings.aboutPointsProgram.tr().toUpperCase(),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     color: Color(AppColors.dark),
                     fontWeight: FontWeight.w500,
@@ -85,14 +84,14 @@ class _ReferralSectionState extends State<ReferralSection> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              if(!kIsWeb) SizedBox(height: 30,),
+              if(!kIsWeb) const SizedBox(height: 30,),
               Container(
                 alignment: Alignment.topLeft,
                 height: 200,
                 child: ListView(
                   reverse: false,
                   padding: EdgeInsets.zero,
-                  physics: ClampingScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   children: [
@@ -149,17 +148,17 @@ class _ReferralSectionState extends State<ReferralSection> {
                         src: "assets/images/svg/rec.svg",
                       ),
                     ),
-                    SizedBox(width: 0,),
+                    const SizedBox(width: 0,),
                     GestureDetector(
                       onTap: ()async{
                         await showModalBottomSheet(
                           context: context,
                           isScrollControlled: true,
-                          shape: RoundedRectangleBorder(
+                          shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
                           ),
                           builder: (BuildContext context) {
-                            return AddFriendBottomSheet();
+                            return const AddFriendBottomSheet();
                           },
                         );
                       },

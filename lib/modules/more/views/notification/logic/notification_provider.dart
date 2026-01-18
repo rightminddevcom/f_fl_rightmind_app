@@ -112,7 +112,7 @@ class NotificationProviderModel extends ChangeNotifier {
     }).catchError((error){
       isLoading = false;
       notifyListeners();
-      if (error is DioError) {
+      if (error is DioException) {
         errorMessage = error.response?.data['message'] ?? 'Something went wrong';
       } else {
         errorMessage = error.toString();
@@ -135,7 +135,7 @@ class NotificationProviderModel extends ChangeNotifier {
     }).catchError((error){
       isLoading = false;
       notifyListeners();
-      if (error is DioError) {
+      if (error is DioException) {
         errorMessage = error.response?.data['message'] ?? 'Something went wrong';
       } else {
         errorMessage = error.toString();
@@ -172,7 +172,7 @@ class NotificationProviderModel extends ChangeNotifier {
 
       isGetNotificationSuccess = true;
     } catch (error) {
-      getNotificationErrorMessage = error is DioError
+      getNotificationErrorMessage = error is DioException
           ? error.response?.data['message'] ?? 'Something went wrong'
           : error.toString();
     } finally {
@@ -195,7 +195,7 @@ class NotificationProviderModel extends ChangeNotifier {
         notifyListeners();
       }
     } catch (error) {
-      getNotificationErrorMessage = error is DioError
+      getNotificationErrorMessage = error is DioException
           ? error.response?.data['message'] ?? 'Something went wrong'
           : error.toString();
     } finally {
@@ -205,9 +205,7 @@ class NotificationProviderModel extends ChangeNotifier {
   }
   Future<void> getNotificationComment(BuildContext context, id, {pages, bool? isNewPage,}) async {
     pages ??= currentPage;
-    if(currentPage == null){
-      currentPage = pages;
-    }
+    currentPage ??= pages;
     isGetNotificationCommentLoading = true;
     notifyListeners();
     try {
@@ -256,7 +254,7 @@ class NotificationProviderModel extends ChangeNotifier {
       isGetNotificationCommentLoading = false;
       notifyListeners();
     } catch (error) {
-      getRequestCommentErrorMessage = error is DioError
+      getRequestCommentErrorMessage = error is DioException
           ? error.response?.data['message'] ?? 'Something went wrong'
           : error.toString();
       Fluttertoast.showToast(
@@ -276,7 +274,7 @@ class NotificationProviderModel extends ChangeNotifier {
   addNotification(BuildContext context, {empIds, depIds})async {
     isLoading = true;
     notifyListeners();
-    print("empIds is --> ${empIds}");
+    print("empIds is --> $empIds");
     FormData formData = FormData.fromMap({
       "titles[en]" : titleEnController.text,
       "titles[ar]" : titleArController.text,
@@ -284,17 +282,15 @@ class NotificationProviderModel extends ChangeNotifier {
       "contents[ar]" : contentArController.text,
       "allow_comments" : allowComment == true ? "enable" : "disable",
       "type" : selectNotificationType.toString(),
-      "image": listXAttachmentPersonalImage != null
-          ? await Future.wait(
+      "image": await Future.wait(
           listXAttachmentPersonalImage.map((file) async => await MultipartFile.fromFile(file.path, filename: file.name))
-      )
-          : [],
+      ),
       if(empIds != null && empIds.isNotEmpty)"employee_ids[]" : empIds,
       if(depIds != null && depIds.isNotEmpty)"department_ids[]" : depIds
     });
-    var response;
+    Response response;
     try{
-      if(listXAttachmentPersonalImage == null || listXAttachmentPersonalImage.isEmpty){
+      if(listXAttachmentPersonalImage.isEmpty){
         response = await DioHelper.postFormData(
             url: "/emp_requests/v1/notifications/create",
             context: context,
@@ -323,7 +319,7 @@ class NotificationProviderModel extends ChangeNotifier {
             title: AppStrings.failed.tr());
       }
     }catch (error) {
-      errorAddNotificationMessage = error is DioError
+      errorAddNotificationMessage = error is DioException
           ? error.response?.data['message'] ?? 'Something went wrong'
           : error.toString();
       Fluttertoast.showToast(
@@ -357,17 +353,17 @@ class NotificationProviderModel extends ChangeNotifier {
       {image1, image2, list, list2, one}) async {
     XFile? imageFileProfile =
     await picker.pickImage(source: ImageSource.gallery);
-    if (imageFileProfile == null) return null;
+    if (imageFileProfile == null) return;
     image1 = File(imageFileProfile.path);
     image2 = imageFileProfile;
     if(one == false) list.add({"image": image2, "view": image1});
     if(one == false)list2.add(image2);
-    print("LISTS IS --> ${list}");
+    print("LISTS IS --> $list");
     notifyListeners();
   }
   Future<void> getImage( context, {image1, image2, list, bool one = true, list2}) =>
       showModalBottomSheet<void>(
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20.0),
               topRight: Radius.circular(20.0),
@@ -383,11 +379,11 @@ class NotificationProviderModel extends ChangeNotifier {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Text("Select Photo",
+                    const Text("Select Photo",
                       style: TextStyle(
                           fontSize: 20, color: Color(0xFF011A51)),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -411,7 +407,7 @@ class NotificationProviderModel extends ChangeNotifier {
                                     "assets/images/profileImage.png");
                                 Navigator.pop(context);
                               },
-                              child: CircleAvatar(
+                              child: const CircleAvatar(
                                 radius: 30,
                                 backgroundColor: Colors.white,
                                 child: Icon(
@@ -420,13 +416,14 @@ class NotificationProviderModel extends ChangeNotifier {
                                 ),
                               ),
                             ),
-                            Text("Gallery",
+                            const Text("Gallery",
                               style: TextStyle(
                                   fontSize: 18, color: Color(0xFF011A51)),
                             ),
                           ],
                         ),
                         Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             InkWell(
                               onTap: () async {
@@ -445,7 +442,7 @@ class NotificationProviderModel extends ChangeNotifier {
                                     "assets/images/profileImage.png");
                                 Navigator.pop(context);
                               },
-                              child: CircleAvatar(
+                              child: const CircleAvatar(
                                 radius: 30,
                                 backgroundColor: Colors.white,
                                 child: Icon(
@@ -454,12 +451,11 @@ class NotificationProviderModel extends ChangeNotifier {
                                 ),
                               ),
                             ),
-                            Text(
+                            const Text(
                               "Camera",
                               style: TextStyle(fontSize: 18, color: Color(0xFF011A51)),
                             ),
                           ],
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                         ),
                       ],
                     ),

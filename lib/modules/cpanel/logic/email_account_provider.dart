@@ -18,7 +18,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
 import 'package:excel/excel.dart';
 import 'package:path_provider/path_provider.dart';
-import 'dart:typed_data';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class EmailAccountProvider extends ChangeNotifier {
@@ -83,7 +82,7 @@ class EmailAccountProvider extends ChangeNotifier {
     } catch (error) {
       isLoading = false;
       notifyListeners();
-      errorMessage = error is DioError
+      errorMessage = error is DioException
           ? error.response?.data['message'] ?? 'Something went wrong'
           : error.toString();
     }
@@ -139,7 +138,7 @@ class EmailAccountProvider extends ChangeNotifier {
     } catch (error) {
       isWebLoading = false;
       notifyListeners();
-      errorMessage = error is DioError
+      errorMessage = error is DioException
           ? error.response?.data['message'] ?? 'Something went wrong'
           : error.toString();
     }
@@ -187,7 +186,7 @@ class EmailAccountProvider extends ChangeNotifier {
     } catch (error) {
       isLoading = false;
       notifyListeners();
-      if (error is DioError) {
+      if (error is DioException) {
         errorMessage = error.response?.data['message'] ?? 'Something went wrong';
       } else {
         errorMessage = error.toString();
@@ -195,7 +194,7 @@ class EmailAccountProvider extends ChangeNotifier {
     }
   }
   addMultiEmails(context, {accounts, domainId,}) async {
-    print("TAPED ${accounts}");
+    print("TAPED $accounts");
     isLoading = true;
     notifyListeners();
     print("TAPED");
@@ -232,7 +231,7 @@ class EmailAccountProvider extends ChangeNotifier {
           accountsMulti.removeWhere(
                 (account) => successUsernames.contains(account["username"]),
           );
-          print("ACCOUNTS MULTI IS --> ${accountsMulti}");
+          print("ACCOUNTS MULTI IS --> $accountsMulti");
           await showErrorsSequentially(context, resErrors);
         }else{
           AlertsService.error(
@@ -247,7 +246,7 @@ class EmailAccountProvider extends ChangeNotifier {
     } catch (error) {
       isLoading = false;
       notifyListeners();
-      if (error is DioError) {
+      if (error is DioException) {
         errorMessage = error.response?.data['message'] ?? 'Something went wrong';
       } else {
         errorMessage = error.toString();
@@ -334,7 +333,7 @@ class EmailAccountProvider extends ChangeNotifier {
     } catch (error) {
       isLoading = false;
       notifyListeners();
-      if (error is DioError) {
+      if (error is DioException) {
         errorMessage = error.response?.data['message'] ?? 'Something went wrong';
       } else {
         errorMessage = error.toString();
@@ -386,7 +385,7 @@ class EmailAccountProvider extends ChangeNotifier {
     } catch (error) {
       isLoading = false;
       notifyListeners();
-      if (error is DioError) {
+      if (error is DioException) {
         errorMessage = error.response?.data['message'] ?? 'Something went wrong';
       } else {
         errorMessage = error.toString();
@@ -436,7 +435,7 @@ class EmailAccountProvider extends ChangeNotifier {
     } catch (error) {
       isLoading = false;
       notifyListeners();
-      if (error is DioError) {
+      if (error is DioException) {
         errorMessage = error.response?.data['message'] ?? 'Something went wrong';
       } else {
         errorMessage = error.toString();
@@ -484,7 +483,7 @@ class EmailAccountProvider extends ChangeNotifier {
     } catch (error) {
       isLoading = false;
       notifyListeners();
-      if (error is DioError) {
+      if (error is DioException) {
         errorMessage = error.response?.data['message'] ?? 'Something went wrong';
       } else {
         errorMessage = error.toString();
@@ -616,7 +615,7 @@ class WebViewScreen extends StatelessWidget {
 
   /// بناء iframe في حالة Flutter Web
   Widget _buildWebIframe() {
-    return HtmlElementView(
+    return const HtmlElementView(
       viewType: 'iframeElement',
     );
   }

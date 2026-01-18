@@ -10,6 +10,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../../../general_services/alert_service/alerts.service.dart';
 import '../../../general_services/app_config.service.dart';
 class WebViewStackMainData extends StatefulWidget {
+  const WebViewStackMainData({super.key});
+
 
   @override
   State<WebViewStackMainData> createState() => _WebViewStackMainDataState();
@@ -25,7 +27,7 @@ class _WebViewStackMainDataState extends State<WebViewStackMainData> {
       ..setNavigationDelegate(
         NavigationDelegate(
           onPageStarted: (url) {
-            print("onPageStarted is -> ${url}");
+            print("onPageStarted is -> $url");
             if (mounted) {
               setState(() {
                 loadingPercentage = 0;
@@ -40,7 +42,7 @@ class _WebViewStackMainDataState extends State<WebViewStackMainData> {
             }
           },
           onPageFinished: (url) {
-            print("onPageFinished is -> ${url}");
+            print("onPageFinished is -> $url");
             if (mounted) {
               setState(() {
                 loadingPercentage = 100;
@@ -109,7 +111,7 @@ class _WebViewStackMainDataState extends State<WebViewStackMainData> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SizedBox(height: 30,),
+        const SizedBox(height: 30,),
         WebViewWidget(controller: controller),
         if (loadingPercentage < 100)
           LinearProgressIndicator(value: loadingPercentage / 100.0),

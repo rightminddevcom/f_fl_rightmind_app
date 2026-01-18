@@ -46,7 +46,7 @@ class BlogProviderModel extends ChangeNotifier {
       }
       notifyListeners();
     } catch (error) {
-      getBlogErrorMessage = error is DioError
+      getBlogErrorMessage = error is DioException
           ? error.response?.data['message'] ?? 'Something went wrong'
           : error.toString();
     } finally {
@@ -83,7 +83,7 @@ class BlogProviderModel extends ChangeNotifier {
 
       isGetBlogSuccess = true;
     } catch (error) {
-      getBlogErrorMessage = error is DioError
+      getBlogErrorMessage = error is DioException
           ? error.response?.data['message'] ?? 'Something went wrong'
           : error.toString();
     } finally {

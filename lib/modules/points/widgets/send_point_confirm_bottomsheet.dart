@@ -156,7 +156,7 @@ class SendPointConfirmBottomsheet extends StatelessWidget {
                                       decoration: BoxDecoration(
                                           borderRadius:
                                           BorderRadius.circular(50),
-                                          color: const Color(AppColors.dark)),
+                                          color: Color(AppColors.dark)),
                                       child: Text(
                                         AppStrings.sendPoints
                                             .tr()

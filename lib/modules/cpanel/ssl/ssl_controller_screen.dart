@@ -21,7 +21,7 @@ import '../logic/ssl_provider.dart';
 class SSLControllerScreen extends StatefulWidget {
   final String? name;
   final String? dominId;
-  SSLControllerScreen({this.name, this.dominId});
+  const SSLControllerScreen({super.key, this.name, this.dominId});
 
   @override
   State<SSLControllerScreen> createState() => _SSLControllerScreenState();
@@ -181,13 +181,13 @@ class _SSLControllerScreenState extends State<SSLControllerScreen> {
                           ));
                     },
                     child:
-                        const Icon(Icons.menu, color: Color(AppColors.primary)),
+                        Icon(Icons.menu, color: Color(AppColors.primary)),
                   )
                 ],
               ),
             ),
             body: GradientBgImage(
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               child: SizedBox(
                 height: MediaQuery.sizeOf(context).height * 0.8,
                 child: ListView(
@@ -197,7 +197,7 @@ class _SSLControllerScreenState extends State<SSLControllerScreen> {
                     Text(
                       AppStrings.sslMessage.tr(),
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
                           color: Color(AppColors.dark)),
@@ -222,7 +222,7 @@ class _SSLControllerScreenState extends State<SSLControllerScreen> {
                     ),
                     Center(
                       child: ConstrainedBox(
-                        constraints: BoxConstraints(
+                        constraints: const BoxConstraints(
                           maxWidth: kIsWeb ? 1100 : double.infinity,
                         ),
                         child: ListView.separated(
@@ -326,7 +326,7 @@ class _SSLControllerScreenState extends State<SSLControllerScreen> {
             //         await emailcickle();
             //       },
             //       backgroundColor: Colors.pink,
-            //       child: const Icon(Icons.add, color: Colors.white),
+            //       child: Icon(Icons.add, color: Colors.white),
             //     ),
             //   ],
             // ),
@@ -343,7 +343,7 @@ class _SSLControllerScreenState extends State<SSLControllerScreen> {
             width: MediaQuery.sizeOf(context).width * 0.25,
             child: Text(
               "$title1 : ",
-              style: const TextStyle(
+              style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                   color: Color(AppColors.dark)),
@@ -355,27 +355,27 @@ class _SSLControllerScreenState extends State<SSLControllerScreen> {
               title2,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                   color: Color(AppColors.primary)),
             ),
           ),
-          Spacer(),
+          const Spacer(),
          if(index != null) GestureDetector(
               onTap: () async {
                 final name = index['name'];
                 final certificate = index['certificate'];
-                final is_autossl = index['is_autossl'];
+                final isAutossl = index['is_autossl'];
                 final expiration = index['expiration'];
                 await Clipboard.setData(ClipboardData(text:
-                "Name : $name \n Certificate : $certificate \n Auto SSL : $is_autossl \n Expiration : $expiration"
+                "Name : $name \n Certificate : $certificate \n Auto SSL : $isAutossl \n Expiration : $expiration"
                 ));
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("${AppStrings.copied.tr()}")),
+                  SnackBar(content: Text(AppStrings.copied.tr())),
                 );
               },
-              child: const Icon(Icons.copy, color: Color(AppColors.primary)))
+              child: Icon(Icons.copy, color: Color(AppColors.primary)))
         ],
       );
 }

@@ -1,12 +1,7 @@
 import 'package:cpanal/constants/app_colors.dart';
-import 'package:cpanal/constants/app_images.dart';
 import 'package:cpanal/constants/app_sizes.dart';
 import 'package:cpanal/constants/app_strings.dart';
-import 'package:cpanal/modules/choose_domain/choose_domin_screen.dart';
-import 'package:cpanal/modules/cpanel/auto_response/auto_response_screen.dart';
 import 'package:cpanal/modules/cpanel/email_account/email_account_screen.dart';
-import 'package:cpanal/modules/cpanel/email_filter/email_filter_screen.dart';
-import 'package:cpanal/modules/cpanel/email_forward/email_forward_screen.dart';
 import 'package:cpanal/modules/home/widget/grid_view_model.dart';
 import 'package:cpanal/modules/home/widget/home_grid_view_item.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -21,7 +16,7 @@ class DashboardGridView extends StatelessWidget {
   var dominId;
   var domin;
   List? userPermissions = [];
-  DashboardGridView({this.name, this.dominId, this.domin, this.userPermissions});
+  DashboardGridView({super.key, this.name, this.dominId, this.domin, this.userPermissions});
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +55,7 @@ class DashboardGridView extends StatelessWidget {
               },
             );
           },
-          backgroundColor: const Color(AppColors.dark)),
+          backgroundColor: Color(AppColors.dark)),
       if(userPermissions!.contains("email_autoresponders")) GrideViewItemModel(
           image: "assets/images/svg/auto_response.svg",
           title: AppStrings.autoresponders.tr(),
@@ -91,7 +86,7 @@ class DashboardGridView extends StatelessWidget {
               },
             );
           },
-          backgroundColor: const Color(AppColors.dark)),
+          backgroundColor: Color(AppColors.dark)),
       // GrideViewItemModel(
       //     image: "assets/images/svg/h-cpanal.svg",
       //     title: "Email Accounts",
@@ -99,7 +94,7 @@ class DashboardGridView extends StatelessWidget {
       //     onTap: (){
       //
       //     },
-      //     backgroundColor: const Color(AppColors.dark)),
+      //     backgroundColor: Color(AppColors.dark)),
     ];
     return Padding(
       padding: const EdgeInsets.only(top: AppSizes.s20),

@@ -7,7 +7,7 @@ import 'package:cpanal/constants/app_strings.dart';
 
 class RedeemNowButton extends StatelessWidget {
   final bool friends;
-  const RedeemNowButton({Key? key, this.friends = false}) : super(key: key);
+  const RedeemNowButton({super.key, this.friends = false});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class RedeemNowButton extends StatelessWidget {
       height: 36,
       width: 150,
       decoration: BoxDecoration(
-        color: Color(0xFFE6007E),
+        color: const Color(0xFFE6007E),
         borderRadius: BorderRadius.circular(50),
       ),
       child: Row(

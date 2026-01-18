@@ -33,7 +33,7 @@ Future<void> customAlertDialogWithTwoButtons(
         title: Text(
           title,
           textAlign: TextAlign.center,
-          style: const TextStyle(
+          style: TextStyle(
             color: Color(AppColors.dark),
             fontWeight: FontWeight.w700,
             fontSize: 18

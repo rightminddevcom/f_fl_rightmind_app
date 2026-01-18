@@ -5,7 +5,6 @@ import 'package:cpanal/constants/app_strings.dart';
 import 'package:cpanal/constants/user_consts.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
 import 'package:cpanal/models/settings/user_settings.model.dart';
-import 'package:cpanal/modules/cpanel/email_filter/filter_email_screen.dart';
 import 'package:cpanal/modules/cpanel/logic/email_account_provider.dart';
 import 'package:cpanal/modules/cpanel/widget/email_account/search_account_bottomsheet.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -20,13 +19,12 @@ import '../../../../common_modules_widgets/template_page.widget.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../routing/app_router.dart';
 import '../../../utils/componentes/general_components/gradient_bg_image.dart';
-import '../../choose_domain/choose_domin_screen.dart';
 import '../../more/views/more_screen.dart';
 
 class EmailFilterScreen extends StatefulWidget {
   final String? name;
   final String? dominId;
-  EmailFilterScreen({this.name, this.dominId});
+  const EmailFilterScreen({super.key, this.name, this.dominId});
 
   @override
   State<EmailFilterScreen> createState() => _EmailFilterScreenState();
@@ -213,13 +211,13 @@ class _EmailFilterScreenState extends State<EmailFilterScreen> {
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const MoreScreen(),));
                     },
-                    child: const Icon(Icons.menu, color: Color(AppColors.primary)),
+                    child: Icon(Icons.menu, color: Color(AppColors.primary)),
                   )
                 ],
               ),
             ),
             body: GradientBgImage(
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               child: SizedBox(
                 height: MediaQuery.sizeOf(context).height * 0.8,
                 child: ListView(
@@ -239,7 +237,7 @@ class _EmailFilterScreenState extends State<EmailFilterScreen> {
                             decoration: BoxDecoration(
                                 color: Color(AppColors.dark),
                                 borderRadius: BorderRadius.circular(20)),
-                            padding: EdgeInsetsGeometry.symmetric(vertical: 4, horizontal: 10),
+                            padding: const EdgeInsetsGeometry.symmetric(vertical: 4, horizontal: 10),
                             child:  Row(
                               children: [
                                 Text(
@@ -248,7 +246,7 @@ class _EmailFilterScreenState extends State<EmailFilterScreen> {
                                   style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Colors.white),
                                 ),
                                 const SizedBox(width: 10,),
-                                Icon(Icons.close, color: Colors.white,)
+                                const Icon(Icons.close, color: Colors.white,)
                               ],
                             ),
                           ),
@@ -264,7 +262,7 @@ class _EmailFilterScreenState extends State<EmailFilterScreen> {
                     const SizedBox(height: 15),
                     Center(
                       child: ConstrainedBox(
-                        constraints: BoxConstraints(
+                        constraints: const BoxConstraints(
                           maxWidth: kIsWeb ? 1100 : double.infinity,
                         ),
                         child: ListView.separated(
@@ -306,19 +304,19 @@ class _EmailFilterScreenState extends State<EmailFilterScreen> {
                                   children: [
                                     Text(
                                       AppConstants.accountsEmailsFilter![index]['email'],
-                                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
+                                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     GestureDetector(
                                         onTap: () async {
                                           final obj = AppConstants.accountsEmailsFilter![index];
                                           final jsonString = const JsonEncoder.withIndent('  ').convert(obj); // تحويل object ل JSON مرتب
                                           await Clipboard.setData(ClipboardData(text: jsonString));
                                           ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(content: Text("${AppStrings.copied.tr()}")),
+                                            SnackBar(content: Text(AppStrings.copied.tr())),
                                           );
                                         },
-                                        child: const Icon(Icons.copy, color: Color(AppColors.primary)))
+                                        child: Icon(Icons.copy, color: Color(AppColors.primary)))
                                   ],
                                 ),
                               ),
@@ -353,7 +351,7 @@ class _EmailFilterScreenState extends State<EmailFilterScreen> {
             //         );
             //       },
             //       backgroundColor: Colors.pink,
-            //       child: const Icon(Icons.add, color: Colors.white),
+            //       child: Icon(Icons.add, color: Colors.white),
             //     ),
             //   ],
             // ),

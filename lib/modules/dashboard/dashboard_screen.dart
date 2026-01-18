@@ -4,7 +4,6 @@ import 'package:cpanal/constants/app_strings.dart';
 import 'package:cpanal/constants/user_consts.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
 import 'package:cpanal/models/settings/user_settings.model.dart';
-import 'package:cpanal/modules/choose_domain/choose_domin_screen.dart';
 import 'package:cpanal/modules/choose_domain/logic/domain_provider.dart';
 import 'package:cpanal/modules/dashboard/widget/dashboard_grid_view.dart';
 import 'package:cpanal/modules/dashboard/widget/dashboard_grid_view2.dart';
@@ -23,7 +22,7 @@ class DashboardScreen extends StatefulWidget {
   var name;
   var dominId;
   List? userPermissions = [];
-  DashboardScreen({this.name, this.dominId, this.userPermissions});
+  DashboardScreen({super.key, this.name, this.dominId, this.userPermissions});
   @override
   State<DashboardScreen> createState() =>
       _DashboardScreenState();
@@ -36,18 +35,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _loadPermissions();
   }
   Future<void> _loadPermissions() async {
-    var cachedPermissions;
+    List cachedPermissions = [];
     String? jsonString = CacheHelper.getString("USER_PERMISSIONS");
 
     if (jsonString != null && jsonString.isNotEmpty) {
       cachedPermissions = json.decode(jsonString) as List;
     }
     if (widget.userPermissions == null || widget.userPermissions!.isEmpty) {
-      print("cachedPermissions --> ${cachedPermissions}");
+      print("cachedPermissions --> $cachedPermissions");
       setState(() {
         widget.userPermissions?.addAll(cachedPermissions);
       });
-    } else if((widget.userPermissions == null || widget.userPermissions!.isEmpty) && (cachedPermissions == null || cachedPermissions!.isEmpty)){
+    } else if((widget.userPermissions == null || widget.userPermissions!.isEmpty) && (cachedPermissions.isEmpty)){
       final getDomain =
       Provider.of<DomainProvider>(context,
           listen: false);
@@ -82,24 +81,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
         title: AppStrings.dashboard.tr().toUpperCase(),
         onRefresh: () async {},
         body: GradientBgImage(
-          padding: EdgeInsets.all(0),
+          padding: const EdgeInsets.all(0),
           child: Center(
             child: ConstrainedBox(
-              constraints: BoxConstraints(
+              constraints: const BoxConstraints(
                 maxWidth: kIsWeb ? 1100 : double.infinity,
               ),
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: AppSizes.s12, horizontal: !kIsWeb? AppSizes.s25 : 0),
+                padding: const EdgeInsets.symmetric(vertical: AppSizes.s12, horizontal: !kIsWeb? AppSizes.s25 : 0),
                 child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          padding: EdgeInsetsGeometry.symmetric(horizontal: 10),
+                          padding: const EdgeInsetsGeometry.symmetric(horizontal: 10),
                           color: Colors.black12.withOpacity(0.05),
                           child: Text(AppStrings.emails.tr().toUpperCase(),
                             textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Color(AppColors.primary)),
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Color(AppColors.primary)),
                           ),
                         ),
                         const SizedBox(height: 20,),
@@ -110,11 +109,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
                         const SizedBox(height: 30,),
                         Container(
-                          padding: EdgeInsetsGeometry.symmetric(horizontal: 10),
+                          padding: const EdgeInsetsGeometry.symmetric(horizontal: 10),
                           color: Colors.black12.withOpacity(0.05),
                           child: Text(AppStrings.website.tr().toUpperCase(),
                             textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Color(AppColors.primary)),
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Color(AppColors.primary)),
                           ),
                         ),
                         const SizedBox(height: 20,),
@@ -125,11 +124,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
                         const SizedBox(height: 30,),
                         Container(
-                          padding: EdgeInsetsGeometry.symmetric(horizontal: 10),
+                          padding: const EdgeInsetsGeometry.symmetric(horizontal: 10),
                           color: Colors.black12.withOpacity(0.05),
                           child: Text(AppStrings.more.tr().toUpperCase(),
                             textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Color(AppColors.primary)),
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Color(AppColors.primary)),
                           ),
                         ),
                         const SizedBox(height: 20,),
@@ -180,9 +179,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
             const Spacer(),
             GestureDetector(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => MoreScreen(),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const MoreScreen(),));
               },
-              child: const Icon(Icons.menu, color: Color(AppColors.primary)),
+              child: Icon(Icons.menu, color: Color(AppColors.primary)),
             )
           ],
         ),

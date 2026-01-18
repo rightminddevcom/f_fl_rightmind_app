@@ -4,10 +4,6 @@ import 'package:cpanal/constants/app_strings.dart';
 import 'package:cpanal/constants/user_consts.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
 import 'package:cpanal/models/settings/user_settings.model.dart';
-import 'package:cpanal/modules/cpanel/logic/email_account_provider.dart';
-import 'package:cpanal/modules/cpanel/logic/email_filter_provider.dart';
-import 'package:cpanal/modules/cpanel/logic/email_filter_provider.dart';
-import 'package:cpanal/modules/cpanel/logic/email_filter_provider.dart';
 import 'package:cpanal/modules/cpanel/logic/email_filter_provider.dart';
 import 'package:cpanal/modules/cpanel/widget/email_filter/create_filter_bottom_sheet.dart';
 import 'package:cpanal/modules/cpanel/widget/email_filter/delete_filter_bottom_sheet.dart';
@@ -23,14 +19,13 @@ import '../../../../constants/app_sizes.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../../utils/componentes/general_components/gradient_bg_image.dart';
-import '../../choose_domain/choose_domin_screen.dart';
 import '../../more/views/more_screen.dart';
 
 class FilterEmailScreen extends StatefulWidget {
   final String? name;
   final String? dominId;
   final String? email;
-  FilterEmailScreen({this.name, this.dominId, this.email});
+  const FilterEmailScreen({super.key, this.name, this.dominId, this.email});
 
   @override
   State<FilterEmailScreen> createState() => _FilterEmailScreenState();
@@ -178,13 +173,13 @@ class _FilterEmailScreenState extends State<FilterEmailScreen> {
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const MoreScreen(),));
                     },
-                    child: const Icon(Icons.menu, color: Color(AppColors.primary)),
+                    child: Icon(Icons.menu, color: Color(AppColors.primary)),
                   )
                 ],
               ),
             ),
             body: GradientBgImage(
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               child: SizedBox(
                 height: MediaQuery.sizeOf(context).height * 0.8,
                 child: ListView(
@@ -196,7 +191,7 @@ class _FilterEmailScreenState extends State<FilterEmailScreen> {
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(AppColors.primary)),
                     ),
-                    SizedBox(height: 15,),
+                    const SizedBox(height: 15,),
                     Text(
                       AppStrings.email_filters_description.tr(),
                       textAlign: TextAlign.center,
@@ -205,7 +200,7 @@ class _FilterEmailScreenState extends State<FilterEmailScreen> {
                     const SizedBox(height: 15),
                     Center(
                       child: ConstrainedBox(
-                        constraints: BoxConstraints(
+                        constraints: const BoxConstraints(
                           maxWidth: kIsWeb ? 1100 : double.infinity,
                         ),
                         child: ListView.separated(
@@ -254,7 +249,7 @@ class _FilterEmailScreenState extends State<FilterEmailScreen> {
                                         child: Container(
                                           width: 50,
                                           height: 50,
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                             color: Color(0xFFA372FF),
                                             shape: BoxShape.circle,
                                           ),
@@ -281,7 +276,7 @@ class _FilterEmailScreenState extends State<FilterEmailScreen> {
                                         child: Container(
                                           width: 50,
                                           height: 50,
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                             color: Color(0xFFE93F81),
                                             shape: BoxShape.circle,
                                           ),
@@ -317,7 +312,7 @@ class _FilterEmailScreenState extends State<FilterEmailScreen> {
                                             children: [
                                               Text(
                                                 value.emailFilter[index]['filtername'],
-                                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
+                                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(AppColors.dark)),
                                               ),
                                             ],
                                           ),

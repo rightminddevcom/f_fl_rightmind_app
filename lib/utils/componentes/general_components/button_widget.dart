@@ -46,7 +46,7 @@ class ButtonWidget extends StatelessWidget {
         elevation: WidgetStateProperty.all(0),
         padding: WidgetStateProperty.all(
           padding ??
-              EdgeInsets.symmetric(
+              const EdgeInsets.symmetric(
                   horizontal: AppSizes.s18, vertical: AppSizes.s12),
         ),
         shape: WidgetStateProperty.all(
@@ -92,7 +92,7 @@ class ButtonWidget extends StatelessWidget {
                                   fit: BoxFit.scaleDown,
                                 ),
                               )
-                            : SizedBox.shrink(),
+                            : const SizedBox.shrink(),
                         Text(
                           title,
                           style:
@@ -107,7 +107,7 @@ class ButtonWidget extends StatelessWidget {
                         ),
                       ],
                     )
-                  : Center(
+                  : const Center(
                       child: CircularProgressIndicator(),
                     ),
             )
@@ -129,7 +129,7 @@ class ButtonWidget extends StatelessWidget {
                               fit: BoxFit.scaleDown,
                             ),
                           )
-                        : SizedBox.shrink(),
+                        : const SizedBox.shrink(),
                     Text(
                       title,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
@@ -143,7 +143,7 @@ class ButtonWidget extends StatelessWidget {
                     ),
                   ],
                 )
-              : Center(
+              : const Center(
                   child: CircularProgressIndicator(),
                 ),
       // ),

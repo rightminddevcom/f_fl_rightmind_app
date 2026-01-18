@@ -3,10 +3,7 @@ import 'dart:math';
 import 'package:cpanal/common_modules_widgets/custom_elevated_button.widget.dart';
 import 'package:cpanal/constants/app_colors.dart';
 import 'package:cpanal/constants/app_strings.dart';
-import 'package:cpanal/modules/cpanel/logic/auto_response_provider.dart';
-import 'package:cpanal/modules/cpanel/logic/email_account_provider.dart';
 import 'package:cpanal/modules/cpanel/logic/email_filter_provider.dart';
-import 'package:cpanal/modules/cpanel/logic/email_forward_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +16,7 @@ class CreateEmailBottomSheet extends StatefulWidget {
   var email;
   var actionType;
   CreateEmailBottomSheet(
-      {this.dominId, this.dominName, this.actionType, this.email});
+      {super.key, this.dominId, this.dominName, this.actionType, this.email});
 
   @override
   State<CreateEmailBottomSheet> createState() => _CreateEmailBottomSheetState();
@@ -74,7 +71,7 @@ class _CreateEmailBottomSheetState extends State<CreateEmailBottomSheet> {
                     child: Text(
                       AppStrings.createFilters.tr().toUpperCase(),
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Color(AppColors.primary),
                         fontWeight: FontWeight.bold,
                         fontSize: 24,
@@ -82,7 +79,7 @@ class _CreateEmailBottomSheetState extends State<CreateEmailBottomSheet> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Center(
@@ -129,8 +126,8 @@ class _CreateEmailBottomSheetState extends State<CreateEmailBottomSheet> {
                               borderRadius: BorderRadius.circular(10),
                               color: Colors.transparent,
                               border: Border.all(
-                                  color: const Color(AppColors.primary))),
-                          child: const Icon(
+                                  color: Color(AppColors.primary))),
+                          child: Icon(
                             Icons.add,
                             color: Color(AppColors.primary),
                           ),
@@ -296,8 +293,8 @@ class _CreateEmailBottomSheetState extends State<CreateEmailBottomSheet> {
                               borderRadius: BorderRadius.circular(10),
                               color: Colors.transparent,
                               border: Border.all(
-                                  color: const Color(AppColors.primary))),
-                          child: const Icon(
+                                  color: Color(AppColors.primary))),
+                          child: Icon(
                             Icons.add,
                             color: Color(AppColors.primary),
                           ),
@@ -440,7 +437,7 @@ class _CreateEmailBottomSheetState extends State<CreateEmailBottomSheet> {
                       Expanded(
                           child: CustomElevatedButton(
                         width: null,
-                        backgroundColor: const Color(AppColors.dark),
+                        backgroundColor: Color(AppColors.dark),
                         title: AppStrings.add.tr().toUpperCase(),
                         onPressed: () async {
                           List<List<String>> fromResult = rules
@@ -508,7 +505,7 @@ class _CreateEmailBottomSheetState extends State<CreateEmailBottomSheet> {
               suffixText,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 12,
                 color: Color(AppColors.dark),

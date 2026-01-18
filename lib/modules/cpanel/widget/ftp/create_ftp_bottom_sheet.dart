@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:cpanal/common_modules_widgets/custom_elevated_button.widget.dart';
 import 'package:cpanal/constants/app_colors.dart';
 import 'package:cpanal/constants/app_strings.dart';
-import 'package:cpanal/modules/cpanel/logic/email_account_provider.dart';
 import 'package:cpanal/modules/cpanel/logic/ftp_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,7 @@ class CreateEmailBottomSheet extends StatefulWidget {
   var dominId;
   var dominName;
   bool? multi = false;
-  CreateEmailBottomSheet({this.dominId,this.dominName,this.multi});
+  CreateEmailBottomSheet({super.key, this.dominId,this.dominName,this.multi});
 
   @override
   State<CreateEmailBottomSheet> createState() => _CreateEmailBottomSheetState();
@@ -63,7 +62,7 @@ class _CreateEmailBottomSheetState extends State<CreateEmailBottomSheet> {
                     Center(
                       child: Text(
                         "${AppStrings.create.tr().toUpperCase()} FTP",
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Color(AppColors.primary),
                           fontWeight: FontWeight.bold,
                           fontSize: 24,
@@ -76,7 +75,7 @@ class _CreateEmailBottomSheetState extends State<CreateEmailBottomSheet> {
                       child: Text(
                         AppStrings.createEmailMessage.tr(),
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.black54, fontSize: 13),
+                        style: const TextStyle(color: Colors.black54, fontSize: 13),
                       ),
                     ),
                     const SizedBox(height: 25),
@@ -114,7 +113,7 @@ class _CreateEmailBottomSheetState extends State<CreateEmailBottomSheet> {
                         Expanded(
                           child: CustomElevatedButton(
                             width: null,
-                            backgroundColor: const Color(AppColors.dark),
+                            backgroundColor: Color(AppColors.dark),
                             title: AppStrings.create.tr().toUpperCase(),
                             onPressed: () async {
                               value.addFtp(context,
@@ -151,14 +150,14 @@ class _CreateEmailBottomSheetState extends State<CreateEmailBottomSheet> {
             alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
-              color: Color(0xffDFDFDF),
+              color: const Color(0xffDFDFDF),
               borderRadius: BorderRadius.circular(6),
             ),
             child: Text(
               suffixText,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 12, color: Color(AppColors.dark)),
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12, color: Color(AppColors.dark)),
             ),
           ),
         ),

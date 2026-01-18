@@ -5,18 +5,13 @@ import 'package:cpanal/constants/app_strings.dart';
 import 'package:cpanal/constants/user_consts.dart';
 import 'package:cpanal/general_services/backend_services/api_service/dio_api_service/shared.dart';
 import 'package:cpanal/models/settings/user_settings.model.dart';
-import 'package:cpanal/modules/choose_domain/choose_domin_screen.dart';
 import 'package:cpanal/modules/cpanel/logic/email_account_provider.dart';
 import 'package:cpanal/modules/cpanel/widget/email_account/create_email_bottom_sheet.dart';
-import 'package:cpanal/modules/cpanel/widget/email_account/delete_account_bottom_sheet.dart';
-import 'package:cpanal/modules/cpanel/widget/email_account/edit_email_bottom_sheet.dart';
-import 'package:cpanal/modules/cpanel/widget/email_account/load_from_files_bottom_sheet.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../../../common_modules_widgets/template_page.widget.dart';
 import '../../../../constants/app_sizes.dart';
@@ -26,7 +21,7 @@ import '../widget/email_account/edit_multi_email_bottom_sheet.dart';
 class CreateMultiAccountsScreen extends StatefulWidget {
   var dominId;
   var name;
-  CreateMultiAccountsScreen({this.name, this.dominId});
+  CreateMultiAccountsScreen({super.key, this.name, this.dominId});
   @override
   State<CreateMultiAccountsScreen> createState() =>
       _CreateMultiAccountsScreenState();
@@ -60,10 +55,10 @@ class _CreateMultiAccountsScreenState extends State<CreateMultiAccountsScreen> {
           height: 120,
           padding: const EdgeInsets.symmetric(horizontal: kIsWeb ? 220:20),
           decoration: BoxDecoration(
-              color: Color(0xffFFFFFF),
+              color: const Color(0xffFFFFFF),
               boxShadow: [
                 BoxShadow(
-                  color: Color(0xffC9CFD2).withOpacity(0.5),
+                  color: const Color(0xffC9CFD2).withOpacity(0.5),
                   blurRadius: AppSizes.s5,
                   spreadRadius: 1,
                 )
@@ -72,7 +67,7 @@ class _CreateMultiAccountsScreenState extends State<CreateMultiAccountsScreen> {
           alignment: Alignment.center,
           child: Center(
             child: ConstrainedBox(
-              constraints: BoxConstraints(
+              constraints: const BoxConstraints(
                 maxWidth: kIsWeb ? 1100 : double.infinity,
               ),
               child: Row(
@@ -95,7 +90,7 @@ class _CreateMultiAccountsScreenState extends State<CreateMultiAccountsScreen> {
                   Expanded(
                     child: CustomElevatedButton(
                       width: null,
-                      backgroundColor: const Color(AppColors.dark),
+                      backgroundColor: Color(AppColors.dark),
                       title: AppStrings.createEmails.tr().toUpperCase(),
                       onPressed: () async {
                         await value.addMultiEmails(
@@ -113,7 +108,7 @@ class _CreateMultiAccountsScreenState extends State<CreateMultiAccountsScreen> {
           ),
         ),
         body: GradientBgImage(
-          padding: EdgeInsets.all(0),
+          padding: const EdgeInsets.all(0),
           child: Padding(
             padding: const EdgeInsets.all(AppSizes.s12),
             child: SingleChildScrollView(
@@ -130,7 +125,7 @@ class _CreateMultiAccountsScreenState extends State<CreateMultiAccountsScreen> {
                   ),
                   if(emailAccountProvider.accountsMulti.isNotEmpty)Center(
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(
+                      constraints: const BoxConstraints(
                         maxWidth: kIsWeb ? 1100 : double.infinity,
                       ),
                       child: ListView.separated(
@@ -187,7 +182,7 @@ class _CreateMultiAccountsScreenState extends State<CreateMultiAccountsScreen> {
                                             SizedBox(
                                               width: kIsWeb? MediaQuery.sizeOf(context).width * 0.4:MediaQuery.sizeOf(context).width * 0.7,
                                               child: Text(emailAccountProvider.accountsMulti[index]['username'],
-                                                  style: const TextStyle(
+                                                  style: TextStyle(
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.w700,
                                                       color: Color(AppColors.dark))),
@@ -198,7 +193,7 @@ class _CreateMultiAccountsScreenState extends State<CreateMultiAccountsScreen> {
                                                 final obj = emailAccountProvider.accountsMulti[index]['username'];
                                                 await Clipboard.setData(ClipboardData(text: "Email : $obj"));
                                                 ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(content: Text("${AppStrings.copied.tr()}")),
+                                                  SnackBar(content: Text(AppStrings.copied.tr())),
                                                 );
                                                 emailAccountProvider.accountsMulti.add({
                                                   "username" : emailAccountProvider.accountsMulti[index]['username'],
@@ -230,14 +225,14 @@ class _CreateMultiAccountsScreenState extends State<CreateMultiAccountsScreen> {
                                           children: [
                                             SvgPicture.asset(
                                               "assets/images/svg/lock.svg",
-                                              color:  Color(0xff34A853),
+                                              color:  const Color(0xff34A853),
                                             ),
                                             const SizedBox(
                                               width: 5,
                                             ),
                                             Text(
                                               emailAccountProvider.accountsMulti[index]['password'],
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 color: Color(0xff34A853),
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -251,7 +246,7 @@ class _CreateMultiAccountsScreenState extends State<CreateMultiAccountsScreen> {
                                             ),
                                             Text(
                                               emailAccountProvider.accountsMulti[index]['quota'],
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                 color: Color(AppColors.primary),
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.bold,
@@ -278,7 +273,7 @@ class _CreateMultiAccountsScreenState extends State<CreateMultiAccountsScreen> {
                   ),
                   Center(
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(
+                      constraints: const BoxConstraints(
                         maxWidth: kIsWeb ? 1100 : double.infinity,
                       ),
                       child: Column(
@@ -292,7 +287,7 @@ class _CreateMultiAccountsScreenState extends State<CreateMultiAccountsScreen> {
                             child: CustomElevatedButton(
                               width: null,
                               isOutlined: true,
-                              titleColor: const Color(AppColors.primary),
+                              titleColor: Color(AppColors.primary),
                               title: AppStrings.addMore.tr().toUpperCase(),
                               onPressed: () async {
                                 await showModalBottomSheet(

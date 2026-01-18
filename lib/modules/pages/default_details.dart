@@ -16,7 +16,7 @@ import 'package:shimmer/shimmer.dart';
 class DefaultDetails extends StatelessWidget {
   String? id;
   String? type;
-  DefaultDetails({required this.id, this.type});
+  DefaultDetails({super.key, required this.id, this.type});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class DefaultDetails extends StatelessWidget {
             backgroundColor: const Color(0xffFFFFFF),
             appBar: AppBar(
               surfaceTintColor: Colors.transparent,
-              title:  Text(type == "rmnotifications" ? AppStrings.notifications.tr().toUpperCase() :type.toString().tr().toUpperCase(), style: const TextStyle(fontSize: 16,
+              title:  Text(type == "rmnotifications" ? AppStrings.notifications.tr().toUpperCase() :type.toString().tr().toUpperCase(), style: TextStyle(fontSize: 16,
                   color: Color(AppColors.dark), fontWeight: FontWeight.w700),),
               backgroundColor: Colors.transparent,
             ),
@@ -44,7 +44,7 @@ class DefaultDetails extends StatelessWidget {
                       children: [
                         gapH16,
                         ConstrainedBox(
-                            constraints: BoxConstraints(
+                            constraints: const BoxConstraints(
                               maxWidth: kIsWeb ? 1100 : double.infinity,
                             ),
                           child: Center(
@@ -86,7 +86,7 @@ class DefaultDetails extends StatelessWidget {
                                     const SizedBox(width: 20,),
                                     if(value.getOneBlogModel!.item!.category != null && value.getOneBlogModel!.item!.category!.title != null)Row(
                                       children: [
-                                        Icon(Icons.category, color: Colors.black,),
+                                        const Icon(Icons.category, color: Colors.black,),
                                         const SizedBox(width: 5,),
                                         Text(
                                           value.getOneBlogModel!.item!.category!.title!.toUpperCase(),
@@ -102,7 +102,7 @@ class DefaultDetails extends StatelessWidget {
                                 gapH14,
                                 Text(
                                   value.getOneBlogModel!.item!.title ?? "",
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       fontSize: AppSizes.s16,
                                       fontWeight: FontWeight.bold,
                                       color: Color(AppColors.c1)),
