@@ -106,9 +106,22 @@ abstract class AlertsService {
       ),
     );
 
-    // Use the direct context instead of the global key
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    // Use try-catch to safely show SnackBar or fallback to Toast
+    try {
+      // Use the direct context instead of the global key
+      ScaffoldMessenger.maybeOf(context)?.hideCurrentSnackBar();
+      ScaffoldMessenger.maybeOf(context)?.showSnackBar(snackBar);
+    } catch (e) {
+      debugPrint("⚠️ Failed to show SnackBar: $e. Falling back to Toast.");
+      Fluttertoast.showToast(
+          msg: "$title: $message",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.black87,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
   }
 
   static Future<void> showLoading(BuildContext context,

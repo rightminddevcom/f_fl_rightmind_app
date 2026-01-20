@@ -15,6 +15,9 @@ void registerErrorHandlers() {
   };
   // * Handle errors from the underlying platform/OS
   PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
+    if (error.toString().contains("nfc_manager") || error.toString().contains("GeneratedPluginRegistrant")) {
+      return true; // Ignore NFC related errors on emulator
+    }
     debugPrint(error.toString());
     // Send to Sentry
     SentryService.captureException(error, stackTrace: stack);

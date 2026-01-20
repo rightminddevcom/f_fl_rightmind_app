@@ -5,7 +5,7 @@ import android.provider.Settings  // Add this import statement
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
-
+import dev.flutter.plugins.nfcmanager.NfcManagerPlugin
 
 class MainActivity: FlutterActivity(){
     private val nativeChannel = "com.rightminddev.cpanal/secure"
@@ -17,6 +17,11 @@ class MainActivity: FlutterActivity(){
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        try {
+             flutterEngine.plugins.remove(NfcManagerPlugin::class.java)
+        } catch (e: Exception) {
+            // Ignore if plugin removal fails or class not found
+        }
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, nativeChannel).setMethodCallHandler {
                 call, result ->
             if (call.method == "getAndroidId") {

@@ -8,8 +8,11 @@ import 'package:cpanal/constants/app_strings.dart';
 import 'package:cpanal/modules/more/views/faq/logic/faq_model.dart';
 import 'package:cpanal/modules/more/views/faq/logic/get_faq_model.dart';
 import 'package:cpanal/modules/more/views/faq/view/faq_loading_widget.dart';
-
 import '../../../../../utils/componentes/general_components/gradient_bg_image.dart';
+
+// run project, enhancement with same structure
+// base project (different repo) --> {read docs + if there's a feature do it}. {stable structure}
+// copy any feature from base project to other projects
 
 class FaqScreen extends StatefulWidget {
   const FaqScreen({super.key});

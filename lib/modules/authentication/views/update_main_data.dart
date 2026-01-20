@@ -73,6 +73,7 @@ class _WebViewStackMainDataState extends State<WebViewStackMainData> {
                 AppRoutes.splash.name,
                 pathParameters: {'lang': context.locale.languageCode,},
               );
+              return NavigationDecision.prevent;
             }
             else if (navigation.url.contains('status=0')) {
               context.goNamed(
@@ -83,6 +84,7 @@ class _WebViewStackMainDataState extends State<WebViewStackMainData> {
                   context: context,
                   message: AppStrings.failedLoginingPleaseTryAgain.tr(),
                   title: AppStrings.failed.tr());
+              return NavigationDecision.prevent;
             }
             if (host.contains('youtube.com')) {
               if (mounted) {

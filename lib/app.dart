@@ -14,8 +14,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DioHelper.initail(context);
-    notificationService = NotificationService();
-    notificationService!.init(context);
 
     if(CacheHelper.getString("lang") == ""){
       CacheHelper.setString(key: "lang", value: context.locale.languageCode);

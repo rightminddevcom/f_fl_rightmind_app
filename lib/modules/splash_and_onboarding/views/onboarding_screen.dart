@@ -39,13 +39,13 @@ class OnBoardingScreen extends StatelessWidget {
                     final onboardingData = viewModel.getOnboardingDataWithIndex(index, context);
                     final imageList = onboardingData?['image'] as List?;
                     final image = (imageList != null && imageList.isNotEmpty)
-                        ? imageList[0]['file']
+                        ? (imageList[0]['file']?.toString() ?? "")
                         : "";
-                    if (image?.startsWith('http') == true ||
-                        image?.startsWith('https') == true) {
+                    if (image.startsWith('http') == true ||
+                        image.startsWith('https') == true) {
                       // Network image
                       return CachedNetworkImage(
-                        imageUrl: image!,
+                        imageUrl: image,
                         fit: BoxFit.cover,
                         key: ValueKey<String>(image),
                         placeholder: (context, url) =>
@@ -55,10 +55,11 @@ class OnBoardingScreen extends StatelessWidget {
                       );
                     } else {
                       // Asset image
+                      if (image.isEmpty) return const SizedBox();
                       return Stack(
                         children: [
                           Image.asset(
-                            image!,
+                            image,
                             fit: BoxFit.cover,
                             key: ValueKey<String>(image),
                           ),
@@ -123,12 +124,25 @@ class OnBoardingScreen extends StatelessWidget {
                                     .getAllOnboardingData(context: context)
                                     ?.length,
                                 itemBuilder: (context, index) {
+                                  final data = viewModel.getOnboardingDataWithIndex(index, context);
+                                  final titleMap = data?["title"] as Map<String, dynamic>?;
+                                  final infoMap = data?["info"] as Map<String, dynamic>?;
+                                  final isArabic = LocalizationService.isArabic(context: context);
+
+                                  final title = isArabic
+                                      ? (titleMap?["ar"]?.toString().toUpperCase() ?? "")
+                                      : (titleMap?["en"]?.toString().toUpperCase() ?? "");
+                                  
+                                  final info = isArabic
+                                      ? (infoMap?["ar"]?.toString().toUpperCase() ?? "")
+                                      : (infoMap?["en"]?.toString().toUpperCase() ?? "");
+
                                   return Column(
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       AutoSizeText(
-                                        LocalizationService.isArabic(context: context)? viewModel.getOnboardingDataWithIndex(index, context)!["title"]!["ar"]!.toUpperCase() :viewModel.getOnboardingDataWithIndex(index, context)!["title"]!["en"]!.toUpperCase(),
+                                        title,
                                         style: Theme.of(context)
                                             .textTheme
                                             .displayLarge
@@ -139,7 +153,7 @@ class OnBoardingScreen extends StatelessWidget {
                                       ),
                                       gapH20,
                                       AutoSizeText(
-                                        LocalizationService.isArabic(context: context)? viewModel.getOnboardingDataWithIndex(index, context)!["info"]!["ar"]!.toUpperCase() :viewModel.getOnboardingDataWithIndex(index, context)!["info"]!["en"]!.toUpperCase(),
+                                        info,
                                         style: Theme.of(context)
                                             .textTheme
                                             .displaySmall
