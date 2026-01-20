@@ -408,26 +408,19 @@ class OnboardingViewModel extends ChangeNotifier {
       );
       currentIndex = _currentIndex + 1;
     } else {
-      final appConfigService =
-      Provider.of<AppConfigService>(context, listen: false);
-      final jsonString = CacheHelper.getString("US1");
-      var us1Cache;
-      var role;
-      if (jsonString != "") {
-        us1Cache = json.decode(jsonString!) as Map<String,
-            dynamic>; // Convert String back to JSON
-        print("S2 IS --> $us1Cache");
-        role = us1Cache['role'];
-      }
+      // Navigate to login/home when finished
+      final appConfigService = Provider.of<AppConfigService>(context, listen: false);
+      
+      // Force navigation to Login if not logged in
       if (appConfigService.isLogin && appConfigService.token.isNotEmpty) {
         context.goNamed(
           AppRoutes.home.name,
-          pathParameters: {'lang': context.locale.languageCode,},
+          pathParameters: {'lang': context.locale.languageCode},
         );
       } else {
         context.goNamed(
           AppRoutes.login.name,
-          pathParameters: {'lang': context.locale.languageCode,},
+          pathParameters: {'lang': context.locale.languageCode},
         );
       }
     }

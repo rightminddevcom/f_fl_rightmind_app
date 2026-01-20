@@ -54,12 +54,15 @@ class _MoreScreenState extends State<MoreScreen> {
   @override
   Widget build(BuildContext context) {
     var jsonString;
-    var gCache;
+    Map<String, dynamic> gCache = {}; // Initialize with empty map
     jsonString = CacheHelper.getString("US1");
     if (jsonString != null && jsonString.isNotEmpty && jsonString != "") {
-      gCache = json.decode(jsonString)
-          as Map<String, dynamic>; // Convert String back to JSON
-      UserSettingConst.userSettings = UserSettingsModel.fromJson(gCache);
+      try {
+        gCache = json.decode(jsonString) as Map<String, dynamic>; // Convert String back to JSON
+        UserSettingConst.userSettings = UserSettingsModel.fromJson(gCache);
+      } catch (e) {
+        debugPrint("Error decoding US1 in MoreScreen: $e");
+      }
     }
 
     return Consumer<HomeViewModel>(

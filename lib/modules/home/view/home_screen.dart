@@ -51,11 +51,14 @@ class _HomeScreenState extends State<HomeScreen> {
       us2Cache = json.decode(json2String) as Map<String, dynamic>;// Convert String back to JSON
     }
     final json1String = CacheHelper.getString("US1");
-    var us1Cache;
+    Map<String, dynamic> us1Cache = {};
     if (json1String != null && json1String != "") {
-      us1Cache = json.decode(json1String) as Map<String, dynamic>;// Convert String back to JSON
-
-      UserSettingConst.userSettings = UserSettingsModel.fromJson(us1Cache);
+      try {
+        us1Cache = json.decode(json1String) as Map<String, dynamic>;
+        UserSettingConst.userSettings = UserSettingsModel.fromJson(us1Cache);
+      } catch (e) {
+        debugPrint("Error decoding US1: $e");
+      }
     }
     return ChangeNotifierProvider(create: (context) => HomeViewModel()..initializeHomeScreen(context, [   "general_settings",
       "user_settings",

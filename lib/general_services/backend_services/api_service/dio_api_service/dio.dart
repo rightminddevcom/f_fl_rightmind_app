@@ -50,7 +50,7 @@ class DioHelper{
             appConfigService.logout(context, viewAlert: false, skipServerLogout: true).then((v){
               if (context.mounted) {
                 context.goNamed(
-                  AppRoutes.splash.name,
+                  AppRoutes.login.name,
                   pathParameters: {'lang': context.locale.languageCode,},
                 );
               }
@@ -58,7 +58,7 @@ class DioHelper{
               // If logout fails, still try to navigate
               if (context.mounted) {
                 context.goNamed(
-                  AppRoutes.splash.name,
+                  AppRoutes.login.name,
                   pathParameters: {'lang': context.locale.languageCode,},
                 );
               }

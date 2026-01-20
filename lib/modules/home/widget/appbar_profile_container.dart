@@ -72,11 +72,15 @@ class AppbarProfileContainer extends StatelessWidget {
       return (CacheHelper.getString("lang") == "ar") ?'.$firstName $lastInitial' :'$firstName $lastInitial.';
     }
     var jsonString;
-    var us1Cache;
+    Map<String, dynamic> us1Cache = {};
     jsonString = CacheHelper.getString("US1");
     if (jsonString != null && jsonString.isNotEmpty && jsonString != "") {
-      us1Cache = json.decode(jsonString) as Map<String, dynamic>; // Convert String back to JSON
-      UserSettingConst.userSettings = UserSettingsModel.fromJson(us1Cache);
+      try {
+        us1Cache = json.decode(jsonString) as Map<String, dynamic>; // Convert String back to JSON
+        UserSettingConst.userSettings = UserSettingsModel.fromJson(us1Cache);
+      } catch (e) {
+        debugPrint("Error decoding US1 in AppbarProfileContainer: $e");
+      }
     }
     return Column(
       children: [
